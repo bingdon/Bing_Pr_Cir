@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navbar_bg"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/add_job"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/add_job_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sigin_back_selector" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/add_job_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="项目地点"
+            android:textColor="@color/gray"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/add_job_address"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/input_box_chat"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_job_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_job_layout1"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="信息标题"
+            android:textColor="@color/gray"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/add_job_title"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/input_box_chat"
+            android:ellipsize="end"
+            android:hint="例：东胜需小松360挖掘机两台"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_job_layout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_job_layout2"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="详情描述"
+            android:textColor="@color/gray"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/add_job_detail"
+            android:layout_width="210dp"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/input_box1"
+            android:gravity="left|top"
+            android:hint="请描述您需要的设备施工工况、工期等"
+            android:maxLines="5"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_job_layout4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_job_layout3"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="联系人"
+            android:textColor="@color/gray"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/add_job_contact"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/input_box_chat"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_job_layout5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/add_job_layout4"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:text="电话"
+            android:textColor="@color/gray"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/add_job_tel"
+            android:layout_width="210dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/input_box_chat"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:phoneNumber="true"
+            android:singleLine="true"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_job_submit"
+        android:layout_width="180dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/add_job_layout5"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/chat_send_selector"
+        android:text="提交"
+        android:textColor="@color/gray"
+        android:textSize="20sp" />
+
+</RelativeLayout>

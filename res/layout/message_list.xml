@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <FrameLayout
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp" >
+            
+             <ImageView
+            android:id="@+id/msg_headimg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center" />
+
+             <TextView
+                 android:id="@+id/msg_unread"
+                 android:layout_width="16dp"
+                 android:layout_height="16dp"
+                 android:layout_gravity="top|right"
+                 android:background="@drawable/icon_tips"
+                 android:gravity="center"
+                 android:text=""
+                 android:textSize="12sp" 
+                 android:visibility="gone"/>
+            
+        </FrameLayout>
+
+       
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/msg_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="张洋"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/msg_flag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/icon_star" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/msg_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text=""
+                android:textColor="#565656"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/icon_address" />
+
+                <TextView
+                    android:id="@+id/msg_distence"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:text="1.2km"
+                    android:textColor="#565656"
+                    android:textSize="11dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/msg_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="15dp"
+            android:text="11:45" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="9dp"
+        android:background="@drawable/line" />
+
+</LinearLayout>

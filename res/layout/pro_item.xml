@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin" >
+
+    <include
+        android:id="@+id/include1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        layout="@layout/shaititle" />
+
+    <LinearLayout
+        android:id="@+id/shai_cen_la_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/include1"
+        android:layout_marginLeft="60dp"
+        android:orientation="vertical" >
+
+        <com.example.projectcircle.view.ChaoGridView
+            android:id="@+id/shai_gridView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="0dp"
+            android:numColumns="2"
+            android:scrollbars="none"
+            android:verticalSpacing="1dp" >
+        </com.example.projectcircle.view.ChaoGridView>
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="10dp"
+            layout="@layout/shai_bottom_comm" />
+
+        <include
+            android:id="@+id/include3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/comment_item"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/shai_cen_la_line" >
+    </FrameLayout>
+
+</RelativeLayout>

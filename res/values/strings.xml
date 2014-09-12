@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_back">返回</string>
+    <string name="app_ok">确定</string>
+    <string name="app_cancel">取消</string>
+    <string name="app_continue">继续</string>
+    <string name="app_tip">提示</string>
+    <string name="app_send">发送</string>
+    <string name="app_set">设置</string>
+    <string name="app_save">保存</string>
+    <string name="app_delete">删除</string>
+    <string name="app_nextstep">下一步</string>
+    <string name="app_prevstep">上一步</string>
+    <string name="app_finish">完成</string>
+    <string name="app_find">查找</string>
+    <string name="app_edit">编辑</string>
+    <string name="app_name">工程圈</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="accounts">帐号</string>
+    <string name="password">密码</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="near">附近</string>
+    <string name="projectCircle">工程圈</string>
+    <string name="forget">忘记密码？</string>
+    <string name="register_success">注册成功</string>
+    <string name="create_group">创建群组</string>
+    <string name="create_success">创建成功</string>
+    <string name="create_content">快快把这个好消息分享给你的好友吧</string>
+    <string name="create_group_share">分享</string>
+    <string name="create_group_finish">完成</string>
+    <string name="near_group">附近群组</string>
+    <string name="area_group">跨区域群组</string>
+    <string name="group_add">群地点</string>
+    <string name="project_circle">工程圈</string>
+    <string name="personal">个人信息</string>
+    <string name="friend_check">好友验证</string>
+    <string name="detail_info">详细信息</string>
+    <string name="back">返回</string>
+    <string name="send">发送</string>
+    <string name="job">工作</string>
+    <string name="job_info">工作信息</string>
+    <string name="about">关于</string>
+    <string name="company">北京土立方科技有限公司</string>
+    <string name="produce">土立方出品</string>
+    <string name="about_update">有新版本可用</string>
+    <string name="manage">管理</string>
+    <string name="friend">好友</string>
+    <string name="detail_information">详细信息</string>
+    <string name="hiscontacts">他的联系人</string>
+    <string name="maybefriend">可能认识</string>
+    <string name="chat_window">聊天窗口</string>
+    <string name="group_member">群成员</string>
+    <string name="apply_add">申请加入</string>
+    <string name="group_detail">群详情</string>
+    <string name="search">搜索</string>
+    <string name="perfect_info">完善信息</string>
+    <string name="edit_sign_info">编辑个人注册信息</string>
+    <string name="perfect_finish">完成</string>
+    <string name="newconcact_list">新的联系人</string>
+    <string name="group_list">群组列表</string>
+    <string name="message">消息</string>
+    <string name="chat_now">聊天</string>
+    <string name="group_chat_content">群聊</string>
+    <string name="request_message">好友请求信息</string>
+    <string name="new_friend_apply">新的好友申请</string>
+    <string name="update">已经是最新版本了！</string>
+    <string name="project_job_info">工程作业信息</string>
+    <string name="driver_requirement">司机需求信息</string>
+    <string name="add_job">发布工程作业信息</string>
+    <string name="work_detail">工程作业信息详情</string>
+    <string name="submit">提交</string>
+    <string name="feedback">意见反馈</string>
+    <string name="modify_pwd">修改密码</string>
+    <string name="modify_myself">修改信息</string>
+    <string name="group_chat">发起群聊</string>
+    <string name="add_friend">添加好友</string>
+    <string name="post_status">发布状态</string>
+    <string name="sending">发送中&#8230;</string>
+    <string name="zansuccess">点赞成功</string>
+    <string name="zanfailure">点赞失败</string>
+    <string name="commentsuccess">评论成功</string>
+    <string name="commentfailure">评论失败</string>
+    <string name="send_photo">正在上传图片</string>
+    <string name="perfect_information">当前资料信息不完整，完善后有助于交友</string>
+    <!-- time -->
+    <string name="year">年前</string>
+    <string name="month">月前</string>
+    <string name="day">天前</string>
+    <string name="hour">小时前</string>
+    <string name="min">分钟前</string>
+    <string name="sec">秒前</string>
+    <string name="justnow">刚刚</string>
+    <string name="yesterday">昨天</string>
+    <string name="the_day_before_yesterday">前天</string>
+    <string name="today">今天</string>
+    <string name="date_format">M月d日 HH:mm</string>
+    <string name="year_format">yyyy年 M月d日 HH:mm</string>
+    <!-- 上拉下拉 -->
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">释放立即刷新</string>
+    <string name="xlistview_header_hint_loading">正在刷新...</string>
+    <string name="xlistview_header_last_time">上次更新：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="searchdialog_find_contact_new">搜索</string>
+    <string name="jzhu">机主</string>
+    <string name="add">添加</string>
+    <string name="added">已添加</string>
+    <string name="movebusin">移动商家</string>
+    <string name="groupnotice">群组是扩展人脉和保持联系的最好方式</string>
+    <string name="tabat">附近</string>
+    <string name="tabbt">通讯录</string>
+    <string name="tabct">消息</string>
+    <string name="tabet">工作</string>
+    <string name="tabft">设置</string>
+    <string name="autologin">自动登录</string>
+    <string name="logining">正在登录&#8230;</string>
+    <string name="chatmsg">好友信息</string>
+    <string name="sechome">请选择家乡</string>
+    <string name="ok">确定</string>
+    <string name="delete">删除</string>
+    <string name="submiting">正在发送&#8230;</string>
+    <string name="isfriend">好友</string>
+    <string name="nofriend">陌生人</string>
+    <string name="cant_insert_album">发生意外，无法写入相册</string>
+    <string name="send_successfully">发送成功</string>
+    <string name="send_failed">发送失败</string>
+    <string name="xiegang">/</string>
+    <string name="one"> 1</string>
+    <string name="msg_notice">消息提醒</string>
+    <string name="sound_notice">声音提醒</string>
+    <string name="vir_notice">震动提醒</string>
+    <string name="phone_conts">手机联系人</string>
+    <string name="request_fri">请求添加您为好友</string>
+    <string name="contacts_">通讯录联系人</string>
+    <string name="accpet">接受</string>
+    <string name="erro_no">未知错误</string>
+    <string name="base_info">基本信息</string>
+    <string name="carrer_info">职业信息</string>
+    <string name="my_place">常出没地点</string>
+    <string name="my_place_hint">填写你经常出没的城市或地区</string>
+    <string name="mine_intro">自我介绍</string>
+    <string name="mine_intro_hint">让大家更了解你</string>
+    <string name="name">姓名</string>
+    <string name="mine_qiam">个性签名</string>
+    <string name="mine_qiam_hint">有什么话想告诉别人</string>
+    <string name="phone">电话</string>
+    <string name="private_">私密 </string>
+    <string name="public_">公开</string>
+    <string name="home_">家乡</string>
+    <string name="home_sec">选择家乡</string>
+    <string name="name_hint">请输入您的昵称</string>
+    <string name="group_id">群组号:</string>
+    <string name="i_am">我是</string>
+    <string name="my_pic">我的头像</string>
+    <string name="device_pic">设备头像</string>
+    <string name="share_content">我在工程圈新创建了群组</string>
+    <string name="share_content_">,分享给大家群组号为</string>
+    <string name="share_content_tail">等你加入，工程机械行业的职业社交软件www.gcquan.com</string>
+    <string name="tell_other">告知好友</string>
+    <string name="my_hobby">兴趣爱好</string>
+    <string name="my_hobby_hint">业余时间都喜欢干什么</string>
+    <string name="send_webpage">发送网页</string>
+    <string name="share_by_weixin">微信分享</string>
+    <string name="share_by_qq">QQ分享</string>
+    <string name="share_by_yixin">易信分享</string>
+	<string name="share_content_to">工程圈这个软件不错，就在http://www.gcquan.com/</string>
+    <string-array name="send_webpage_item">
+        <item>发送网页url</item>
+    </string-array>
+
+    <string name="agree_user_protocol">"                                "用户协议\n
+用户须知：\n
+"    "北京土立方科技有限公司（以下简称“土立方科技”）在此特别提醒:\n
+"    "用户注册“工程圈”帐户表明用户同意本协议条款，否则您无权注册、登录或使用本协议所涉及服务。
+本协议可由土立方科技随时更新，更新后的协议条款一旦公布即代替原来的协议条款，恕不再另行通知，用户可在本网站查阅最新版协议条款。在土立方科技修改协议条款后，如果用户不接受修改后的条款，请立即停止使用土立方科技提供的服务，用户继续使用土立方科技提供的服务将被视为接受修改后的协议。\n
+一、账号注册\n
+"    "1.用户在使用本服务前需要注册一个“工程圈”账号。“工程圈”账号应当使用手机号码绑定注册。\n
+"    "2.“工程圈”系基于地理位置的移动社交产品，用户注册时应当授权土立方科技公开及使用其地理位置信息方可成功注册“工程圈”账号。故用户完成注册即表明用户同意土立方科技提取及使用用户的地理位置信息并可根据需要与其他用户共享。根据协议，土立方科技可允许其他会员或访客进入并根据本协议分享您的内容和信息、您的设置和您的联系人等信息。\n
+"    "3.用户注册成功后，其用户帐号和密码由用户负责保管；用户应当对以其用户帐号进行的所有活动和事件承担法律责任。土立方科技不对用户因被盗号或资料丢失造成的损失承担责任。\n
+二、服务内容及变更终止\n
+"    "本服务的具体内容由土立方科技根据实际情况提供，包括但不限于授权用户通过其账号进行即时通讯、添加好友、加入群组、关注他人、发布留言。土立方科技可以对其提供的服务予以变更及终止，且土立方科技提供的服务内容可能随时变更及终止，除非土立方科技认为必要，用户将不会收到土立方科技关于服务变更的通知。\n
+三、用户个人隐私信息保护\n
+您向工程圈或您加入的群组提交的某些信息、数据与内容 (如照片) 或可能会透露您的性别、年龄或您其他的个人信息。您承认您向工程圈提供的任何信息、声明、数据和内容均属自愿行为，土立方科技为了更好的提高客户体验，可根据用户协议处理这些信息。\n
+我们保护您的个人信息，仅在以下情况向外部第三方提供:\n
+"    "(1)事先获得用户的授权；\n
+"    "(2)根据有关的法律法规要求；\n
+"    "(3)按照相关政府主管部门的要求；\n
+"    "(4)为维护社会公众的利益。\n
+ 四、用户使用规则\n
+用户使用工程圈时需要遵守以下规则：\n
+"  "1.用户对其发表、上传或传送的内容应当承担全部责任。用户不得在工程圈任何页面发布、转载、传送含有下列内容之一的信息，否则土立方科技有权自行处理并不通知用户： \n
+"    "(1)违反宪法确定的基本原则的；\n
+"    "(2)危害国家安全，泄漏国家机密，颠覆国家政权，破坏国家统一的；\n
+"    "(3)损害国家荣誉和利益的； \n
+"    "(4)煽动民族仇恨、民族歧视，破坏民族团结的；\n
+"    "(5)破坏国家宗教政策，宣扬邪教和封建迷信的；\n
+"    "(6)散布谣言，扰乱社会秩序，破坏社会稳定的；\n
+"    "(7)散布淫秽、色情、赌博、暴力、恐怖或者教唆犯罪的；\n
+"    "(8)侮辱或者诽谤他人，侵害他人合法权益的； \n
+"    "(9)煽动非法集会、结社、游行、示威、聚众扰乱社会秩序的；\n
+"    "(10)以非法民间组织名义活动的；\n
+"    "(11)含有法律、行政法规禁止的其他内容的。 \n
+"  "2.用户在使用工程圈服务同时应做到：\n
+"    "(1)遵守所有与网络服务有关的网络协议、规定和程序；\n
+"    "(2)不得为任何非法目的而使用网络服务系统；\n
+"    "(3)不得侵犯其他任何第三方的专利权、著作权、商标权、名誉权、姓名权或其他任何合法权益；\n
+"    "(4)不得利用“工程圈”网络服务系统进行未经土立方科技授权的广告；\n
+"  "3.用户须对利用“工程圈”账号或本服务传送信息的真实性、合法性、无害性、准确性、有效性等全权负责，与用户所传播的信息相关的任何法律责任由用户自行承担，与土立方科技无关。如因此给土立方科技或第三方造成损害的，用户应当依法予以赔偿。\n
+"  "4.土立方科技提供的服务中可能包括广告，用户同意在使用过程中显示土立方科技和第三方供应商、合作伙伴提供的广告。除法律法规明确规定外，用户应自行对依该广告信息进行的交易负责，对用户因依该广告信息进行的交易或前述广告商提供的内容而遭受的损失或损害，土立方科技不承担任何责任。\n
+五、风险承担\n
+"  "用户理解并同意，“工程圈”仅为用户提供信息分享、传送及获取的平台，用户必须为自己注册账号下的一切行为负责，包括用户所传送的任何内容以及由此产生的任何后果。用户应对“工程圈”及本服务中的内容自行加以判断，并承担因使用内容而引起的所有风险，包括因对内容的正确性、完整性或实用性的依赖而产生的风险。土立方科技无法且不会对因用户行为而导致的任何损失或损害承担责任。\n
+六、知识产权保护\n
+"  "工程圈客户端中所含的任何图像、照片、动画、录像、录音、音乐、文字和附加程序、随附的其它资料的一切权利输于土立方科技所有，未经许可，用户不得以任何形式进行使用或创造相关衍生作品。\n
+七、不可抗力及其他免责事由\n
+"    "1.用户同意自行承担其使用工程圈服务所存在的风险；因其使用工程圈服务而产生的一切后果也由其自行承担，土立方科技对用户不承担任何责任。\n
+"    "2.土立方科技不承诺服务一定能满足用户的要求，也不承诺网络服务不会中断，对网络服务的及时性、安全性、准确性也都不作担保。同时，工程圈不保证能够长期无误运营，也不保证服务器不受病毒或其他故障的侵扰。如果用户在使用本服务时发生数据丢失的情况，与工程圈无关。\n
+"    "3.工程圈并不保证所有信息、文本、图形、链接及其它项目的绝对准确性和真实性，由此发生的后果，用户自行承担。\n
+"    "4.工程圈不担保用户发送给另一方用户的资料的真实性、精确性与可靠性。用户对所接受的资料的信任纯属个人风险。\n
+"    "5.对于因使用或不能使用工程圈所产生的任何损失，工程圈均不负任何责任。\n
+八、其他\n
+"    "1.本协议的效力、解释及纠纷的解决，适用于中华人民共和国法律，如双方因本协议或对其解释、违约、终止或有效性而产生的或与之有关的任何争议、纠纷或主张，双方应尽量友好协商解决；协商不成时，任何一方均可向土立方科技所在地的人民法院提起诉讼。\n
+"    "2.本协议的任何条款无论因何种原因无效或不具可执行性，其余条款仍有效，对双方具有约束力。\n
+"    "3.土立方科技有权对本协议随时进行更改，恕不另行通知。本协议的版权由土立方科技所有，土立方科技保留一切解释和修改权利。\n</string>
+    <string name="maohao">:</string>
+
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="blue">#0000FF</color>
+    <color name="transparent">#00000000</color>
+    <color name="green">#9cdd00</color>
+    <color name="tragreen">#a09cdd00</color>
+    <color name="gray">#808080</color>
+    <color name="tragray">#a0565656</color>
+    <color name="devide_line">#CBCED2</color>
+    <color name="gray_font">#818181</color>
+    <color name="semi_transparent">#7f000000</color>
+    <color name="navajowhite">#ffdead</color>
+    <color name="home_txt">#cbcbcb</color>
+    <color name="deepskyblue">#00BFFF</color>
+    <color name="gainsboro">#dcdcdc</color>
+    <!-- 深天蓝色 -->
+    <color name="red">#ff0000</color>
+    <color name="darkslategrey">#2f4f4f</color>
+    <color name="slategray">#708090</color>
+    <color name="lightgray">#d3d3d3</color>
+    <color name="ivory">#ffffe0</color>
+    <color name="mor_dark">#b7f0bb</color>
+    <color name="mor_light">#bef0c8</color>
+    <color name="er_light">#c3b867</color>
+    <color name="er_dark">#837f5e</color>
+    <color name="theme_dark">#339966</color>
+    <color name="theme_light">#33cc99</color>
+
+</resources>

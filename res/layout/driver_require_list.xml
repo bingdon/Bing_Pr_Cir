@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <TextView
+        android:id="@+id/pj_list_device"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="石家庄需XX设备"
+        android:maxEms="6" 
+        android:singleLine="true"  
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        
+        android:background="@drawable/line" />
+
+    <TextView
+        android:id="@+id/pj_list_date"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:text="2月11日"
+        android:textColor="#565656"
+        android:gravity="center_vertical"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/pj_list_distance"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignBaseline="@+id/pj_list_date"
+        android:layout_alignBottom="@+id/pj_list_date"
+        android:layout_marginRight="30dp"
+        android:layout_toLeftOf="@+id/pj_list_date"
+        android:text="120km"
+        android:gravity="center_vertical"
+        android:textColor="#565656"
+        android:textSize="12dp" />
+
+</RelativeLayout>

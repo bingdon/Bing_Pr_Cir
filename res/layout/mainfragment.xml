@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="0.0dip"
+            android:layout_weight="1.0" />
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+             android:background="@drawable/tabbar_bg"
+            android:layout_weight="0.0" />
+
+        <RadioGroup
+            android:id="@+id/buttonGroup"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/tabbar_bg"
+            android:orientation="horizontal" 
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/belowbar_1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/belowbar_1_selector"
+                android:button="@null"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/belowbar_2"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/belowbar_2_selector"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/belowbar_3"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/belowbar_3_selector"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/belowbar_4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="45dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/belowbar_4_selector"
+                android:button="@null" />
+
+            <RadioButton
+                android:id="@+id/belowbar_5"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/belowbar_5_selector"
+                android:button="@null" />
+        </RadioGroup>
+    </LinearLayout>
+
+</TabHost>
