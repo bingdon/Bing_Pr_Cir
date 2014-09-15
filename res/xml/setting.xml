@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <SwitchPreference android:title="@string/msg_notice" android:key="is_msg"/>
+    <SwitchPreference android:title="@string/sound_notice" android:key="is_sound"/>
+    <SwitchPreference android:title="@string/vir_notice" android:key="is_vir" android:summary="正东的消息设置"/>
+    <PreferenceCategory android:summary="新的" android:title="标题" android:key="islia">
+        <SwitchPreference android:title="红色刷卡开始" android:summary="水水水水" android:key="sjjjjs"/>
+    </PreferenceCategory>
+    
+
+</PreferenceScreen>

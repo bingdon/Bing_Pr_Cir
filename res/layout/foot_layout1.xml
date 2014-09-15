@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="挖掘机"
+        android:textColor="@color/gray"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/master_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/input_box1"
+        android:gravity="center|left"
+        android:hint="品牌"
+        android:lines="1"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/master_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/input_box1"
+            android:ems="10"
+            android:hint="型号"
+            android:lines="1"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <com.example.projectcircle.view.WiperSwitch
+            android:id="@+id/wiperSwitch"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp" 
+            android:visibility="invisible"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/master_sub"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_down_selector" />
+
+        <TextView
+            android:id="@+id/master_num"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input"
+            android:gravity="center"
+            android:hint="数量"
+            android:lines="1"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/master_add"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_up_selector" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/master_sure"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:background="@drawable/chat_send_selector"
+        android:text="添加"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/line" />
+
+</LinearLayout>

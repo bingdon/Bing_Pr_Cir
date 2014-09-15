@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+   <LinearLayout
+        android:id="@+id/linearLayout_moveshop_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"       
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/busi_btn_moveshop_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                 android:textColor="@color/black"
+                   android:text="整机" />
+
+
+            <CheckBox
+                android:id="@+id/busi_btn_moveshop_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                  android:textColor="@color/black"
+                 android:text="零配件"/>
+
+
+            <CheckBox
+                android:id="@+id/busi_btn_moveshop_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                  android:textColor="@color/black"
+                android:text="维修" />
+
+
+            <CheckBox
+                android:id="@+id/busi_btn_moveshop_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                  android:textColor="@color/black"
+                 android:text="其它" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line" />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/tab_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null" >
+    </ListView>
+
+</LinearLayout>

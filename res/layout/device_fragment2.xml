@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/icon_server" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:text="经营设备"
+                android:textColor="@color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <CheckBox
+                    android:id="@+id/car_btn1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:text="挖掘机" />
+
+                <CheckBox
+                    android:id="@+id/car_btn2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                        android:textColor="@color/black"
+                    android:text="自卸车" />
+
+                <CheckBox
+                    android:id="@+id/car_btn3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                        android:textColor="@color/black"
+                    android:text="装载机" />
+
+                <CheckBox
+                    android:id="@+id/car_btn4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                       android:layout_weight="1"
+                        android:textColor="@color/black"
+                    android:text="平板车" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+
+                <CheckBox
+                    android:id="@+id/car_btn5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                     android:textColor="@color/black"
+                    android:text="其它" />
+
+
+                <EditText
+                    android:id="@+id/sigin_car"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                     android:textColor="@color/black"
+                    android:hint="请输入"
+                    android:lines="1"
+                    android:paddingLeft="5dp"
+                    android:singleLine="true"
+                    
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/line" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout1"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/icon_server" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
+                android:text="业务范围"
+                android:textColor="@color/black"
+                android:textSize="13dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/busi_btn_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                 android:textColor="@color/black"
+                   android:text="整机" />
+
+
+            <CheckBox
+                android:id="@+id/busi_btn_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                  android:textColor="@color/black"
+                 android:text="零配件"/>
+
+
+            <CheckBox
+                android:id="@+id/busi_btn_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                  android:textColor="@color/black"
+                android:text="维修" />
+
+
+            <CheckBox
+                android:id="@+id/busi_btn_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:layout_weight="1"
+                  android:textColor="@color/black"
+                 android:text="其它" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/line" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/commercial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/linearLayout2"
+        layout="@layout/perfect_commercial" />
+
+</RelativeLayout>

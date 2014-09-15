@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="自卸车"
+        android:textColor="@color/gray"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/dumper_radiogroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/dumper_radiobtn1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/onechoice_press"
+                    android:checked="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="前二后四"
+                    android:textColor="#565656"
+                    android:textSize="12dp" />
+
+                <Button
+                    android:id="@+id/dumper_radiobtn2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/radio_btn_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="前二后八"
+                    android:textColor="#565656"
+                    android:textSize="12dp" />
+
+                <Button
+                    android:id="@+id/dumper_radiobtn3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/radio_btn_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="前四后四"
+                    android:textColor="#565656"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/dumper_radiobtn4"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="left|center"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/radio_btn_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:text="前四后八"
+                    android:textColor="#565656"
+                    android:textSize="12dp" />
+
+                <Button
+                    android:id="@+id/dumper_radiobtn5"
+                     android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="25dp"
+                    android:background="@drawable/radio_btn_selector"
+                    android:button="@null" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="半挂"
+                    android:textColor="#565656"
+                    android:textSize="12dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dumper_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/input_box1"
+        android:gravity="center|left"
+        android:hint="品牌"
+        android:lines="1"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/dumper_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/input_box1"
+        android:hint="系列"
+        android:lines="1"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/dumper_sub"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_down_selector" />
+
+        <TextView
+            android:id="@+id/dumper_num"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_box1"
+            android:gravity="center"
+            android:hint="数量"
+            android:lines="1"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/dumper_add"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_up_selector" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/dumper_sure"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:background="@drawable/chat_send_selector"
+      
+        android:textColor="@color/white"
+          android:text="@string/add"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/line" />
+
+</LinearLayout>

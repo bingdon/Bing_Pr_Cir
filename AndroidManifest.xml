@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.projectcircle"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="12"
+        android:targetSdkVersion="17" />
+    <!-- 允许应用程序改变网络状态 -->
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <!-- 允许应用程序改变WIFI连接状态 -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- 允许应用程序访问有关的网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- 允许应用程序访问WIFI网卡的网络信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- 允许应用程序完全使用网络 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" >
+    </uses-permission>
+    <!-- 打开 通讯录 -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!-- 允许应用程序使用照相 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 在SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 往SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" >
+    </uses-permission>
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" >
+    </uses-permission>
+
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
+    </uses-permission>
+    <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </uses-permission>
+
+    <!-- 允许应用读取低级别的系统日志文件 -->
+    <uses-permission android:name="android.permission.READ_LOGS" >
+    </uses-permission>
+    <!-- 读取电话状态的权限 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!-- 添加拨出电话的权限 -->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <!-- Push service 运行需要的权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <application
+        android:name="com.example.projectcircle.app.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.NoTitleBar" >
+        <activity
+            android:name="com.example.projectcircle.WelcomeActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- 登录页 -->
+        <activity
+            android:name="com.example.projectcircle.LoginActivity"
+            android:theme="@style/AppBaseTheme" >
+        </activity>
+        <!-- 主页 -->
+        <activity
+            android:name="com.example.projectcircle.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppNotitleTheme" >
+        </activity>
+        <!-- 主页 -->
+        <activity android:name="com.example.projectcircle.HomeActivity" >
+        </activity>
+        <!-- 注册页 -->
+        <activity
+            android:name="com.example.projectcircle.SiginActivity"
+            android:theme="@style/AppBaseTheme" >
+        </activity>
+        <!-- 用户协议页 -->
+        <activity android:name="com.example.projectcircle.UserAgreement" >
+        </activity>
+        <activity android:name="com.example.projectcircle.SiginFragment1" >
+        </activity>
+        <activity android:name="com.example.projectcircle.SiginFragment2" >
+        </activity>
+        <activity android:name="com.example.projectcircle.SiginFragment3" >
+        </activity>
+        <activity android:name="com.example.projectcircle.SiginFragment4" >
+        </activity>
+        <!-- 注册成功页 -->
+        <activity android:name="com.example.projectcircle.SiginSuccess" >
+        </activity>
+        <!-- 完善信息页 -->
+        <activity android:name="com.example.projectcircle.complete.CompleteInfo" >
+        </activity>
+        <!-- 通讯录页 -->
+        <activity android:name="com.example.projectcircle.friend.Contact" >
+        </activity>
+        <!-- 完善机主 -->
+        <activity android:name="com.example.projectcircle.complete.CompleteMaster" >
+        </activity>
+        <activity android:name="com.example.projectcircle.complete.FootActivity1" >
+        </activity>
+        <activity android:name="com.example.projectcircle.complete.FootActivity2" >
+        </activity>
+        <activity android:name="com.example.projectcircle.complete.FootActivity3" >
+        </activity>
+        <activity android:name="com.example.projectcircle.complete.FootActivity4" >
+        </activity>
+        <activity android:name="com.example.projectcircle.complete.FootActivity5" >
+        </activity>
+        <!-- 完善商家 -->
+        <activity android:name="com.example.projectcircle.complete.CompleteCommercial" >
+        </activity>
+        <!-- 完善司机 -->
+        <activity android:name="com.example.projectcircle.complete.CompleteDriver" >
+        </activity>
+        <!-- 完善信息完成页 -->
+        <activity android:name="com.example.projectcircle.complete.CompleteFinish" >
+        </activity>
+        <!-- 好友页 -->
+        <activity android:name="com.example.projectcircle.friend.FriendPage" >
+        </activity>
+        <!-- 好友页 -->
+        <activity android:name="com.example.projectcircle.friend.DetailInformation" >
+        </activity>
+        <!-- 他的联系人页 -->
+        <activity android:name="com.example.projectcircle.personal.HisContact" >
+        </activity>
+        <!-- 他的好友的个人信息页 -->
+        <activity android:name="com.example.projectcircle.personal.HisPerson" >
+        </activity>
+        <!-- 可能认识页 -->
+        <activity android:name="com.example.projectcircle.friend.MaybeFriend" >
+        </activity>
+        <!-- 他的群组页 -->
+        <activity android:name="com.example.projectcircle.personal.HisGroup" >
+        </activity>
+        <!-- 新朋友页 -->
+        <activity android:name="com.example.projectcircle.friend.NewFriend" >
+        </activity>
+        <!-- 群组页 -->
+        <activity android:name="com.example.projectcircle.group.GroupPage" >
+        </activity>
+        <!-- 跨区域群组页 -->
+        <activity android:name="com.example.projectcircle.group.AreaGroup" >
+        </activity>
+        <!-- 发起群聊页 -->
+        <activity android:name="com.example.projectcircle.friend.GroupChat" >
+        </activity>
+        <activity android:name="com.example.projectcircle.friend.AddFriend" >
+        </activity>
+        <!-- 告诉朋友页 -->
+        <activity android:name="com.example.projectcircle.friend.TellFriend" >
+        </activity>
+        <!-- 登录页 -->
+        <activity android:name="com.example.projectcircle.friend.GroupChatContent" >
+        </activity>
+        <!-- 群组详情页 -->
+        <activity android:name="com.example.projectcircle.group.GroupDetail" >
+        </activity>
+        <!-- 新建群组页 -->
+        <activity android:name="com.example.projectcircle.group.CreateGroup" >
+        </activity>
+        <!-- 新建群组完成页 -->
+        <activity
+            android:name="com.example.projectcircle.group.CreateGroupSuccess"
+            android:theme="@style/CreateGroupDialog" >
+        </activity>
+        <!-- 申请群组成员页 -->
+        <activity
+            android:name="com.example.projectcircle.group.ApplyGroup"
+            android:theme="@style/ApplyGroupDialog" >
+        </activity>
+        <!-- 群成员页 -->
+        <activity android:name="com.example.projectcircle.group.GroupNum" >
+        </activity>
+        <!-- 我的群组页 -->
+        <activity android:name="com.example.projectcircle.group.MyGroup" >
+        </activity>
+        <!-- 浏览发表的图片页 -->
+        <activity android:name="com.example.projectcircle.job.PhotoPagerActivity" >
+        </activity>
+        <!-- 工作页 -->
+        <activity android:name="com.example.projectcircle.job.JobPage" >
+        </activity>
+        <!-- 发布状态页 -->
+        <activity
+            android:name="com.example.projectcircle.job.postStatus"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <!-- 工程圈页 -->
+        <activity
+            android:name="com.example.projectcircle.job.projectCircle"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <!-- 移动商城页 -->
+        <activity android:name="com.example.projectcircle.job.MoveShop" >
+        </activity>
+        <!-- Job_Tab1页 -->
+        <activity android:name="com.example.projectcircle.job.TabActivity1" >
+        </activity>
+        <!-- Job_Tab2页 -->
+        <activity android:name="com.example.projectcircle.job.TabActivity2" >
+        </activity>
+        <!-- Job_Tab3页 -->
+        <activity android:name="com.example.projectcircle.job.TabActivity3" >
+        </activity>
+        <!-- Job_Tab4页 -->
+        <activity android:name="com.example.projectcircle.job.TabActivity4" >
+        </activity>
+        <!-- 工作作业信息页 -->
+        <activity android:name="com.example.projectcircle.job.ProjectJob" >
+        </activity>
+        <!-- 司机需求信息页 -->
+        <activity android:name="com.example.projectcircle.job.Requirement" >
+        </activity>
+        <!-- 添加工作作业信息页 -->
+        <activity android:name="com.example.projectcircle.job.AddJob" >
+        </activity>
+        <!-- 工作作业信息详情页 -->
+        <activity android:name="com.example.projectcircle.job.WorkDetail" >
+        </activity>
+        <!-- 工作详情页 -->
+        <activity android:name="com.example.projectcircle.job.JobDetail" >
+        </activity>
+        <!-- 管理页 -->
+        <activity android:name="com.example.projectcircle.manage.ManagePage" >
+        </activity>
+        <!-- 意见反馈 -->
+        <activity android:name="com.example.projectcircle.manage.FeedBackActivity" >
+        </activity>
+        <!-- 修改密码 -->
+        <activity android:name="com.example.projectcircle.manage.ModifyPassword" >
+        </activity>
+        <!-- 关于页 -->
+        <activity android:name="com.example.projectcircle.manage.About" >
+        </activity>
+        <!-- 消息页 -->
+        <activity android:name="com.example.projectcircle.other.MessagePage" >
+        </activity>
+        <!-- 好友请求页 -->
+        <activity android:name="com.example.projectcircle.other.FriendRequest" >
+        </activity>
+        <!-- 搜索页 -->
+        <activity android:name="com.example.projectcircle.other.SearchPage" >
+        </activity>
+        <!-- 个人主页 -->
+        <activity android:name="com.example.projectcircle.personal.PersonalPage" >
+        </activity>
+        <!-- 好友的个人动态 -->
+        <activity android:name="com.example.projectcircle.personal.HisDynamic" >
+        </activity>
+        <!-- 设备图片显示 -->
+        <activity android:name="com.example.projectcircle.personal.PictureShow" >
+        </activity>
+        <!-- 申请好友页 -->
+        <activity
+            android:name="com.example.projectcircle.personal.ApplyFriend"
+            android:theme="@style/ApplyFriendDialog" >
+        </activity>
+        <!-- 我的个人主页 -->
+        <activity android:name="com.example.projectcircle.personal.MyPersonal" >
+        </activity>
+        <!-- 我的个人修改主页 -->
+        <activity
+            android:name="com.example.projectcircle.personal.ModifyMySelf"
+            android:theme="@style/AppBaseTheme" >
+        </activity>
+        <!-- 聊天页 -->
+        <activity
+            android:name="com.example.projectcircle.other.Chat"
+            android:launchMode="singleTask" >
+        </activity>
+
+        <!-- 在application标签中声明service组件,每个app拥有自己单独的定位service -->
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
+        <!-- 在百度开发者中心查询应用的API Key -->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="xerN6Ac7GdD3iAVwVRguCVlQ" />
+
+        <!-- push富媒体，不使用富媒体推送不需要 -->
+        <activity
+            android:name="com.baidu.android.pushservice.richmedia.MediaViewActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="MediaViewActivity" >
+        </activity>
+        <activity
+            android:name="com.baidu.android.pushservice.richmedia.MediaListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="MediaListActivity"
+            android:launchMode="singleTask" >
+        </activity>
+        <!-- push富媒体结束 -->
+
+
+        <!-- push应用定义消息receiver声明 -->
+        <receiver android:name="com.example.projectcircle.other.MyPushMessageReceiver" >
+            <intent-filter>
+
+                <!-- 接收push消息 -->
+                <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
+                <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
+                <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
+            </intent-filter>
+        </receiver>
+
+        <!-- push必须的receviver和service声明 -->
+        <receiver
+            android:name="com.baidu.android.pushservice.PushServiceReceiver"
+            android:process=":bdservice_v1" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.baidu.android.pushservice.RegistrationReceiver"
+            android:process=":bdservice_v1" >
+            <intent-filter>
+                <action android:name="com.baidu.android.pushservice.action.METHOD" />
+                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.baidu.android.pushservice.PushService"
+            android:exported="true"
+            android:process=":bdservice_v1" />
+
+        <intent-filter>
+            <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
+        </intent-filter>
+        <!-- push结束 -->
+
+
+        <!-- 在百度开发者中心查询应用的API Key -->
+        <meta-data
+            android:name="api_key"
+            android:value="9mYBpUGAHBSvc44tB3xquVAD" />
+
+        <activity
+            android:name=".job.TabActivity5"
+            android:theme="@style/AppBaseTheme" >
+        </activity>
+        <activity
+            android:name=".home.HomeSecActivity"
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
+        <activity android:name=".other.GroupRequest" >
+        </activity>
+        <activity android:name=".other.GroupChatOther" >
+        </activity>
+        <activity
+            android:name=".setting.SettingActivity"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".setting.MsgSettingActivity"
+            android:theme="@style/AppNotitleTheme" >
+        </activity>
+        <activity
+            android:name=".friend.NewFriendActivity"
+            android:theme="@style/AppNotitleTheme" >
+        </activity>
+        <activity
+            android:name=".setting.ModifyInfoActivity"
+            android:theme="@style/AppNotitleTheme" >
+        </activity>
+        <activity android:name=".friend.WXEntryActivity" >
+        </activity>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5383fabf56240bc466180b2e" >
+        </meta-data>
+
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+
+        <!-- ############ QQ绌洪棿鍜孮Q SSO鎺堟潈鐨凙ctivity娉ㄥ唽 ############ -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 100424468锛屽鏋滀綘浣跨敤鐨勫叕鐢ㄨ处鍙凤紝鍒欎笉闇€瑕佷慨鏀癸紱鍚﹀垯淇敼鎴愪綘鍦≦Q寮€鏀惧钩鍙扮敵璇风殑 APP ID -->
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.tencent.plus.ImageActivity" />
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/navbar_bg"       
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/group_chat"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/n_group_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sigin_back_selector" />
+
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/n_group_listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout1"
+        android:descendantFocusability="blocksDescendants" >
+    </ListView>
+    <RelativeLayout  
+        android:id="@+id/gallery_parent"
+		   android:layout_width="fill_parent"
+		   android:layout_height="wrap_content"		   
+		   android:background="@drawable/bottom"
+		   android:layout_alignBottom="@+id/n_group_listView"
+		   android:orientation="horizontal" >
+		<Gallery android:id="@+id/group_chat_gallery"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"       
+		        android:layout_toLeftOf="@+id/group_btn_sure"
+		        android:layout_alignParentLeft="true" 
+		        android:layout_marginLeft="0dp"			               	     		     	android:spacing="2dp"
+		   />
+		<ImageView
+        android:id="@+id/group_btn_sure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/btn_sure_selector"
+        android:scaleType="fitXY" />
+
+	</RelativeLayout>
+</RelativeLayout>

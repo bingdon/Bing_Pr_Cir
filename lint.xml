@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="DrawAllocation">
+        <ignore path="src/com/example/projectcircle/view/WiperSwitch.java" />
+        <ignore path="src/com/example/projectcircle/view/WiperSwitch2.java" />
+    </issue>
+    <issue id="HandlerLeak">
+        <ignore path="src/com/example/projectcircle/HomeActivity.java" />
+        <ignore path="src/com/example/projectcircle/MainActivity.java" />
+        <ignore path="src/com/example/projectcircle/WelcomeActivity.java" />
+    </issue>
+    <issue id="NewApi">
+        <ignore path="src/com/example/projectcircle/fragment/LayFragment1.java" />
+    </issue>
+    <issue id="ResourceAsColor">
+        <ignore path="src/com/example/projectcircle/HometownActivity.java" />
+    </issue>
+    <issue id="ShowToast">
+        <ignore path="src/com/example/projectcircle/LogoActivity.java" />
+    </issue>
+    <issue id="SimpleDateFormat">
+        <ignore path="src/com/example/projectcircle/BirthdayActivity.java" />
+        <ignore path="src/com/example/projectcircle/SiginActivity.java" />
+        <ignore path="src/com/example/projectcircle/adpter/WorkAdapter.java" />
+        <ignore path="src/com/example/projectcircle/job/WorkDetail.java" />
+        <ignore path="src/com/example/projectcircle/personal/MyPersonal.java" />
+    </issue>
+    <issue id="ViewConstructor">
+        <ignore path="src/com/example/projectcircle/view/SelectPicPopupWindow.java" />
+    </issue>
+    <issue id="WorldReadableFiles">
+        <ignore path="src/com/example/projectcircle/SiginActivity.java" />
+    </issue>
+</lint>

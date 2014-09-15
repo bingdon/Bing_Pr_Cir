@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:background="@drawable/pop_up_box" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="@string/friend_check"
+        android:textColor="@color/black"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/friend_check_tishi"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="请输入验证信息"
+        android:textColor="#565656"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/check_back"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/back"
+        android:textColor="@color/blue"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/check_send"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_alignBaseline="@+id/check_back"
+        android:layout_alignBottom="@+id/check_back"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/check_back"
+        android:gravity="center"
+        android:text="@string/send"
+        android:textColor="@color/blue"
+        android:textSize="18dp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/pop_up_line" />
+
+    <EditText
+        android:id="@+id/check_message_verify"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/friend_check_tishi"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/input_box1"
+        android:ems="10"
+        android:hint="请输入"
+        android:lines="1"
+        android:paddingLeft="5dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="15dp" >
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>
