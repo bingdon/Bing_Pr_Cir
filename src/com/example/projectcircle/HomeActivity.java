@@ -471,7 +471,7 @@ public class HomeActivity extends Activity {
 		LocationClientOption option = new LocationClientOption();
 		option.setLocationMode(LocationMode.Hight_Accuracy);//设置定位模式,//Hight_Accuracy高精度、Battery_Saving低功耗、Device_Sensors仅设备(GPS)
 		option.setOpenGps(true);// 打开gps,设置是否打开gps，使用gps前提是用户硬件打开gps。默认是不打开gps的。
-		option.setScanSpan(600000);// 定位的时间间隔，单位：ms
+		option.setScanSpan(10000);// 定位的时间间隔，单位：ms
 		// 需要地址信息，设置为其他任何值（string类型，且不能为null）时，都表示无地址信息。
 		option.setAddrType("all");
 
@@ -943,7 +943,7 @@ public class HomeActivity extends Activity {
 				sb.append("\naddr : ");
 				sb.append(location.getAddrStr());
 			}
-			Log.i(TAG, sb + "");	
+			Log.i(TAG, sb + "点点滴滴");	
 			// 这两个是头部view 放在后面
 			//UserDetail(id);
 			NearUser(id, radius, latitude, longitude);// 这是列表 一定要放在前面

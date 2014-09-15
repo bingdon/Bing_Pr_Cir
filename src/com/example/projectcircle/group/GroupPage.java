@@ -29,6 +29,7 @@ import com.example.projectcircle.R;
 import com.example.projectcircle.adpter.NearGpAdapter;
 import com.example.projectcircle.bean.GroupInfo;
 import com.example.projectcircle.bean.UserInfo;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MyHttpClient;
 import com.google.gson.Gson;
@@ -163,8 +164,9 @@ public class GroupPage extends Activity {
 			glatitude = groupList.get(i).getLat();
 			glongtitude =groupList.get(i).getLon();
 			double distance = DistentsUtil.getDistance(glongtitude,glatitude,
-					 mylon,mylat) / 1000;
+					 HomeActivity.longitude,HomeActivity.latitude) / 1000;
 			distance = DistentsUtil.changep2(distance);
+			AppLog.i(TAG, "返回距离:"+distance+"glongtitude:"+glongtitude+"glatitude:"+glatitude);
 			map.put("distance", distance);
 			listItem.add(map);
 		}
@@ -191,8 +193,7 @@ public class GroupPage extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i("群组列表response", "返回:" + response);
-				
+				Log.i("群组列表response", "返回群组:" + response);
 				parseGroupList(response);
 				initList();
 			}
@@ -229,9 +230,9 @@ public class GroupPage extends Activity {
 				group.setContent(objo.getString("content"));
 				group.setHeadimage(objo.getString("headimage"));
 				group.setGaddress(objo.getString("gaddress"));
+				group=new Gson().fromJson(objo.toString(), GroupInfo.class);
 				group.setLat(Double.parseDouble(objo.getString("commercialLat")));
 				group.setLon( Double.parseDouble(objo.getString("commercialLon")));
-				group=new Gson().fromJson(objo.toString(), GroupInfo.class);
 				GroupDetails(gid);
 				groupList.add(group);	
 			System.out.println("group附近的"+group);

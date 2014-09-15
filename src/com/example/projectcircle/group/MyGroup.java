@@ -91,14 +91,15 @@ public class MyGroup extends Activity {
 				group.setGaddress(objo.getString("gaddress"));
 				group.setHeadimage(objo.getString("headimage"));
 				group.setContent(objo.getString("content"));
+				group = new Gson().fromJson(objo.toString(), GroupInfo.class);
 				group.setLat(Double.parseDouble(objo.getString("commercialLat")));
 				group.setLon(Double.parseDouble(objo.getString("commercialLon")));
 
 				saveFriendinfo(group.getGname(), group.getHeadimage(),
 						group.getGaddress(), group.getId(), group.getUid());
-				group=new Gson().fromJson(objo.toString(), GroupInfo.class);
-				LoginActivity.setTag("g"+group.getId(), this);
-				
+
+				LoginActivity.setTag("g" + group.getId(), this);
+
 				groupList.add(group);
 			}
 			System.out.println("my group list==" + groupList);
@@ -194,42 +195,42 @@ public class MyGroup extends Activity {
 
 	/**
 	 * 查询群组名称
-	 * @param gid 群组ID
+	 * 
+	 * @param gid
+	 *            群组ID
 	 * @return
 	 */
-	public static String getGroupname(String gid){
-		String name="工程圈";
-		
-		if (null==groupDataBeans) {
+	public static String getGroupname(String gid) {
+		String name = "工程圈";
+
+		if (null == groupDataBeans) {
 			return name;
 		}
 		for (int i = 0; i < groupDataBeans.size(); i++) {
-			Log.i(TAG, "名字:"+groupDataBeans.get(i).getGname());
-			Log.i(TAG, "群组ID:"+groupDataBeans.get(i).getId()+":当前:"+gid);
+			Log.i(TAG, "名字:" + groupDataBeans.get(i).getGname());
+			Log.i(TAG, "群组ID:" + groupDataBeans.get(i).getId() + ":当前:" + gid);
 			if (groupDataBeans.get(i).getId().equals(gid)) {
-				name=groupDataBeans.get(i).getGname();
-				i=groupDataBeans.size();
+				name = groupDataBeans.get(i).getGname();
+				i = groupDataBeans.size();
 			}
 		}
 		return name;
-		
+
 	}
-	
-	
-	public static GroupDataBean getGroupData(String gid){
-		GroupDataBean groupDataBean=new GroupDataBean();
-		if (null==groupDataBeans) {
+
+	public static GroupDataBean getGroupData(String gid) {
+		GroupDataBean groupDataBean = new GroupDataBean();
+		if (null == groupDataBeans) {
 			return groupDataBean;
 		}
 		for (int i = 0; i < groupDataBeans.size(); i++) {
 			if (groupDataBeans.get(i).getId().equals(gid)) {
-				groupDataBean=groupDataBeans.get(i);
+				groupDataBean = groupDataBeans.get(i);
 				break;
 			}
 		}
 		return groupDataBean;
-		
+
 	}
-	
-	
+
 }
