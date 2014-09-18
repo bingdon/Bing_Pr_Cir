@@ -1,6 +1,12 @@
 package com.example.projectcircle.bean;
 
-public class GroupInfo {
+import java.io.Serializable;
+
+public class GroupInfo implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 390474836891422120L;
 	// 群组id
 	private String id;
 	// 群主id
@@ -41,7 +47,7 @@ public class GroupInfo {
 	}
 
 	public String getContent() {
-		return content;
+		return ""+content;
 	}
 
 	public void setContent(String content) {
@@ -57,7 +63,7 @@ public class GroupInfo {
 	}
 
 	public String getGname() {
-		return gname;
+		return ""+gname;
 	}
 
 	public void setGname(String gname) {

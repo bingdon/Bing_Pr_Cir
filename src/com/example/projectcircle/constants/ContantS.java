@@ -11,6 +11,8 @@ public interface ContantS {
 	public static final String ACTION_SEND_SUBMIT = "ACTION.SEND.SUBMIT";
 
 	public static final String ACTION_GET_MSG_GROUP = "ACTION.BAIDU.TAG.GROUP";
+	
+	public static final String ACTION_GET_USER_INFO = "ACTION.GET.USER.INFO";
 
 	public static final int CHAT_MSG = 0;
 	public static final int PUBLISH_CIRCLE_ID = 3;

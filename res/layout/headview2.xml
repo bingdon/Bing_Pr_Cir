@@ -44,7 +44,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/rightbtn" />
+            android:background="@drawable/rightbtn" 
+            android:visibility="gone"/>
     </LinearLayout>
 
     <ImageView
@@ -72,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="28dp"
-            android:text="群组"
+            android:text="我的群组"
             android:textColor="#565656"
             android:textSize="15dp" />
 
@@ -81,7 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="190dp"
             android:layout_marginTop="30dp"
-            android:background="@drawable/rightbtn" />
+            android:background="@drawable/rightbtn"
+            android:visibility="gone" />
     </LinearLayout>
 
     <ImageView

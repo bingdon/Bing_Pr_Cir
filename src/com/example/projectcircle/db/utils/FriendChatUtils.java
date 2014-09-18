@@ -12,36 +12,39 @@ import com.example.projectcircle.bean.FriendChatBean;
 import com.example.projectcircle.bean.FriendDate;
 import com.example.projectcircle.db.ProJectDatebase;
 import com.example.projectcircle.db.interfaces.FriendChatAbs;
+import com.example.projectcircle.other.ChatMsgEntity;
 
 public class FriendChatUtils implements FriendChatAbs {
 
-	 private String friendid = "";
-	
-	public  FriendChatUtils(Context context,String friendid ) {
-		this.friendid=friendid;
+	private String friendid = "";
+
+	public FriendChatUtils(Context context, String friendid) {
+		this.friendid = friendid;
 		ProJectDatebase.getDatebase(context);
 	}
-	
+
 	@Override
 	public Object update(String content, String time, String showtime, long id) {
 		// TODO Auto-generated method stub
-		
+
 		return null;
 	}
 
 	@Override
 	public long update(String content, String time, int id) {
 		// TODO Auto-generated method stub
-		long updatepostion=0;
-    	try {
-	    	ContentValues values = new ContentValues();	
-	    	values.put(FriendChat.CONTENT, content);
+		long updatepostion = 0;
+		try {
+			ContentValues values = new ContentValues();
+			values.put(FriendChat.CONTENT, content);
 			values.put(FriendChat.TIME, time);
-	    	String where =  FriendChat._ID+" = ?";
-		    String[] whereValue = { String.valueOf(id) };
-	    	//调用方法插入数据
-	    	updatepostion=ProJectDatebase.proDatabase.update(FriendChat.TABLE_NAME+friendid, values, where, whereValue);
-    	} catch (Exception e) {
+			String where = FriendChat._ID + " = ?";
+			String[] whereValue = { String.valueOf(id) };
+			// 调用方法插入数据
+			updatepostion = ProJectDatebase.proDatabase
+					.update(FriendChat.TABLE_NAME + friendid, values, where,
+							whereValue);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return updatepostion;
@@ -54,8 +57,8 @@ public class FriendChatUtils implements FriendChatAbs {
 		try {
 			String where = FriendDate._ID + " = ?";
 			String[] whereArgs = { String.valueOf(id) };
-			del = ProJectDatebase.proDatabase.delete(FriendChat.TABLE_NAME+friendid,
-					where, whereArgs);
+			del = ProJectDatebase.proDatabase.delete(FriendChat.TABLE_NAME
+					+ friendid, where, whereArgs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,7 +68,7 @@ public class FriendChatUtils implements FriendChatAbs {
 	@Override
 	public long insert(String content, String time, String showtime) {
 		// TODO Auto-generated method stub
-		
+
 		long id = -1;
 		try {
 
@@ -73,16 +76,16 @@ public class FriendChatUtils implements FriendChatAbs {
 			values.put(FriendChat.CONTENT, content);
 			values.put(FriendChat.TIME, time);
 			values.put(FriendChat.SHOW_TIME, showtime);
-			
-			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME+friendid, null,
-					values);
+
+			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME
+					+ friendid, null, values);
 
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 
 		return id;
-		
+
 	}
 
 	@Override
@@ -94,9 +97,9 @@ public class FriendChatUtils implements FriendChatAbs {
 			ContentValues values = new ContentValues();
 			values.put(FriendChat.CONTENT, content);
 			values.put(FriendChat.TIME, time);
-			
-			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME+friendid, null,
-					values);
+
+			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME
+					+ friendid, null, values);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -113,13 +116,15 @@ public class FriendChatUtils implements FriendChatAbs {
 		try {
 			// 获得数据库对象,如过数据库不存在则创建
 			// 查询表中数据,获取游标
-			cursor = ProJectDatebase.proDatabase.query(FriendChat.TABLE_NAME+friendid,
-					null, null, null, null, null, "_ID desc");
+			cursor = ProJectDatebase.proDatabase.query(FriendChat.TABLE_NAME
+					+ friendid, null, null, null, null, null, "_ID desc");
 			int idIndex = cursor.getColumnIndex(FriendChat._ID);
 			int contentIndex = cursor.getColumnIndex(FriendChat.CONTENT);
 			int timeIndex = cursor.getColumnIndex(FriendChat.TIME);
-			int showtIndex=cursor.getColumnIndex(FriendChat.SHOW_TIME);
-			int iscomIndex=cursor.getColumnIndex(FriendChat.IS_COM);
+			int showtIndex = cursor.getColumnIndex(FriendChat.SHOW_TIME);
+			int iscomIndex = cursor.getColumnIndex(FriendChat.IS_COM);
+			int headIndex=cursor.getColumnIndex(FriendChat.HEAD_IMAGE);
+			int nameIndex=cursor.getColumnIndex(FriendChat.TITLE);
 
 			for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor
 					.moveToNext()) {
@@ -129,6 +134,8 @@ public class FriendChatUtils implements FriendChatAbs {
 				friendChatBean.setRealtime(cursor.getString(timeIndex));
 				friendChatBean.setShowTime(cursor.getString(showtIndex));
 				friendChatBean.setIscom(cursor.getInt(iscomIndex));
+				friendChatBean.setHeadimg(cursor.getString(headIndex));
+				friendChatBean.setName(cursor.getString(nameIndex));
 				list.add(friendChatBean);
 			}
 
@@ -164,8 +171,8 @@ public class FriendChatUtils implements FriendChatAbs {
 		long del = -1;
 
 		try {
-			del = ProJectDatebase.proDatabase.delete(FriendChat.TABLE_NAME+friendid, null,
-					null);
+			del = ProJectDatebase.proDatabase.delete(FriendChat.TABLE_NAME
+					+ friendid, null, null);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -192,16 +199,16 @@ public class FriendChatUtils implements FriendChatAbs {
 		try {
 			// 获得数据库对象,如过数据库不存在则创建
 			// 查询表中数据,获取游标
-			cursor = ProJectDatebase.proDatabase.query(FriendChat.TABLE_NAME+friendid,
-					null, null, null, null, null, "_ID desc");
+			cursor = ProJectDatebase.proDatabase.query(FriendChat.TABLE_NAME
+					+ friendid, null, null, null, null, null, "_ID desc");
 			int idIndex = cursor.getColumnIndex(FriendChat._ID);
 			int contentIndex = cursor.getColumnIndex(FriendChat.CONTENT);
 			int timeIndex = cursor.getColumnIndex(FriendChat.TIME);
-			int showtIndex=cursor.getColumnIndex(FriendChat.SHOW_TIME);
-			int iscomIndex=cursor.getColumnIndex(FriendChat.IS_COM);
+			int showtIndex = cursor.getColumnIndex(FriendChat.SHOW_TIME);
+			int iscomIndex = cursor.getColumnIndex(FriendChat.IS_COM);
 
-			for (cursor.moveToFirst(); !(cursor.isAfterLast())&&cursor.getPosition()<pagersize; cursor
-					.moveToNext()) {
+			for (cursor.moveToFirst(); !(cursor.isAfterLast())
+					&& cursor.getPosition() < pagersize; cursor.moveToNext()) {
 				FriendChatBean friendChatBean = new FriendChatBean();
 				friendChatBean.set_id(cursor.getInt(idIndex));
 				friendChatBean.setContent(cursor.getString(contentIndex));
@@ -226,29 +233,32 @@ public class FriendChatUtils implements FriendChatAbs {
 	}
 
 	@Override
-	public Object update( String content, String time,
-			String showtime, int iscom, long id) {
+	public Object update(String content, String time, String showtime,
+			int iscom, long id) {
 		// TODO Auto-generated method stub
-		long updatepostion=0;
-    	try {
-	    	ContentValues values = new ContentValues();	
-	    	values.put(FriendChat.CONTENT, content);
+		long updatepostion = 0;
+		try {
+			ContentValues values = new ContentValues();
+			values.put(FriendChat.CONTENT, content);
 			values.put(FriendChat.TIME, time);
 			values.put(FriendChat.SHOW_TIME, showtime);
 			values.put(FriendChat.IS_COM, iscom);
-	    	String where =  FriendChat._ID+" = ?";
-		    String[] whereValue = { String.valueOf(id) };
-	    	//调用方法插入数据
-	    	updatepostion=ProJectDatebase.proDatabase.update(FriendChat.TABLE_NAME+friendid, values, where, whereValue);
-    	} catch (Exception e) {
+			String where = FriendChat._ID + " = ?";
+			String[] whereValue = { String.valueOf(id) };
+			// 调用方法插入数据
+			updatepostion = ProJectDatebase.proDatabase
+					.update(FriendChat.TABLE_NAME + friendid, values, where,
+							whereValue);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return updatepostion;
 	}
-
+	/**
+	 * @deprecated 此方法已过期 请使用{@link #insert(ChatMsgEntity)}}
+	 */
 	@Override
-	public long insert( String content, String time,
-			String showtime, int iscom) {
+	public long insert(String content, String time, String showtime, int iscom) {
 		// TODO Auto-generated method stub
 		long id = -1;
 		try {
@@ -258,9 +268,9 @@ public class FriendChatUtils implements FriendChatAbs {
 			values.put(FriendChat.TIME, time);
 			values.put(FriendChat.SHOW_TIME, showtime);
 			values.put(FriendChat.IS_COM, iscom);
-			
-			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME+friendid, null,
-					values);
+
+			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME
+					+ friendid, null, values);
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -269,5 +279,30 @@ public class FriendChatUtils implements FriendChatAbs {
 		return id;
 	}
 
+	public long insert(ChatMsgEntity chatMsgEntity) {
+		// TODO Auto-generated method stub
+		long id = -1;
+		try {
+			int iscom = 0;
+			if (chatMsgEntity.getMsgType()) {
+				iscom = 1;
+			}
+			ContentValues values = new ContentValues();
+			values.put(FriendChat.CONTENT, chatMsgEntity.getText());
+			values.put(FriendChat.TIME, chatMsgEntity.getDate());
+			values.put(FriendChat.SHOW_TIME, chatMsgEntity.getDate());
+			values.put(FriendChat.HEAD_IMAGE, chatMsgEntity.getHeadimgString());
+			values.put(FriendChat.TITLE, chatMsgEntity.getName());
+			values.put(FriendChat.IS_COM, iscom);
+
+			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME
+					+ friendid, null, values);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return id;
+	}
 
 }

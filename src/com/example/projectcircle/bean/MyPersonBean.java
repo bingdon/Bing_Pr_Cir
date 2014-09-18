@@ -1,6 +1,7 @@
 package com.example.projectcircle.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class MyPersonBean implements Serializable{
 
@@ -19,6 +20,16 @@ public class MyPersonBean implements Serializable{
 	
 	private String business;
 	
+	private String businessinfo;
+	
+	public String getBusinessinfo() {
+		return businessinfo;
+	}
+
+	public void setBusinessinfo(String businessinfo) {
+		this.businessinfo = businessinfo;
+	}
+
 	private String commercialLat;
 	
 	private String commercialLon;
@@ -54,7 +65,7 @@ public class MyPersonBean implements Serializable{
 	private String username;
 
 	public String getAccept() {
-		return accept;
+		return ""+accept;
 	}
 
 	public void setAccept(String accept) {
@@ -62,7 +73,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getAddress() {
-		return address;
+		return ""+address;
 	}
 
 	public void setAddress(String address) {
@@ -70,7 +81,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getAge() {
-		return age;
+		return ""+age;
 	}
 
 	public void setAge(String age) {
@@ -78,7 +89,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getBirthday() {
-		return birthday;
+		return ""+birthday;
 	}
 
 	public void setBirthday(String birthday) {
@@ -86,7 +97,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getBusiness() {
-		return business;
+		return ""+business;
 	}
 
 	public void setBusiness(String business) {
@@ -94,7 +105,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getCommercialLat() {
-		return commercialLat;
+		return ""+commercialLat;
 	}
 
 	public void setCommercialLat(String commercialLat) {
@@ -102,7 +113,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getCommercialLon() {
-		return commercialLon;
+		return ""+commercialLon;
 	}
 
 	public void setCommercialLon(String commercialLon) {
@@ -110,7 +121,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getCompanyname() {
-		return companyname;
+		return ""+companyname;
 	}
 
 	public void setCompanyname(String companyname) {
@@ -125,13 +136,6 @@ public class MyPersonBean implements Serializable{
 		this.createtime = createtime;
 	}
 
-	public String getEquipment() {
-		return equipment;
-	}
-
-	public void setEquipment(String equipment) {
-		this.equipment = equipment;
-	}
 
 	public String getHeadimage() {
 		return ""+headimage;
@@ -142,7 +146,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getHobby() {
-		return hobby;
+		return ""+hobby;
 	}
 
 	public void setHobby(String hobby) {
@@ -158,7 +162,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getInfo() {
-		return info;
+		return ""+info;
 	}
 
 	public void setInfo(String info) {
@@ -166,7 +170,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getLastlogintime() {
-		return lastlogintime;
+		return ""+lastlogintime;
 	}
 
 	public void setLastlogintime(String lastlogintime) {
@@ -174,7 +178,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getPlace() {
-		return place;
+		return ""+place;
 	}
 
 	public void setPlace(String place) {
@@ -182,7 +186,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getPnumber() {
-		return pnumber;
+		return ""+pnumber;
 	}
 
 	public void setPnumber(String pnumber) {
@@ -198,7 +202,7 @@ public class MyPersonBean implements Serializable{
 	}
 
 	public String getSign() {
-		return sign;
+		return ""+sign;
 	}
 
 	public void setSign(String sign) {
@@ -232,6 +236,15 @@ public class MyPersonBean implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(String equipment) {
+		this.equipment = equipment;
+	}
+
 	
 	
 	

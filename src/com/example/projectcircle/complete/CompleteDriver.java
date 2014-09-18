@@ -25,9 +25,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
 import com.example.projectcircle.constants.ContantS;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.setting.ModifyInfoActivity;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -59,12 +61,8 @@ public class CompleteDriver extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.perfect_driver);
-		if (!ModifyInfoActivity.isModify()) {
 			findViewById(R.id.linearLayout1).setVisibility(View.VISIBLE);
 		
-		} else {
-			
-		}
 		initBtn();
 		initView();
 		initFilter();
@@ -138,8 +136,8 @@ public class CompleteDriver extends Activity {
 		// TODO Auto-generated method stub
 		now_brand = now_brand_txt.getText().toString().trim();
 		now_type = now_type_txt.getText().toString().trim();
-		type = SiginActivity.type;
-		uid = SiginActivity.id;
+		type ="司机";
+		uid = LoginActivity.id;
 		// 测试用
 		// type = "司机";
 		// uid = "25";
@@ -161,14 +159,15 @@ public class CompleteDriver extends Activity {
 		device_age = month / 12 + "";
 
 		// System.out.println(device_age);
-		CompleteDriver(uid, type, device_age, now_device);
+		CompleteDriver1(uid, type, device_age, now_device);
 	}
 
-	private void CompleteDriver(String uid, String type,
+	private void CompleteDriver1(String uid, String type,
 			String driveryears, String nequ) {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
 			public void onSuccess(String response) {
+				AppLog.i("jjjjj", "返回:"+response);
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
@@ -190,7 +189,7 @@ public class CompleteDriver extends Activity {
 			};
 		};
 		MyHttpClient client = new MyHttpClient();
-		client.CompleteDriver(uid, type, driveryears, nequ, res);
+		client.CompleteDriver2(uid, type, driveryears, now_type,now_brand, res);
 	}
 	
 	@SuppressWarnings("deprecation")

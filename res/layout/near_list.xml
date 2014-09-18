@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -13,9 +13,8 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"   
-            android:scaleType="centerCrop"        
-            />
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -33,9 +32,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="司机协会"                  
-                    android:maxEms="6" 
+                    android:maxEms="6"
                     android:singleLine="true"
+                    android:text="司机协会"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
 
@@ -56,38 +55,53 @@
                     android:textColor="#565656"
                     android:textSize="12dp" />
             </LinearLayout>
+
             <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"                  
-                    android:orientation="horizontal" >
-            
-            <TextView
-                android:id="@+id/n_group_people"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:text="群人数：88人"
-                android:textColor="#565656"
-                android:textSize="12dp" />
-             <ImageView
-                        android:id="@+id/near_group_icon_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="80dp"
-                        android:background="@drawable/icon_address" />
+                android:orientation="horizontal" >
 
-                    <TextView
-                        android:id="@+id/near_group_distance_host"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="2dp"
-                        android:text="1.2km"
-                        android:textColor="#565656"
-                        android:textSize="11dp" />
-             </LinearLayout>
+                <TextView
+                    android:id="@+id/n_group_people"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="群人数：88人"
+                    android:textColor="#565656"
+                    android:textSize="12dp" />
+                
+                <TextView
+                    android:id="@+id/group_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="群主"
+                    android:textColor="@color/white"
+                    android:background="@drawable/group_bg"
+                    android:visibility="invisible"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/near_group_icon_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/icon_address" />
+
+                <TextView
+                    android:id="@+id/near_group_distance_host"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="5dp"
+                    android:text="1.2km"
+                    android:textColor="#565656"
+                    android:textSize="11dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/n_group_introduce"
@@ -97,12 +111,11 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
                 android:ellipsize="marquee"
+                android:maxWidth="200dp"
                 android:singleLine="true"
                 android:text="群组简介文字介绍"
                 android:textColor="#565656"
-                android:maxWidth="200dp"
                 android:textSize="12sp" />
-
         </LinearLayout>
     </LinearLayout>
 
@@ -120,6 +133,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
-        android:background="@drawable/rightbtn" />
+        android:background="@drawable/rightbtn"
+        android:visibility="gone" />
 
 </RelativeLayout>

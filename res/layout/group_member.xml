@@ -24,10 +24,10 @@
 
         <Button
             android:id="@+id/g_member_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/sigin_back_selector" />
@@ -40,15 +40,14 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/g_member_selector" />
+            android:background="@drawable/g_member_selector"
+            android:visibility="gone" />
     </RelativeLayout>
 
-    <com.example.projectcircle.view.SildeDelListView
+    <ListView
         android:id="@+id/g_member_listView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:descendantFocusability="blocksDescendants"
-        android:divider="@null" >
-    </com.example.projectcircle.view.SildeDelListView>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
 
 </LinearLayout>

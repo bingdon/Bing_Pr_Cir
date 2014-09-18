@@ -25,6 +25,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.projectcircle.HomeActivity;
+import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.adpter.NearGpAdapter;
 import com.example.projectcircle.bean.GroupInfo;
@@ -66,10 +67,9 @@ public class GroupPage extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.near_group);
 		initBtn();
-		GroupList();
-		}
+		
+	}
 
-	
 	private void initBtn() {
 		// TODO Auto-generated method stub
 		back = (Button) findViewById(R.id.n_group_left);
@@ -77,6 +77,14 @@ public class GroupPage extends Activity {
 		back.setOnClickListener(listener);
 		add.setOnClickListener(listener);
 	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		GroupList();
+	}
+	
 
 	private View.OnClickListener listener = new OnClickListener() {
 
@@ -92,7 +100,7 @@ public class GroupPage extends Activity {
 				break;
 			case R.id.n_group_right:
 				Intent intent1 = new Intent(GroupPage.this, CreateGroup.class);
-				startActivity(intent1);				
+				startActivity(intent1);
 				break;
 			default:
 				break;
@@ -150,36 +158,47 @@ public class GroupPage extends Activity {
 		ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 		// TODO Auto-generated method stub
 		Log.i(TAG, "返回:groupList" + groupList);
-		if(groupList != null){
-		for (int i = 0; i < groupList.size(); i++) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("gname", groupList.get(i).getGname());
-			map.put("content", groupList.get(i).getContent());
-			map.put("headimage", groupList.get(i).getHeadimage());
-			map.put("people", people_num);
-			map.put("commercialLat", groupList.get(i).getLat());
-			map.put("commercialLon", groupList.get(i).getLon());
-			map.put("gaddress", groupList.get(i).getGaddress());
-			map.put("count", groupList.get(i).getCount());
-			glatitude = groupList.get(i).getLat();
-			glongtitude =groupList.get(i).getLon();
-			double distance = DistentsUtil.getDistance(glongtitude,glatitude,
-					 HomeActivity.longitude,HomeActivity.latitude) / 1000;
-			distance = DistentsUtil.changep2(distance);
-			AppLog.i(TAG, "返回距离:"+distance+"glongtitude:"+glongtitude+"glatitude:"+glatitude);
-			map.put("distance", distance);
-			listItem.add(map);
+		if (groupList != null) {
+			for (int i = 0; i < groupList.size(); i++) {
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("gname", groupList.get(i).getGname());
+				map.put("content", groupList.get(i).getContent());
+				map.put("headimage", groupList.get(i).getHeadimage());
+				map.put("people", people_num);
+				map.put("commercialLat", groupList.get(i).getLat());
+				map.put("commercialLon", groupList.get(i).getLon());
+				map.put("gaddress", groupList.get(i).getGaddress());
+				map.put("count", groupList.get(i).getCount());
+				try {
+					if (groupList.get(i).getUid().equals(LoginActivity.id)) {
+						map.put("ishost", true);
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				glatitude = groupList.get(i).getLat();
+				glongtitude = groupList.get(i).getLon();
+				double distance = DistentsUtil.getDistance(glongtitude,
+						glatitude, HomeActivity.longitude,
+						HomeActivity.latitude) / 1000;
+				distance = DistentsUtil.changep2(distance);
+				AppLog.i(TAG, "返回距离:" + distance + "glongtitude:" + glongtitude
+						+ "glatitude:" + glatitude);
+				map.put("distance", distance);
+				listItem.add(map);
+			}
 		}
-		}
-		//对含有hashmap的arraylist排序
-//		 Collections.sort(listItem, new Comparator<HashMap<String,Object>>(){ 
-//             @Override 
-//             public int compare(HashMap<String, Object> arg0,HashMap<String, Object> arg1) { 
-//                 return ( (arg1.get("distance"))+"").compareTo(""+ arg0.get("distance")); 
-//             } 
-//         }); 
+		// 对含有hashmap的arraylist排序
+		// Collections.sort(listItem, new Comparator<HashMap<String,Object>>(){
+		// @Override
+		// public int compare(HashMap<String, Object> arg0,HashMap<String,
+		// Object> arg1) {
+		// return ( (arg1.get("distance"))+"").compareTo(""+
+		// arg0.get("distance"));
+		// }
+		// });
 		return listItem;
-		
+
 	}
 
 	/**
@@ -200,21 +219,21 @@ public class GroupPage extends Activity {
 
 		};
 		MyHttpClient client = new MyHttpClient();
-//		client.GroupList(res);
+		// client.GroupList(res);
 		client.GroupList2(HomeActivity.getLat(), HomeActivity.getLon(), res);
 
 	}
 
 	protected void initGroup() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void parseGroupList(String response) {
 		// TODO Auto-generated method stub
 		try {
 			JSONObject result = new JSONObject(response);
-			JSONObject obj = result.getJSONObject("nearGroup");	
+			JSONObject obj = result.getJSONObject("nearGroup");
 			JSONArray json = obj.getJSONArray("resultlist");
 			groupList = new ArrayList<GroupInfo>();
 			int length = json.length();
@@ -230,13 +249,13 @@ public class GroupPage extends Activity {
 				group.setContent(objo.getString("content"));
 				group.setHeadimage(objo.getString("headimage"));
 				group.setGaddress(objo.getString("gaddress"));
-				group=new Gson().fromJson(objo.toString(), GroupInfo.class);
+				group = new Gson().fromJson(objo.toString(), GroupInfo.class);
 				group.setLat(Double.parseDouble(objo.getString("commercialLat")));
-				group.setLon( Double.parseDouble(objo.getString("commercialLon")));
+				group.setLon(Double.parseDouble(objo.getString("commercialLon")));
 				GroupDetails(gid);
-				groupList.add(group);	
-			System.out.println("group附近的"+group);
-			System.out.println("GroupList附近的群组"+groupList);
+				groupList.add(group);
+				System.out.println("group附近的" + group);
+				System.out.println("GroupList附近的群组" + groupList);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

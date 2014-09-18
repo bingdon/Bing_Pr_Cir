@@ -96,6 +96,15 @@ public class projectCircle extends Activity implements OnRefreshListener,
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 设置头部title不让它显示
 		setContentView(R.layout.project_circle);
 		 myid = LoginActivity.id;
+		 try {
+			 String id=getIntent().getStringExtra("id");
+			 if (!TextUtils.isEmpty(id)) {
+				myid=id;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		 
 //		myid = "1";
 		// 初始化刷新控件
 		refeshInit();

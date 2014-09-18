@@ -140,6 +140,12 @@ public class MyHttpClient {
 	public final static String postopinion_url = BASE_URL + "postOpinion?uid=";
 
 	private static final String DEL_EQU_URL = BASE_URL + "deleteEqu";
+
+	private static final String MODIFY_GROUP_INFO_URL = BASE_URL
+			+ "updateGroup";
+
+	private static final String DESTROY_GROUP_URL = BASE_URL + "destroyGroup";
+
 	/**
 	 * 鐧诲綍鍜屾敞鍐��������
 	 */
@@ -250,8 +256,23 @@ public class MyHttpClient {
 		}
 	}
 
+	public void CompleteCompany(String uid, String companyname,
+			String businessinfo, String business, AsyncHttpResponseHandler res) {
+		RequestParams params = new RequestParams();
+		try {
+			HttpUtil.get(
+					completeUser_url + uid + "&companyname=" + companyname
+							+ "&businessinfo=" + businessinfo + "&business="
+							+ business, params, res);
+			Log.i("completeUser_url", completeUser_url + uid + "&companyname="
+					+ companyname + "&businessinfo=" + businessinfo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
-	 * 瀹屽杽淇℃伅 鍙告満
+	 * @deprecated 瀹屽杽淇℃伅 鍙告満
 	 */
 	public void CompleteDriver(String id, String type, String driveryears,
 			String nequ, AsyncHttpResponseHandler res) {
@@ -259,7 +280,29 @@ public class MyHttpClient {
 		try {
 			HttpUtil.get(completeD_url + id + "&type=" + type + "&driveryears="
 					+ driveryears + "&nequ=" + nequ, params, res);
-			Log.i("completeD_url", completeD_url + id + "&type=" + type
+			Log.i("completeD_url", "添加:" + completeD_url + id + "&type=" + type
+					+ "&driveryears=" + driveryears + "&nequ=" + nequ);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param type
+	 * @param driveryears
+	 * @param nequ
+	 * @param res
+	 */
+	public void CompleteDriver2(String id, String type, String driveryears,
+			String nequ, String oequ, AsyncHttpResponseHandler res) {
+		RequestParams params = new RequestParams();
+		try {
+			HttpUtil.get(completeD_url + id + "&type=" + type + "&driveryears="
+					+ driveryears + "&nequ=" + nequ + "&oequ=" + oequ, params,
+					res);
+			Log.i("completeD_url", "添加:" + completeD_url + id + "&type=" + type
 					+ "&driveryears=" + driveryears + "&nequ=" + nequ);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -561,7 +604,7 @@ public class MyHttpClient {
 	/**
 	 * 鍒犻櫎缇ゆ垚鍛��������
 	 */
-	public void deleteMember(String uid, String gid,
+	public static void deleteMember(String uid, String gid,
 			AsyncHttpResponseHandler res) {
 		RequestParams params = new RequestParams();
 		try {
@@ -1011,6 +1054,7 @@ public class MyHttpClient {
 	/**
 	 * 鏌ヨ缇ゆ垚鍛��������
 	 * 
+	 * @deprecated
 	 * @param gid
 	 *            缇ょ粍ID
 	 * @param handler
@@ -1020,6 +1064,13 @@ public class MyHttpClient {
 			AsyncHttpResponseHandler handler) {
 		RequestParams params = new RequestParams();
 		params.put("gid", gid);
+		HttpUtil.post(BASE_URL + "verifyMember", params, handler);
+	}
+
+	public static void verifyMember2Group_(String gid,
+			AsyncHttpResponseHandler handler) {
+		RequestParams params = new RequestParams();
+		params.put("uid", gid);
 		HttpUtil.post(BASE_URL + "verifyMember", params, handler);
 	}
 
@@ -1124,6 +1175,32 @@ public class MyHttpClient {
 		RequestParams params = new RequestParams();
 		params.put("id", id);
 		client.post(DEL_EQU_URL, params, handler);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param content
+	 * @param gname
+	 * @param handler
+	 */
+	public static void modifyGroupInfo(String id, String content, String gname,
+			AsyncHttpResponseHandler handler) {
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		params.put("content", content);
+		params.put("gname", gname);
+		client.post(MODIFY_GROUP_INFO_URL + "?" + params, handler);
+	}
+
+	public static void destroyGroup(String id, AsyncHttpResponseHandler handler) {
+		RequestParams params = new RequestParams();
+		params.put("id", id);
+		client.post(DESTROY_GROUP_URL, params, handler);
+	}
+
+	public static void listVersion(AsyncHttpResponseHandler handler) {
+		client.post(BASE_URL + "listVersion", handler);
 	}
 
 }

@@ -39,10 +39,10 @@ public class NearGpAdapter extends BaseAdapter {
 
 		// 配置图片加载及显示选项（还有一些其他的配置，查阅doc文档吧）
 		options = new DisplayImageOptions.Builder().cacheInMemory(true) // 加载图片时会在内存中加载缓存
-				 .showStubImage(R.drawable.icon_qunzu)// 设置图片在下载期间显示的图片
-				 .showImageForEmptyUri(R.drawable.icon_qunzu)//
+				.showStubImage(R.drawable.icon_qunzu)// 设置图片在下载期间显示的图片
+				.showImageForEmptyUri(R.drawable.icon_qunzu)//
 				// 设置图片Uri为空或是错误的时候显示的图片
-				 .showImageOnFail(R.drawable.icon_qunzu)//
+				.showImageOnFail(R.drawable.icon_qunzu)//
 				// 设置图片加载/解码过程中错误时候显示的图片
 				.cacheInMemory(true)// 是否緩存都內存中
 				.cacheOnDisc(true)// 是否緩存到sd卡上
@@ -88,6 +88,8 @@ public class NearGpAdapter extends BaseAdapter {
 					.findViewById(R.id.n_group_introduce);
 			holder.distance = (TextView) convertView
 					.findViewById(R.id.near_group_distance_host);
+			holder.isHost = (TextView) convertView
+					.findViewById(R.id.group_main);
 			convertView.setTag(holder);// 绑定ViewHolder对象
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -98,16 +100,21 @@ public class NearGpAdapter extends BaseAdapter {
 		holder.location.setText(address);
 		String content = listItem.get(position).get("content") + "";
 		holder.content.setText(content);
-		String distance = listItem.get(position).get("distance") + "";		
-		holder.distance.setText(distance+"km");
-		String gaddress = listItem.get(position).get("gaddress") + "";		
+		String distance = listItem.get(position).get("distance") + "";
+		holder.distance.setText(distance + "km");
+		String gaddress = listItem.get(position).get("gaddress") + "";
 		holder.location.setText(gaddress);
 		try {
-			holder.people.setText(listItem.get(position).get("count")+"/50");
+			holder.people.setText(listItem.get(position).get("count") + "/50");
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+		if (listItem.get(position).containsKey("ishost")) {
+			holder.isHost.setVisibility(View.VISIBLE);
+		} else {
+			holder.isHost.setVisibility(View.INVISIBLE);
+		}
+
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		imageLoader.displayImage(MyHttpClient.IMAGE_URL
 				+ listItem.get(position).get("headimage") + "",
@@ -124,6 +131,6 @@ public class NearGpAdapter extends BaseAdapter {
 		public TextView location;
 		public TextView name;
 		public ImageView groupimg;
-
+		public TextView isHost;
 	}
 }

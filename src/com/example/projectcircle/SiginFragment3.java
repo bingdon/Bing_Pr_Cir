@@ -3,7 +3,9 @@ package com.example.projectcircle;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.constants.ContantS;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.setting.ModifyInfoActivity;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -14,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +44,7 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 	public static String busi1, busi2, busi3, busi4;
 	int index = 0;
 	int index5 = 0;
-	
+
 	EditText companyname_txt, business_intro_txt;
 	String companyname, business_intro;
 	/**
@@ -49,7 +52,9 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 	 */
 	Button back, next;
 
-	 String uid = LoginActivity.id;
+	String uid = LoginActivity.id;
+
+	private static final String TAG = SiginFragment3.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +67,13 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 		initBtn();
 		if (!ModifyInfoActivity.isModify()) {
 			findViewById(R.id.commercial).setVisibility(View.GONE);
-			
-		}else {
+
+		} else {
 			findViewById(R.id.commercial_next).setVisibility(View.GONE);
 		}
+
+		inittab0();
+
 	}
 
 	private void initView() {
@@ -135,28 +143,28 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 		}
 	}
 
-	
 	private void initFilter() {
 		// TODO Auto-generated method stub
 		IntentFilter filter = new IntentFilter();
-		filter.addAction("finish.before.regist.page");	
+		filter.addAction("finish.before.regist.page");
 		filter.addAction(ContantS.ACTION_SEND_SUBMIT);
 		registerReceiver(msgReceiver, filter);
 	}
+
 	private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub		
-			String action=intent.getAction();
+			// TODO Auto-generated method stub
+			String action = intent.getAction();
 			if (action.equals(ContantS.ACTION_SEND_SUBMIT)) {
 				subimt();
 			} else {
 			}
-				
+
 		}
 	};
-	
+
 	/**
 	 * 选择业务范围
 	 */
@@ -170,21 +178,29 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 			case R.id.busi_btn_1:
 				if (isChecked) {
 					busi1 = "整机";
+				} else {
+					busi1 = "";
 				}
 				break;
 			case R.id.busi_btn_2:
 				if (isChecked) {
 					busi2 = "零配件";
+				} else {
+					busi2 = "";
 				}
 				break;
 			case R.id.busi_btn_3:
 				if (isChecked) {
 					busi3 = "维修";
+				} else {
+					busi3 = "";
 				}
 				break;
 			case R.id.busi_btn_4:
 				if (isChecked) {
 					busi4 = "其它";
+				} else {
+					busi4 = "";
 				}
 				break;
 
@@ -193,7 +209,6 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 			}
 		}
 	};
-	
 
 	private void initView(int m) {
 		// TODO Auto-generated method stub
@@ -234,6 +249,11 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 		// TODO Auto-generated method stub
 		companyname = companyname_txt.getText().toString();
 		business_intro = business_intro_txt.getText().toString();
+		if (TextUtils.isEmpty(busi1) && TextUtils.isEmpty(busi2)
+				&& TextUtils.isEmpty(busi3) && TextUtils.isEmpty(busi4)) {
+			return;
+		}
+
 		// id = SiginActivity.id;
 		CompleteCompany(uid, companyname, business_intro);
 
@@ -271,8 +291,103 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 
 		};
 		MyHttpClient client = new MyHttpClient();
-		client.CompleteCompany(id, companyname, business, res);
+		String businessss = "";
+		if (!TextUtils.isEmpty(busi1)) {
+			businessss = businessss + busi1;
+		}
+		if (!TextUtils.isEmpty(busi2)) {
+			businessss = businessss + busi2;
+		}
+		if (!TextUtils.isEmpty(busi3)) {
+			businessss = businessss + busi3;
+		}
+		if (!TextUtils.isEmpty(busi4)) {
+			businessss = businessss + busi4;
+		}
+
+		client.CompleteCompany(id, companyname, business, businessss, res);
 	}
-	
-	
+
+	private void inittab0() {
+		if (MyApplication.getMyPersonBean() == null) {
+			return;
+		}
+
+		if (MyApplication.getMyPersonBean().getType().equals("商家")) {
+			if (null != MyApplication.getMyPersonBean().getEquipment()) {
+				String devicestrString = MyApplication.getMyPersonBean()
+						.getEquipment();
+				AppLog.i(TAG, "设备:" + devicestrString);
+				int length = devicestrString.indexOf(",");
+				AppLog.i(TAG, "设备:" + devicestrString + "长度:" + length);
+				if (length < 0) {
+					initDevice(devicestrString);
+				} else {
+					String device[] = devicestrString.split(",");
+					for (int i = 0; i < device.length; i++) {
+						initDevice(device[i]);
+					}
+				}
+
+			}
+		}
+
+		String bussiness = MyApplication.getMyPersonBean().getBusiness();
+		if (bussiness.indexOf("整机") > -1) {
+			btn_1.setChecked(true);
+		}
+
+		if (bussiness.indexOf("零配件") > -1) {
+			btn_2.setChecked(true);
+		}
+
+		if (bussiness.indexOf("维修") > -1) {
+			btn_3.setChecked(true);
+		}
+
+		if (bussiness.indexOf("其它") > -1) {
+			btn_4.setChecked(true);
+		}
+
+		initCompany();
+
+	}
+
+	private void initDevice(String str) {
+		switch (str) {
+		case "挖掘机":
+			btn1.setChecked(true);
+			break;
+		case "自卸车":
+			btn2.setChecked(true);
+			break;
+
+		case "装载机":
+			btn3.setChecked(true);
+			break;
+
+		case "平板车":
+			btn4.setChecked(true);
+			break;
+
+		case "其它":
+			btn5.setChecked(true);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	private void initCompany() {
+		String company = MyApplication.getMyPersonBean().getCompanyname();
+		String companyintro=MyApplication.getMyPersonBean().getBusinessinfo();
+		if (!TextUtils.isEmpty(company)) {
+			companyname_txt.setText(company);
+		}
+		if (!TextUtils.isEmpty(companyintro)) {
+			business_intro_txt.setText(companyintro);
+		}
+	}
+
 }

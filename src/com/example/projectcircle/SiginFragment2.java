@@ -2,12 +2,15 @@ package com.example.projectcircle;
 
 import java.util.Calendar;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.complete.CompleteDriver;
 import com.example.projectcircle.complete.CompleteInfo;
 import com.example.projectcircle.constants.ContantS;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.setting.ModifyInfoActivity;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -20,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +53,7 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 	String device_content;
 	public static String equipment;
 	
+	private static final String TAG=SiginFragment2.class.getSimpleName();
 	
 	TextView driver_time_year, driver_time_month;
 	int timeyear, timemonth;
@@ -82,6 +87,9 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 			findViewById(R.id.driver_next).setVisibility(View.GONE);
 		}
 		initFilter();
+		
+		inittab0();
+		
 	}
 
 	/**
@@ -281,8 +289,11 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		now_brand = now_brand_txt.getText().toString().trim();
 		now_type = now_type_txt.getText().toString().trim();
-		type = SiginActivity.type;
+		type ="司机";
 		uid = SiginActivity.id;
+		if (TextUtils.isEmpty(uid)) {
+			uid=LoginActivity.id;
+		}
 		// 测试用
 		// type = "司机";
 		// uid = "25";
@@ -304,7 +315,13 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 		device_age = month / 12 + "";
 
 		// System.out.println(device_age);
-		CompleteDriver(uid, type, device_age, now_device);
+		if (TextUtils.isEmpty(device_age)) {
+			return;
+		}
+		if (TextUtils.isEmpty(now_device)) {
+			return;
+		}
+		CompleteDriver1(uid, type, device_age, now_device);
 	}
 
 	private void CompleteDriver(String uid, String type,
@@ -312,6 +329,7 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
 			public void onSuccess(String response) {
+				AppLog.i(TAG, "添加:"+response);
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
@@ -332,6 +350,35 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 		MyHttpClient client = new MyHttpClient();
 		client.CompleteDriver(uid, type, driveryears, nequ, res);
 	}
+	
+	
+	private void CompleteDriver1(String uid, String type,
+			String driveryears, String nequ) {
+		// TODO Auto-generated method stub
+		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
+			public void onSuccess(String response) {
+				AppLog.i("jjjjj", "返回:"+response);
+				JSONObject obj;
+				try {
+					obj = new JSONObject(response);
+					Log.i("response-----result", obj.getInt("result") + "");
+					if (obj.getInt("result") == 1) {
+						Toast.makeText(getApplicationContext(), "添加成功！",
+								Toast.LENGTH_LONG).show();
+					} else {
+						Toast.makeText(getApplicationContext(), "添加失败！",
+								Toast.LENGTH_LONG).show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			};
+		};
+		MyHttpClient client = new MyHttpClient();
+		client.CompleteDriver2(uid, type, driveryears, now_type,now_brand, res);
+	}
+	
 	
 	@SuppressWarnings("deprecation")
 	private void TimeDialog() {
@@ -410,5 +457,112 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 		}
 		return null;
 	}
+	
+	private void inittab0() {
+		if (MyApplication.getMyPersonBean()==null) {
+			return;
+		}
+		if (MyApplication.getMyPersonBean().getType().equals("司机")) {
+			if (null != MyApplication.getMyPersonBean().getEquipment()) {
+				String devicestrString = MyApplication.getMyPersonBean()
+						.getEquipment();
+				int length = devicestrString.indexOf(",");
+				if (length <0) {
+					initDevice(devicestrString);
+				} else {
+					String device[] = devicestrString.split(",");
+					for (int i = 0; i < device.length; i++) {
+						initDevice(device[i]);
+					}
+				}
+
+			}
+		}
+		
+		
+		UserDetail(MyApplication.getMyPersonBean().getId());
+		
+	}
+
+	private void initDevice(String str) {
+		switch (str) {
+		case "挖掘机":
+			btn1.setChecked(true);
+			break;
+		case "自卸车":
+			btn2.setChecked(true);
+			break;
+
+		case "装载机":
+			btn3.setChecked(true);
+			break;
+
+		case "平板车":
+			btn4.setChecked(true);
+			break;
+
+		case "其它":
+			btn5.setChecked(true);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	
+	
+	private void UserDetail(String id) {
+		// TODO Auto-generated method stub
+		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "个人信息返回:" + response);
+					parseUserDetail1(response);
+			}
+
+		};
+		MyHttpClient client = new MyHttpClient();
+		client.UserDetail2(id, "司机", res);
+	}
+	
+	String driveryearO;
+	String nequ;
+	String oequ;
+	// 类型是司机时候的解析
+		private void parseUserDetail1(String response) {
+			// TODO Auto-generated method stub
+			try {
+				JSONObject result = new JSONObject(response);
+				Log.i("user detail response", response + "");
+				if (result.getInt("result") == 1) {
+					if (result.getInt("type") == 1) {
+						JSONArray arr = result.getJSONArray("driver");
+						JSONArray arr1 = arr.getJSONArray(0);
+						JSONObject equobj = arr1.getJSONObject(0);
+						driveryearO = equobj.getString("driveryear");
+						nequ = equobj.getString("nequ");
+						oequ=equobj.getString("oequ");
+						if (!TextUtils.isEmpty(driveryearO)) {
+							driver_time_year.setText(""+(2014-Integer.valueOf(driveryearO)));
+						}
+						
+						if (!TextUtils.isEmpty(nequ)) {
+							now_brand_txt.setText(nequ);
+						}
+						
+						if (!TextUtils.isEmpty(oequ)) {
+							now_type_txt.setText(oequ);
+						}
+						
+					} 
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
 	
 }

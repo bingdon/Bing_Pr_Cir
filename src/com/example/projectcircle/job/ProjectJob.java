@@ -42,8 +42,9 @@ public class ProjectJob extends Activity implements OnClickListener {
 	public ArrayList<JobInfo> jobsList;
 	Double mylat = HomeActivity.latitude;
 	Double mylon = HomeActivity.longitude;
-	double distance ;
+	double distance;
 	ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -52,13 +53,13 @@ public class ProjectJob extends Activity implements OnClickListener {
 		Intent intent = getIntent();
 		type = intent.getStringExtra("type");
 		initView();
-	
+
 	}
 
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		super.onResume();	
+		super.onResume();
 		JobList(type);
 	}
 
@@ -74,7 +75,7 @@ public class ProjectJob extends Activity implements OnClickListener {
 			}
 		};
 		MyHttpClient client = new MyHttpClient();
-//		client.JobList(type, res);
+		// client.JobList(type, res);
 		client.JobList_(HomeActivity.getLat(), HomeActivity.getLon(), type, res);
 	}
 
@@ -85,25 +86,30 @@ public class ProjectJob extends Activity implements OnClickListener {
 			JSONObject obj = result.getJSONObject("jtypes");
 			jobsList = new ArrayList<JobInfo>();
 			JSONArray json = obj.getJSONArray("resultlist");
-			Log.i("工程作业列表json", json+"");			
 			int length = json.length();
+			Log.i("工程作业列表json", "工程作业列表:" + length);
 			System.out.println("length==" + length);
 			for (int i = 0; i < length; i++) {
 				JobInfo job = new JobInfo();
-				obj = json.getJSONObject(i);				
-				job.setTitle(obj.getString("title"));
-				job.setDate(obj.getString("date"));	
-				job.setId(obj.getString("id"));	
+				obj = json.getJSONObject(i);
 				try {
-					job.setLat(obj.getDouble("jlat"));
+					job.setTitle(obj.getString("title"));
+					job.setDate(obj.getString("date"));
+					job.setId(obj.getString("id"));
+					try {
+						job.setLat(obj.getDouble("jlat"));
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					try {
+						job.setLon(obj.getDouble("jlon"));
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				try {
-					job.setLon(obj.getDouble("jlon"));
-				} catch (Exception e) {
-					// TODO: handle exception
-				}			
+
 				jobsList.add(job);
 			}
 		} catch (JSONException e) {
@@ -133,12 +139,13 @@ public class ProjectJob extends Activity implements OnClickListener {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Log.i("arg2", arg2+"");
-				Log.i("jid", jobsList.get(arg2).getId()+"");
+				Log.i("arg2", arg2 + "");
+				Log.i("jid", jobsList.get(arg2).getId() + "");
 				Intent intent = new Intent(ProjectJob.this, WorkDetail.class);
 				intent.putExtra("jid", jobsList.get(arg2).getId());
-				intent.putExtra("distance", listItem.get(arg2).get("distance")+"");
-				intent.putExtra("job", "1");//1代表工程作业，Title显示工程作业信息详情界面；2.代表司机需求，Title显示司机需求信息详情
+				intent.putExtra("distance", listItem.get(arg2).get("distance")
+						+ "");
+				intent.putExtra("job", "1");// 1代表工程作业，Title显示工程作业信息详情界面；2.代表司机需求，Title显示司机需求信息详情
 				startActivity(intent);
 
 			}
@@ -147,37 +154,36 @@ public class ProjectJob extends Activity implements OnClickListener {
 
 	private ArrayList<HashMap<String, Object>> getList() {
 		// TODO Auto-generated method stub
-		Log.i("jobsList",jobsList+"");
-		if (jobsList==null) {
+		Log.i("jobsList", "长度"+jobsList.size() );
+		if (jobsList == null) {
 			return new ArrayList<>();
 		}
 		for (int i = 0; i < jobsList.size(); i++) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("title", jobsList.get(i).getTitle());		
+			map.put("title", jobsList.get(i).getTitle());
 			map.put("date", jobsList.get(i).getDate());
-//			map.put("commercialLat", jobsList.get(i).getLat());
-//			map.put("commercialLon", jobsList.get(i).getLon());
+			// map.put("commercialLat", jobsList.get(i).getLat());
+			// map.put("commercialLon", jobsList.get(i).getLon());
 			Double commercialLat = jobsList.get(i).getLat();
 			Double commercialLon = jobsList.get(i).getLon();
-			//计算我和好友之间的距离
-			distance = DistentsUtil.GetDistance(commercialLat,commercialLon,
-					mylat,mylon);
-			//distance = DistentsUtil.changep2(distance);
+			// 计算我和好友之间的距离
+			distance = DistentsUtil.GetDistance(commercialLat, commercialLon,
+					mylat, mylon);
+			// distance = DistentsUtil.changep2(distance);
 			map.put("distance", distance);
 			listItem.add(map);
 		}
-		//将距离大于150的去掉，只显示150Km以内的信息
-		for(int i = 0,len = listItem.size();i<len; i++){
-			if((Double)(listItem.get(i).get("distance")) > 150){
-			listItem.remove(i);
-			  --len;//减少一个  
-		       --i;//多谢deny_guoshou指正，如果不加会出现评论1楼所说的情况。  
-			}
-		Log.i("listItem工程作业列表", listItem+"");		
-		}
+		// 将距离大于150的去掉，只显示150Km以内的信息
+//		for (int i = 0, len = listItem.size(); i < len; i++) {
+//			if ((Double) (listItem.get(i).get("distance")) > 150) {
+//				listItem.remove(i);
+//				--len;// 减少一个
+//				--i;// 多谢deny_guoshou指正，如果不加会出现评论1楼所说的情况。
+//			}
+//			Log.i("listItem工程作业列表", listItem + "");
+//		}
 		return listItem;
 	}
-
 
 	@Override
 	public void onClick(View v) {

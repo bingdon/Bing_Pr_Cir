@@ -57,7 +57,8 @@ public class GroupRequest extends Activity implements HandlerListener {
 		initList();
 		myid = LoginActivity.id;
 		// 查找我的群组
-		findGroup(myid);
+//		findGroup(myid);
+		groupRequestList2(myid);
 		back();
 	}
 
@@ -99,7 +100,10 @@ public class GroupRequest extends Activity implements HandlerListener {
 		}
 
 	}
-
+	/**
+	 * @deprecated
+	 * @param gid
+	 */
 	private void groupRequestList(String gid) {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
@@ -130,6 +134,38 @@ public class GroupRequest extends Activity implements HandlerListener {
 		MyHttpClient client = new MyHttpClient();
 		client.verifyMember2Group(gid, res);
 	}
+	
+	
+	private void groupRequestList2(String uid) {
+		// TODO Auto-generated method stub
+		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				// TODO Auto-generated method stub
+				Log.i("请求加入我这个群组的response", response);
+				JSONObject obj;
+				try {
+					obj = new JSONObject(response);
+					if (obj.getInt("result") == 1) {
+						// 解析附近的用户
+						// parsegroupRequestList(response);
+						parsegroupRequestList2(response);
+						// 重新列出listView
+						// getList();
+						// myAdapter.notifyDataSetChanged();
+					} else {
+						ToastUtils.showShort(getApplicationContext(), "搜索无效！");
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+		};
+		MyHttpClient.verifyMember2Group_(uid, res);
+	}
+	
 
 	/**
 	 * @deprecated 此方法过期，请参照{@link #parsegroupRequestList2(String)}
@@ -223,7 +259,7 @@ public class GroupRequest extends Activity implements HandlerListener {
 	@Override
 	public void addPeople(int position) {
 		// TODO Auto-generated method stub
-		beMember2GroupMem(rConstactBeans.get(position).getId(), position);
+		beMember2GroupMem(rConstactBeans.get(position).getGuid(), position);
 	}
 
 	protected void beMember2GroupMem(String accept_id, final int position) {

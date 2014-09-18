@@ -16,7 +16,9 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.constants.ContantS;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.friend.FriendPage;
 import com.example.projectcircle.job.JobPage;
 import com.example.projectcircle.manage.ManagePage;
@@ -208,6 +210,7 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void update(final TabHost tabHost) {
+		AppLog.i("jjj", "…Ë±∏:"+MyApplication.getMyPersonBean().getEquipment());
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			View v = tabHost.getTabWidget().getChildAt(i);
 			ImageView tabIcon = (ImageView) v.findViewById(R.id.tab_imageV);

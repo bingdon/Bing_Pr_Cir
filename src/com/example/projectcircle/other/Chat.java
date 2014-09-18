@@ -32,12 +32,14 @@ import com.example.projectcircle.adpter.ChatAdapter;
 import com.example.projectcircle.adpter.Utils;
 import com.example.projectcircle.bean.FriendChatBean;
 import com.example.projectcircle.bean.MsgDataBean;
+import com.example.projectcircle.bean.MyPersonBean;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.db.ProJectDatebase;
 import com.example.projectcircle.db.utils.FriendChatUtils;
 import com.example.projectcircle.db.utils.MsgDataUtils;
 import com.example.projectcircle.util.BingDateUtils;
 import com.example.projectcircle.util.MyHttpClient;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class Chat extends Activity {
@@ -64,6 +66,10 @@ public class Chat extends Activity {
 	private List<FriendChatBean> friendChatBeans = new ArrayList<FriendChatBean>();
 	
 	private static final long TIME_DISTANCE=6000*10;
+	/**
+	 * 好友信息
+	 */
+	private MyPersonBean myPersonBean;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -433,6 +439,7 @@ public class Chat extends Activity {
 			JSONObject content = jsonObject.getJSONObject("content");
 			msg = content.getString("content");
 			sendid = content.getString("senduid");
+			myPersonBean=new Gson().fromJson(jsonObject.getString("user"), MyPersonBean.class);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -444,7 +451,9 @@ public class Chat extends Activity {
 
 	private void getMsg2View(String msg) {
 		Log.i(TAG, "消息" + msg);
-		
+		if (myPersonBean!=null) {
+			uheadimg=MyHttpClient.IMAGE_URL+myPersonBean.getHeadimage();
+		}
 		ChatMsgEntity chatMsgEntity = new ChatMsgEntity();
 		chatMsgEntity.setDate(getDate());
 		chatMsgEntity.setMsgType(true);

@@ -77,7 +77,7 @@
         android:theme="@android:style/Theme.NoTitleBar" >
         <activity
             android:name="com.example.projectcircle.WelcomeActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -87,24 +87,29 @@
         <!-- 登录页 -->
         <activity
             android:name="com.example.projectcircle.LoginActivity"
-            android:theme="@style/AppBaseTheme" >
+            android:theme="@style/AppBaseTheme" 
+            android:screenOrientation="portrait">
         </activity>
         <!-- 主页 -->
         <activity
             android:name="com.example.projectcircle.MainActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppNotitleTheme" >
+            android:theme="@style/AppNotitleTheme"
+            android:screenOrientation="portrait" >
         </activity>
         <!-- 主页 -->
-        <activity android:name="com.example.projectcircle.HomeActivity" >
+        <activity android:name="com.example.projectcircle.HomeActivity" 
+            android:screenOrientation="portrait">
         </activity>
         <!-- 注册页 -->
         <activity
             android:name="com.example.projectcircle.SiginActivity"
-            android:theme="@style/AppBaseTheme" >
+            android:theme="@style/AppBaseTheme" 
+            android:screenOrientation="portrait">
         </activity>
         <!-- 用户协议页 -->
-        <activity android:name="com.example.projectcircle.UserAgreement" >
+        <activity android:name="com.example.projectcircle.UserAgreement"
+            android:screenOrientation="portrait" >
         </activity>
         <activity android:name="com.example.projectcircle.SiginFragment1" >
         </activity>
@@ -200,7 +205,7 @@
             android:theme="@style/ApplyGroupDialog" >
         </activity>
         <!-- 群成员页 -->
-        <activity android:name="com.example.projectcircle.group.GroupNum" >
+        <activity android:name="com.example.projectcircle.group.GroupNum" android:theme="@style/AppNotitleTheme">
         </activity>
         <!-- 我的群组页 -->
         <activity android:name="com.example.projectcircle.group.MyGroup" >
@@ -444,6 +449,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
+        <activity android:name=".group.GroupModifyActivity" android:theme="@style/AppNotitleTheme"></activity>
     </application>
 
 </manifest>

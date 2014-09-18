@@ -126,7 +126,7 @@ public class FootActivity3 extends Activity implements OnClickListener {
 		Log.i("ename+type+uid", ename + "+" + type + "+" + uid);
 
 		if (!TextUtils.isEmpty(ebrand) && !TextUtils.isEmpty(emodel)
-				&& !TextUtils.isEmpty(eweight) && !TextUtils.isEmpty(enumber)) {
+				/*&& !TextUtils.isEmpty(eweight)*/ && !TextUtils.isEmpty(enumber)) {
 			CompMasterLoad(uid, type, ename, ebrand, eweight, emodel, enumber);
 		}
 	}

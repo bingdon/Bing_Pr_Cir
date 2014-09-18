@@ -336,8 +336,13 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 		context.sendBroadcast(intent);
 		intent.putExtra("msg", msg);
 		SaveChattoDb.saveChat2db(msg, context);
-		String name=FriendPage.getUsername(SaveChattoDb.getId(msg));
-		NoticeUtils.noticeMsg(context, name+"发来消息", ""+name, ContantS.CHAT_MSG);
+		try {
+			String name=SaveChattoDb.getPersonInfo(msg).getUsername();
+			NoticeUtils.noticeMsg(context, name+"发来消息", ""+name, ContantS.CHAT_MSG);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		
 	}
 	

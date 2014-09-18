@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.adpter.MemberAdapter;
+import com.example.projectcircle.bean.GroupInfo;
 import com.example.projectcircle.bean.UserInfo;
 import com.example.projectcircle.other.Chat;
 import com.example.projectcircle.other.GroupChatOther;
@@ -37,7 +38,9 @@ import com.example.projectcircle.util.ToastUtils;
 import com.example.projectcircle.view.AnimateFirstDisplayListener;
 import com.example.projectcircle.view.WiperSwitch;
 import com.example.projectcircle.view.WiperSwitch.OnChangedListener;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
@@ -112,16 +115,20 @@ public class GroupDetail extends Activity {
 
 	private TextView groNum;
 
+	private GroupInfo groupInfo;
+
+	private Button mButton;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.group_details);
+		context = this;
 		Intent intent = getIntent();
 		gid = intent.getStringExtra("id");
 		initBtn();
 		initVoice();
-		GroupDetails(gid);
 
 		// 配置图片加载及显示选项（还有一些其他的配置，查阅doc文档吧）
 		options = new DisplayImageOptions.Builder().cacheInMemory(true) // 加载图片时会在内存中加载缓存
@@ -134,6 +141,7 @@ public class GroupDetail extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		GroupDetails(gid);
 		findMember(gid);
 		// 判断我是是不是群成员
 		isMember(gid, uid);
@@ -223,7 +231,21 @@ public class GroupDetail extends Activity {
 				address = obj.getString("gaddress");
 				content = obj.getString("content");
 				UserDetail(id);
+				if (id.equals(LoginActivity.id)) {
+					findViewById(R.id.edit).setVisibility(View.VISIBLE);
+					mButton.setText("解散群");
+				}else if (!MyGroup.isMyGroup) {
+					mButton.setVisibility(View.GONE);
+				}
 			}
+
+			try {
+				groupInfo = new Gson().fromJson(json.getJSONObject(0)
+						.toString(), GroupInfo.class);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -326,6 +348,7 @@ public class GroupDetail extends Activity {
 					Intent intent2 = new Intent(GroupDetail.this,
 							GroupNum.class);
 					intent2.putExtra("gid", gid);
+					intent2.putExtra("info", groupInfo);
 					startActivity(intent2);
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -349,10 +372,10 @@ public class GroupDetail extends Activity {
 		group_name = (TextView) findViewById(R.id.g_detail_name);
 		group_name.setText(name);
 		group_number = (TextView) findViewById(R.id.g_detail_number);
-		group_number.setText(getString(R.string.group_id)+gid);
+		group_number.setText(getString(R.string.group_id) + gid);
 		// 群主姓名
 		master_name = (TextView) findViewById(R.id.g_detail_master_name);
-		master_name.setText("群主：" + uname);
+		master_name.setText("" + uname);
 		// 地点
 		group_place = (TextView) findViewById(R.id.g_detail_distance);
 		group_place.setText(address);
@@ -386,12 +409,15 @@ public class GroupDetail extends Activity {
 		// friend_lay = (LinearLayout) findViewById(R.id.g_detail_friend_lay);
 		apply_or_send = (Button) findViewById(R.id.g_detail_apply_or_send);
 		back = (Button) findViewById(R.id.g_detail_left);
+		mButton = (Button) findViewById(R.id.group_num_manger);
 
 		name_lay.setOnClickListener(listener);
 		// friend_lay.setOnClickListener(listener);
 		// apply.setOnClickListener(listener);
 		// send2.setOnClickListener(listener);
 		back.setOnClickListener(listener);
+		findViewById(R.id.edit).setOnClickListener(listener);
+		mButton.setOnClickListener(listener);
 	}
 
 	private View.OnClickListener listener = new OnClickListener() {
@@ -418,6 +444,14 @@ public class GroupDetail extends Activity {
 				// GroupPage.class);
 				// startActivity(intent5);
 				finish();
+				break;
+
+			case R.id.edit:
+				showEdit();
+				break;
+
+			case R.id.group_num_manger:
+				mangerGroup();
 				break;
 
 			// case R.id.g_detail_send:
@@ -462,8 +496,8 @@ public class GroupDetail extends Activity {
 		startActivity(intent);
 
 	}
-	
-	private void showMessaage(){
+
+	private void showMessaage() {
 		try {
 			Intent intent = new Intent(GroupDetail.this, PersonalPage.class);
 			intent.putExtra("id", id);
@@ -475,8 +509,30 @@ public class GroupDetail extends Activity {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-	
+
 	}
-	
+
+	private void showEdit() {
+		if (groupInfo == null) {
+			return;
+		}
+		Intent intent = new Intent(context, GroupModifyActivity.class);
+		intent.putExtra("info", groupInfo);
+		startActivity(intent);
+	}
+
+	private void mangerGroup() {
+		if (id.equals(LoginActivity.id)) {
+			MyHttpClient.destroyGroup(gid, handler);
+		} else {
+			MyHttpClient.deleteMember2Group(gid, id, handler);
+		}
+	}
+
+	private JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+		public void onFinish() {
+			finish();
+		};
+	};
 
 }

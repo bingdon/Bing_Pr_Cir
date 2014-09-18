@@ -30,7 +30,8 @@ public class SaveChattoDb {
 		String msg = getMsg(message);
 		String id = getId(message);
 		if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(msg)) {
-			SaveMsg2View(msg, context, id);
+//			SaveMsg2View(msg, context, id);
+			_SaveMsg2View(message, context, id);
 		}
 
 	}
@@ -130,6 +131,25 @@ public class SaveChattoDb {
 		save(chatMsgEntity, context, id);
 	}
 
+	
+	private static void _SaveMsg2View(String message, Context context, String id) {
+		String msg=getMsg(message);
+		try {
+			JSONObject jsonObject=new JSONObject(message);
+			MyPersonBean myPersonBean=new Gson().fromJson(jsonObject.getString("user"), MyPersonBean.class);
+			ChatMsgEntity chatMsgEntity = new ChatMsgEntity();
+			chatMsgEntity.setDate(Chat.getDate());
+			chatMsgEntity.setMsgType(true);
+			chatMsgEntity.setText(msg);
+			chatMsgEntity.setHeadimgString(myPersonBean.getHeadimage());
+			chatMsgEntity.setName(myPersonBean.getUsername());
+			save(chatMsgEntity, context, id);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+	
 	/**
 	 * 保存群组消息
 	 * @param msg
@@ -158,8 +178,9 @@ public class SaveChattoDb {
 		if (chatMsgEntity.getMsgType()) {
 			iscom = 1;
 		}
-		friendChatUtils.insert(chatMsgEntity.getText(),
-				chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+//		friendChatUtils.insert(chatMsgEntity.getText(),
+//				chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+		friendChatUtils.insert(chatMsgEntity);
 
 	}
 

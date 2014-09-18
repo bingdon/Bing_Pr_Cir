@@ -49,6 +49,7 @@ import com.example.projectcircle.db.utils.FriendDatabaseUtils;
 import com.example.projectcircle.friend.FriendPage;
 import com.example.projectcircle.friend.MaybeFriend;
 import com.example.projectcircle.group.GroupDetail;
+import com.example.projectcircle.job.projectCircle;
 import com.example.projectcircle.other.Chat;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MsgUtils;
@@ -385,7 +386,7 @@ public class PersonalPage extends Activity {
 	 * @param id
 	 * @return
 	 */
-	private static boolean isFriend(String id) {
+	public static boolean isFriend(String id) {
 		boolean a = false;
 		if (null == friendDataBeans) {
 			return false;
@@ -1199,7 +1200,7 @@ public class PersonalPage extends Activity {
 	protected void initHisFriend() {
 		// TODO Auto-generated method stub
 		he_friend_lay = (LinearLayout) findViewById(R.id.he_friend_lay);
-		if (friendList==null) {
+		if (friendList == null) {
 			return;
 		}
 		if (friendList.size() == 0) {
@@ -1216,10 +1217,14 @@ public class PersonalPage extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(PersonalPage.this, HisContact.class);
-				intent.putExtra("id", id);
-				intent.putExtra("biaoji", "0");// 他的联系人标记
-				startActivity(intent);
+				if (isFriend(id)) {
+					Intent intent = new Intent(PersonalPage.this,
+							HisContact.class);
+					intent.putExtra("id", id);
+					intent.putExtra("biaoji", "0");// 他的联系人标记
+					startActivity(intent);
+				}
+
 				// finish();
 			}
 		});
@@ -1425,7 +1430,8 @@ public class PersonalPage extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent intent4 = new Intent(PersonalPage.this, HisDynamic.class);
+				Intent intent4 = new Intent(PersonalPage.this,
+						projectCircle.class);
 				intent4.putExtra("id", id);
 				intent4.putExtra("username", "" + uname);
 				startActivity(intent4);

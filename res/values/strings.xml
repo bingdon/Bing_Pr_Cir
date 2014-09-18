@@ -15,7 +15,7 @@
     <string name="app_finish">完成</string>
     <string name="app_find">查找</string>
     <string name="app_edit">编辑</string>
-    <string name="app_name">工程圈Beat</string>
+    <string name="app_name">工程圈测试版</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="accounts">帐号</string>
@@ -55,6 +55,7 @@
     <string name="group_member">群成员</string>
     <string name="apply_add">申请加入</string>
     <string name="group_detail">群详情</string>
+    <string name="group_modify">群信息修改</string>
     <string name="search">搜索</string>
     <string name="perfect_info">完善信息</string>
     <string name="edit_sign_info">编辑个人注册信息</string>
@@ -154,11 +155,13 @@
     <string name="home_sec">选择家乡</string>
     <string name="name_hint">请输入您的昵称</string>
     <string name="group_id">群组号:</string>
+    <string name="group_name">群组名称</string>
+    <string name="group_intro">群组介绍</string>
     <string name="i_am">我是</string>
     <string name="my_pic">我的头像</string>
     <string name="device_pic">设备头像</string>
-    <string name="share_content">我在工程圈新创建了群组</string>
-    <string name="share_content_">,分享给大家群组号为</string>
+    <string name="share_content">我在"工程圈"新创建了群组</string>
+    <string name="share_content_">分享给大家群组号为</string>
     <string name="share_content_tail">等你加入，工程机械行业的职业社交软件www.gcquan.com</string>
     <string name="tell_other">告知好友</string>
     <string name="my_hobby">兴趣爱好</string>
@@ -167,7 +170,14 @@
     <string name="share_by_weixin">微信分享</string>
     <string name="share_by_qq">QQ分享</string>
     <string name="share_by_yixin">易信分享</string>
-	<string name="share_content_to">工程圈这个软件不错，就在http://www.gcquan.com/</string>
+    <string name="group_name_hint">填入群组的名字</string>
+    <string name="group_intro_hint">填入群组的简介</string>
+    <string name="share_content_to">"工程圈""来了!工程机械行业机主、司机、商家拓展行业人脉的职业社交软件。\n www.gcquan.com</string>
+    <string name="net_erro">您的网络出错了!</string>
+    <string name="hasnewversion">有新版本</string>
+	<string name="downnotice">下载提示</string>
+	<string name="download">下载</string>
+	<string name="canel">取消</string>
     <string-array name="send_webpage_item">
         <item>发送网页url</item>
     </string-array>

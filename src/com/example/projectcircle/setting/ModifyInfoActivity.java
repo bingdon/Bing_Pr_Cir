@@ -307,7 +307,7 @@ public class ModifyInfoActivity extends TabActivity {
 		uage = intent.getStringExtra("age");
 		uaccept = intent.getStringExtra("accept");
 		persign = intent.getStringExtra("persign");
-		accept=MyApplication.getMyPersonBean().getAccept();
+		accept = MyApplication.getMyPersonBean().getAccept();
 		progressDialog = new ProgressDialog(this);
 		initInfo();
 	}
@@ -464,6 +464,12 @@ public class ModifyInfoActivity extends TabActivity {
 			ToastUtils.showShort(getApplicationContext(), "家乡不能为空!");
 			return;
 		}
+
+		if (TextUtils.isEmpty(equipment)) {
+			ToastUtils.showShort(context, "请选择设备");
+			return;
+		}
+
 		doSubMit(id, realname, age, sign, intro, type, equipment, accept,
 				hometown);
 		sendSubmit();
@@ -546,6 +552,7 @@ public class ModifyInfoActivity extends TabActivity {
 				Toast.makeText(getApplicationContext(), "个人信息更新成功！",
 						Toast.LENGTH_SHORT).show();
 				LoginActivity.parseUserInfo(response, context);
+				sendSubmitChange();
 				finish();
 			}
 
@@ -691,7 +698,7 @@ public class ModifyInfoActivity extends TabActivity {
 		// submit();
 	}
 
-	private Bitmap comp(Bitmap image) {
+	public static Bitmap comp(Bitmap image) {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -1081,9 +1088,13 @@ public class ModifyInfoActivity extends TabActivity {
 		}
 	}
 
-	
-	private void sendSubmit(){
+	private void sendSubmit() {
 		sendBroadcast(new Intent(ContantS.ACTION_SEND_SUBMIT));
 	}
 	
+	private void sendSubmitChange() {
+		sendBroadcast(new Intent(ContantS.ACTION_GET_USER_INFO));
+	}
+	
+
 }

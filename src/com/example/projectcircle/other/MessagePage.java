@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,8 +26,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.baidu.a.a.c.c;
+import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.MainActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.adpter.MsgAdapter;
@@ -39,9 +43,12 @@ import com.example.projectcircle.db.ProJectDatebase;
 import com.example.projectcircle.db.utils.FriendChatUtils;
 import com.example.projectcircle.db.utils.GroupChatUtils;
 import com.example.projectcircle.db.utils.MsgDataUtils;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.friend.FriendPage;
 import com.example.projectcircle.group.MyGroup;
 import com.example.projectcircle.personal.MyPersonal;
+import com.example.projectcircle.util.MyHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class MessagePage extends Activity {
 	Button right;
@@ -52,6 +59,7 @@ public class MessagePage extends Activity {
 	private LinearLayout friendRequest, groupRequest;
 	private ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
 	private List<MsgDataBean> msgDataBeans = new ArrayList<MsgDataBean>();
+	private TextView addgroup_Notice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +69,13 @@ public class MessagePage extends Activity {
 		initList();
 		initFilter();
 		getLastMsgList();
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		getGroupRequestNum();
 	}
 
 	@Override
@@ -112,10 +127,11 @@ public class MessagePage extends Activity {
 		// TODO Auto-generated method stub
 		listview = (ListView) findViewById(R.id.message_listView);
 		registerForContextMenu(listview);// 为 ListView 的所有 item 注册 ContextMenu
+		
 		headview = this.getLayoutInflater().inflate(R.layout.message_headview,
 				null);
 		listview.addHeaderView(headview);
-
+		addgroup_Notice = (TextView) findViewById(R.id.group_notice);
 		myAdapter = new MsgAdapter(listItem, this);
 		listview.setAdapter(myAdapter);
 		listview.setOnItemClickListener(new OnItemClickListener() {
@@ -183,6 +199,7 @@ public class MessagePage extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				addgroup_Notice.setVisibility(View.GONE);
 				Intent intent = new Intent(MessagePage.this, GroupRequest.class);
 				startActivity(intent);
 			}
@@ -317,6 +334,30 @@ public class MessagePage extends Activity {
 		String content = getLastChat(id);
 		String headimg = friendDataBean.getFriendhead();
 		String time = Chat.getDate();
+
+		if (TextUtils.isEmpty(name)) {
+			try {
+				List<FriendChatBean> list = (List<FriendChatBean>) new FriendChatUtils(
+						MessagePage.this, id).queryData();
+				for (int i = 0; i < list.size(); i++) {
+					name = list.get(i).getName();
+					if (!TextUtils.isEmpty(name)) {
+						break;
+					}
+				}
+
+				for (int i = 0; i < list.size(); i++) {
+					headimg = list.get(i).getHeadimg();
+					if (!TextUtils.isEmpty(headimg)) {
+						break;
+					}
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+		}
 
 		Log.i(TAG, "名字" + name);
 		Log.i(TAG, "content" + content);
@@ -461,6 +502,7 @@ public class MessagePage extends Activity {
 	private void addMsgList(String id) {
 		FriendDataBean friendDataBean = FriendPage.getUserdata(id);
 		String name = friendDataBean.getFriendname();
+
 		Log.i(TAG, "名字" + name);
 		String content = getLastChat(id);
 		Log.i(TAG, "content" + content);
@@ -468,6 +510,31 @@ public class MessagePage extends Activity {
 		Log.i(TAG, "headimg" + headimg);
 		String time = Chat.getDate();
 		Log.i(TAG, "time" + time);
+
+		if (TextUtils.isEmpty(name)) {
+			try {
+				List<FriendChatBean> list = (List<FriendChatBean>) new FriendChatUtils(
+						MessagePage.this, id).queryData();
+				for (int i = 0; i < list.size(); i++) {
+					name = list.get(i).getName();
+					if (!TextUtils.isEmpty(name)) {
+						break;
+					}
+				}
+
+				for (int i = 0; i < list.size(); i++) {
+					headimg = list.get(i).getHeadimg();
+					if (!TextUtils.isEmpty(headimg)) {
+						break;
+					}
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+		}
+
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("isPerson", false);
 		map.put("name", "" + name);
@@ -486,12 +553,34 @@ public class MessagePage extends Activity {
 	private void addMsg2List(String id) {
 		FriendDataBean friendDataBean = FriendPage.getUserdata(id);
 		String name = friendDataBean.getFriendname();
+
 		Log.i(TAG, "名字" + name);
 		String content = getLastChat(id);
 		Log.i(TAG, "content" + content);
 		String headimg = friendDataBean.getFriendhead();
 		Log.i(TAG, "headimg" + headimg);
 		String time = Chat.getDate();
+		if (TextUtils.isEmpty(name)) {
+			try {
+				List<FriendChatBean> list = (List<FriendChatBean>) new FriendChatUtils(
+						MessagePage.this, id).queryData();
+				for (int i = 0; i < list.size(); i++) {
+					name = list.get(i).getName();
+					if (!TextUtils.isEmpty(name)) {
+						break;
+					}
+				}
+				for (int i = 0; i < list.size(); i++) {
+					headimg = list.get(i).getHeadimg();
+					if (!TextUtils.isEmpty(headimg)) {
+						break;
+					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+		}
 		Log.i(TAG, "time" + time);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("isPerson", false);
@@ -583,10 +672,42 @@ public class MessagePage extends Activity {
 		@SuppressWarnings("unchecked")
 		List<GroupChatBean> groupChatBeans = (List<GroupChatBean>) groupChatUtils
 				.queryData();
-		if (null == groupChatBeans||groupChatBeans.size()==0) {
+		if (null == groupChatBeans || groupChatBeans.size() == 0) {
 			return "";
 		}
 		return groupChatBeans.get(0).getContent();
+	}
+
+	private void getGroupRequestNum() {
+
+		MyHttpClient.verifyMember2Group_(LoginActivity.id, handler);
+	}
+
+	JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+		@Override
+		public void onSuccess(JSONObject response) {
+			// TODO Auto-generated method stub
+			super.onSuccess(response);
+			AppLog.i(TAG, "群组返回:"+response);
+			getgroupCount(response);
+		}
+	};
+
+	private void getgroupCount(JSONObject response) {
+		try {
+			int count = response.getJSONObject("gu").getInt("totalrecord");
+			addgroup_Notice.setText("" + count);
+			AppLog.i(TAG, "群组返回:"+count);
+			if (count > 0) {
+				addgroup_Notice.setVisibility(View.VISIBLE);
+			} else {
+				addgroup_Notice.setVisibility(View.GONE);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			AppLog.w(TAG, "群组返回:"+e.getStackTrace());
+		}
 	}
 
 }

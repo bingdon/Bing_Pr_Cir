@@ -385,7 +385,7 @@ public class NewFriendActivity extends Activity implements HandlerListener {
 		if (newConstactBean.getType_() == TYPE_CONT) {
 			applyfriend(newConstactBean.getId(), position);
 		} else if (newConstactBean.getType_() == TYPE_REQUEST) {
-			befriend(newConstactBean.getId(), position);
+			befriend(newConstactBean.getCid(), position);
 		}
 	}
 

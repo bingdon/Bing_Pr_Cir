@@ -22,6 +22,16 @@ public class ChatMsgEntity implements Serializable{
 	private long time;
 	
 	private String uid;
+	
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getUid() {
 		return uid;

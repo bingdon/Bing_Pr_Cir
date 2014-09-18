@@ -8,6 +8,26 @@ public class FriendChatBean {
 	
 	private String realtime;
 	
+	private String headimg;
+	
+	private String name;
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getHeadimg() {
+		return headimg;
+	}
+
+	public void setHeadimg(String headimg) {
+		this.headimg = headimg;
+	}
 
 	private int iscom;
 	

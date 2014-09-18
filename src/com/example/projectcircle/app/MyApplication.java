@@ -13,13 +13,16 @@ import com.baidu.frontia.FrontiaApplication;
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.map.MKEvent;
+import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
+import com.example.projectcircle.WelcomeActivity;
 import com.example.projectcircle.bean.MyPersonBean;
 import com.example.projectcircle.bean.PersonalInfo;
 import com.example.projectcircle.bean.UserInfo;
 import com.example.projectcircle.other.ImageInfo;
 import com.example.projectcircle.util.FileUtils;
 import com.example.projectcircle.util.SdUtils;
+import com.example.projectcircle.util.UserInfoUtils;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -62,6 +65,17 @@ public class MyApplication  extends FrontiaApplication  {
 	}
 
 	public static MyPersonBean getMyPersonBean() {
+		if (!WelcomeActivity.isWel) {
+			if (myPersonBean==null) {
+				try {
+					UserInfoUtils.getPersonInfo(getInstance());
+					LoginActivity.id=myPersonBean.getId();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+			}
+		}
 		return myPersonBean;
 	}
 

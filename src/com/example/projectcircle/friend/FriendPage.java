@@ -63,11 +63,13 @@ import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.friend.utils.FriendRequestUtils;
 import com.example.projectcircle.group.GroupPage;
 import com.example.projectcircle.group.MyGroup;
+import com.example.projectcircle.other.Chat;
 import com.example.projectcircle.personal.PersonalPage;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.ShareUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -78,21 +80,13 @@ import com.umeng.socialize.common.SocializeConstants;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
-import com.umeng.socialize.media.MailShareContent;
 import com.umeng.socialize.media.QZoneShareContent;
-import com.umeng.socialize.media.RenrenShareContent;
-import com.umeng.socialize.media.SinaShareContent;
-import com.umeng.socialize.media.SmsShareContent;
 import com.umeng.socialize.media.TencentWbShareContent;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMVideo;
 import com.umeng.socialize.media.UMusic;
-import com.umeng.socialize.sso.EmailHandler;
 import com.umeng.socialize.sso.QZoneSsoHandler;
-import com.umeng.socialize.sso.RenrenSsoHandler;
-import com.umeng.socialize.sso.SinaSsoHandler;
-import com.umeng.socialize.sso.SmsHandler;
 import com.umeng.socialize.sso.TencentWBSsoHandler;
+import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
@@ -167,6 +161,10 @@ public class FriendPage extends Activity {
 	private TextView tipNotice;
 	private int new_friend_tip_count = 0;// 通讯录中刚注册并不是好友的个数
 	private String mphoneNumber;
+	/**
+	 * 好友请求数量
+	 */
+	private int totalrecord = 0;
 
 	// private IWXAPI api;
 
@@ -194,6 +192,8 @@ public class FriendPage extends Activity {
 		// api.handleIntent(getIntent(), this);
 	}
 
+	
+	
 	private void getContactInNumber() {
 		// TODO Auto-generated method stub
 		ContentResolver resolver = FriendPage.this.getContentResolver();
@@ -252,7 +252,8 @@ public class FriendPage extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-
+		findfriend(id);
+		getFriendRequest();
 	}
 
 	// 判断通讯录中联系人是否注册
@@ -286,10 +287,10 @@ public class FriendPage extends Activity {
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-					new_friend_tip_count = FriendRequestUtils.friendQuset
-							+ new_friend_tip_count - size;
-					if (new_friend_tip_count > 0) {
-						tipNotice.setText(new_friend_tip_count + "");// 有几个
+					int m = totalrecord + new_friend_tip_count
+							- size;
+					if (m > 0) {
+						tipNotice.setText(m + "");// 有几个
 						tipNotice.setVisibility(View.VISIBLE);
 					}
 				} catch (JSONException e) {
@@ -364,6 +365,7 @@ public class FriendPage extends Activity {
 			int length = json.length();
 			System.out.println("length==" + length);
 			Log.i(TAG, "JSONArray:" + json);
+//			new FriendDatabaseUtils(FriendPage.this).deleteAll();
 			for (int i = 0; i < length; i++) {
 				UserInfo user = new UserInfo();
 				JSONObject objo = json.getJSONObject(i);
@@ -382,10 +384,8 @@ public class FriendPage extends Activity {
 				user.setLon(Double.valueOf(objo.getString("commercialLon")));
 				user.setLastlogintime(objo.getString("lastlogintime"));
 				friendList.add(user);
-
 				saveFriendinfo(user.getUsername(), user.getId(),
 						user.getHeadimage());
-
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -474,8 +474,11 @@ public class FriendPage extends Activity {
 		// TODO Auto-generated method stub
 		getList_friend();
 		listview = (ListView) findViewById(R.id.f_page_listView);
-		headview2 = this.getLayoutInflater().inflate(R.layout.headview2, null);
-		listview.addHeaderView(headview2);
+		if (headview2 == null) {
+			headview2 = this.getLayoutInflater().inflate(R.layout.headview2,
+					null);
+			listview.addHeaderView(headview2);
+		}
 		tipNotice = (TextView) findViewById(R.id.new_friend_notice);
 		friend = (LinearLayout) findViewById(R.id.newfriend_layout);
 		friend.setOnClickListener(listener1);
@@ -754,58 +757,6 @@ public class FriendPage extends Activity {
 		}
 	};
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		switch (requestCode) {
-
-		case 0x101: {
-			// final WXAppExtendObject appdata = new WXAppExtendObject();
-			// final String path = CameraUtil.getResultPhotoPath(this, data,
-			// SDCARD_ROOT + "/tencent/");
-			// appdata.filePath = path;
-			// appdata.extInfo = "this is ext info";
-			//
-			// final WXMediaMessage msg = new WXMediaMessage();
-			// msg.setThumbImage(Util.extractThumbNail(path, 150, 150, true));
-			// msg.title = "this is title";
-			// msg.description = "this is description";
-			// msg.mediaObject = appdata;
-			//
-			// SendMessageToWX.Req req = new SendMessageToWX.Req();
-			// req.transaction = ShareUtils.buildTransaction("appdata");
-			// req.message = msg;
-			// req.scene = 1;
-			// api.sendReq(req);
-			//
-			// finish();
-			break;
-		}
-		default:
-			break;
-		}
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		// TODO Auto-generated method stub
-		super.onNewIntent(intent);
-		// api.handleIntent(intent, this);
-	}
-
-	// @Override
-	// public void onReq(BaseReq arg0) {
-	// // TODO Auto-generated method stub
-	// Toast.makeText(this, arg0.getType(), Toast.LENGTH_LONG).show();
-	// }
-	//
-	// @Override
-	// public void onResp(BaseResp arg0) {
-	// // TODO Auto-generated method stub
-	// Toast.makeText(this, arg0.errCode, Toast.LENGTH_LONG).show();
-	// }
-
 	private UMSocialService mController = UMServiceFactory
 			.getUMSocialService("com.example.projectcircle");
 
@@ -814,11 +765,6 @@ public class FriendPage extends Activity {
 		com.umeng.socialize.utils.Log.LOG = true;
 		SocializeConstants.SHOW_ERROR_CODE = true;
 		configSso();
-		// mController = UMServiceFactory
-		// .getUMSocialService("com.example.projectcircle");
-		// umSocialService=UMServiceFactory.getUMSocialService("com.example.projectcircle",
-		// RequestType.SOCIAL);
-		// wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
 
 	}
 
@@ -850,25 +796,28 @@ public class FriendPage extends Activity {
 		wxCircleHandler.setTitle("工程圈分享");
 		wxCircleHandler.setTargetUrl("http://www.gcquan.com/");
 
+		UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "100424468",
+				"c7394704798a158208a74ab60104f0ba");
+		qqSsoHandler.setTargetUrl("http://www.hao123.com");
+		qqSsoHandler.addToSocialSDK();
+
 		mController.setShareContent(getString(R.string.share_content_to));
 		mController.setShareImage(mUMImgBitmap);
 		mController.getConfig().setPlatformOrder(SHARE_MEDIA.WEIXIN_CIRCLE,
-				SHARE_MEDIA.SINA, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.TENCENT);
+				SHARE_MEDIA.WEIXIN, SHARE_MEDIA.TENCENT);
 		mController.openShare(context, new SnsPostListener() {
 
 			@Override
 			public void onStart() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onComplete(SHARE_MEDIA arg0, int arg1,
 					SocializeEntity arg2) {
 				// TODO Auto-generated method stub
-				Toast.makeText(context,
-						"分享:" + arg0.getReqCode() + "::" + arg2.getEntityConfig() + "::" + arg1,
-						Toast.LENGTH_LONG).show();
+				// Toast.makeText(context, "分享成功", Toast.LENGTH_LONG).show();
 			}
 		});
 
@@ -877,7 +826,6 @@ public class FriendPage extends Activity {
 	private void configSso() {
 
 		// 配置SSO
-		mController.getConfig().setSsoHandler(new SinaSsoHandler());
 		mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
 		mController.getConfig().removeSsoHandler(SHARE_MEDIA.SINA);
 
@@ -885,24 +833,6 @@ public class FriendPage extends Activity {
 				"100424468", "c7394704798a158208a74ab60104f0ba");
 		qZoneSsoHandler.addToSocialSDK();
 		mController.setShareContent("友盟社会化组件（SDK）让移动应用快速整合社交分享功能");
-
-		// APP ID：201874, API
-		// * KEY：28401c0964f04a72a14c812d6132fcef, Secret
-		// * Key：3bf66e42db1e4fa9829b955cc300b737.
-		RenrenSsoHandler renrenSsoHandler = new RenrenSsoHandler(context,
-				"201874", "28401c0964f04a72a14c812d6132fcef",
-				"3bf66e42db1e4fa9829b955cc300b737");
-		mController.getConfig().setSsoHandler(renrenSsoHandler);
-
-		// 添加短信
-		SmsHandler smsHandler = new SmsHandler();
-		smsHandler.addToSocialSDK();
-
-		// 添加email
-		EmailHandler emailHandler = new EmailHandler();
-		emailHandler.addToSocialSDK();
-
-//		UMImage localImage = new UMImage(context, R.drawable.ic_comment);
 		UMImage urlImage = new UMImage(context,
 				"http://www.gcquan.com/common/dimages/ppg.png");
 		// UMImage resImage = new UMImage(context, R.drawable.icon);
@@ -926,36 +856,17 @@ public class FriendPage extends Activity {
 		circleMedia.setShareContent(getString(R.string.share_content_to));
 		circleMedia.setTitle("工程圈分享");
 		circleMedia.setShareImage(urlImage);
-		// circleMedia.setShareMusic(uMusic);
-		// circleMedia.setShareVideo(video);
 		circleMedia.setTargetUrl("http://www.gcquan.com/");
 		mController.setShareMedia(circleMedia);
 
-		// 设置新浪分享内容
-		// mController.setShareMedia(new SinaShareContent(new UMImage(
-		// context,
-		// "http://www.umeng.com/images/pic/social/integrated_3.png")));
-
-		// 设置renren分享内容
-		RenrenShareContent renrenShareContent = new RenrenShareContent();
-		renrenShareContent
-				.setShareContent(getString(R.string.share_content_to));
 		UMImage image = new UMImage(context, BitmapFactory.decodeResource(
 				getResources(), R.drawable.ic_comment));
 		image.setTitle("工程圈分享");
 		image.setThumb("http://www.gcquan.com/common/dimages/ppg.png");
-//		renrenShareContent.setShareImage(image);
-		renrenShareContent.setAppWebSite("http://www.gcquan.com/");
-		mController.setShareMedia(renrenShareContent);
 
 		UMImage qzoneImage = new UMImage(context,
 				"http://www.gcquan.com/common/dimages/ppg.png");
 		qzoneImage.setTargetUrl("http://www.gcquan.com/common/dimages/ppg.png");
-
-		// UMImage mx2Image = new UMImage(
-		// context,
-		// /* new File("/mnt/sdcard/bigimage.jpg")
-		// */"http://www.umeng.com/images/pic/social/integrated_3.png");
 
 		// 设置QQ空间分享内容
 		QZoneShareContent qzone = new QZoneShareContent();
@@ -965,47 +876,50 @@ public class FriendPage extends Activity {
 		qzone.setShareImage(urlImage);
 		mController.setShareMedia(qzone);
 
-		// 视频分享
-		UMVideo umVideo = new UMVideo(
-				"http://v.youku.com/v_show/id_XNTc0ODM4OTM2.html");
-		umVideo.setThumb("http://www.umeng.com/images/pic/banner_module_social.png");
-		umVideo.setTitle("友盟社会化组件视频");
-
 		TencentWbShareContent tencent = new TencentWbShareContent();
 		tencent.setShareContent(getString(R.string.share_content_to));
 		// 设置tencent分享内容
 		mController.setShareMedia(tencent);
-
-		// 设置邮件分享内容， 如果需要分享图片则只支持本地图片
-		MailShareContent mail = new MailShareContent(urlImage);
-		mail.setTitle("工程圈分享");
-		mail.setShareContent(getString(R.string.share_content_to));
-		// 设置tencent分享内容
-		mController.setShareMedia(mail);
-
-		// 设置短信分享内容
-		// SmsShareContent sms = new SmsShareContent(new UMImage(context,
-		// new File(
-		// "/mnt/sdcard/bigimage.jpg")));
-		SmsShareContent sms = new SmsShareContent();
-		sms.setShareContent(getString(R.string.share_content_to));
-		sms.setShareImage(urlImage);
-		mController.setShareMedia(sms);
-
-		SinaShareContent sinaContent = new SinaShareContent(urlImage);
-		sinaContent.setShareContent(getString(R.string.share_content_to));
-		// mController.setShareMedia(sinaContent);
-
+		mController.getConfig().removePlatform(SHARE_MEDIA.RENREN,
+				SHARE_MEDIA.DOUBAN, SHARE_MEDIA.SINA);
 		mController.setShareMedia(new UMImage(context,
 				"http://www.gcquan.com/common/dimages/ppg.png"));
 
-		// addInstagram();
+	}
 
-		// addWXPlatform();
-		// addYXPlatform();
-		// mController.getConfig().supportAppPlatform(getActivity(),
-		// SHARE_MEDIA.TWITTER, "com.umeng.twitter", true);
+	private void getFriendRequest() {
+		new MyHttpClient().FriendRequestMessage(LoginActivity.id, handler);
+	}
 
+	JsonHttpResponseHandler handler = new JsonHttpResponseHandler() {
+		@Override
+		public void onSuccess(JSONObject response) {
+			// TODO Auto-generated method stub
+			super.onSuccess(response);
+			getFriend_RequestCount(response);
+		}
+	};
+
+	private void getFriend_RequestCount(JSONObject response) {
+		try {
+			AppLog.i(TAG, "数量:"+response);
+			totalrecord = response.getJSONObject("friends").getInt("totalrecord");
+			int size = 0;
+			try {
+				size = new NewContactsUtily(context).queryData().size();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			AppLog.i(TAG, "数量:"+totalrecord+"::"+new_friend_tip_count+"::"+size);
+			int m = totalrecord + new_friend_tip_count - size;
+			if (m > 0) {
+				tipNotice.setText(m + "");// 有几个
+				tipNotice.setVisibility(View.VISIBLE);
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 }

@@ -21,6 +21,7 @@ public class WelcomeActivity extends Activity {
 	boolean isFirstIn = true;
 	private static final int GO_HOME = 1000;
 	private static final int GO_LOGIN = 1001;
+	public static boolean isWel=false;
 	// 延迟3秒
 	private static final long SPLASH_DELAY_MILLIS = 3000;
 	/**
@@ -51,6 +52,7 @@ public class WelcomeActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		isWel=true;
 //		if (!Utils.hasBind(getApplicationContext())) {
 			PushManager.startWork(getApplicationContext(),
 					PushConstants.LOGIN_TYPE_API_KEY,
@@ -67,6 +69,14 @@ public class WelcomeActivity extends Activity {
 		
 	}
 
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		isWel=false;
+	}
+	
 	private void initView() {
 		// TODO Auto-generated method stub
 		// 读取SharedPreferences中需要的数据

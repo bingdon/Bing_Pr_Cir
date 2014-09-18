@@ -14,6 +14,16 @@ public class NewConstactBean extends MyPersonBean {
 	private int isAccpet;
 	
 	private String cid;
+	
+	private String guid;
+
+	public String getGuid() {
+		return ""+guid;
+	}
+
+	public void setGuid(String guid) {
+		this.guid = guid;
+	}
 
 	public String getCid() {
 		return ""+cid;

@@ -34,6 +34,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class MyGroup extends Activity {
 	private static final String TAG = "GroupPage";
+	public static boolean isMyGroup=false;
 	ListView listview;
 	MyGroupAdapter myAdapter;
 	Button back;
@@ -53,9 +54,24 @@ public class MyGroup extends Activity {
 		setContentView(R.layout.group_list);
 		initBtn();
 		uid = LoginActivity.id;
-		findGroup(uid);
+		isMyGroup=true;
+		
 	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		findGroup(uid);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		isMyGroup=false;
+	}
+	
 	private void findGroup(String uid) {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
@@ -156,6 +172,14 @@ public class MyGroup extends Activity {
 				map.put("content", groupList.get(i).getContent());
 				map.put("commercialLat", groupList.get(i).getLat());
 				map.put("commercialLon", groupList.get(i).getLon());
+				try {
+					if (groupList.get(i).getUid().equals(LoginActivity.id)) {
+						map.put("ishost", true);
+					}
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
 				glatitude = groupList.get(i).getLat();
 				glongtitude = groupList.get(i).getLon();
 				double distance = DistentsUtil.getDistance(glongtitude,

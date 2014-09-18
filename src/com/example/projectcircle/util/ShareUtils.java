@@ -23,7 +23,7 @@ public class ShareUtils {
 		shareIntent.setAction(Intent.ACTION_SEND);
 		shareIntent.putExtra(
 				Intent.EXTRA_TEXT,
-				context.getString(R.string.share_content) + msg
+				context.getString(R.string.share_content) + "["+msg+"],"
 						+ context.getString(R.string.share_content_)
 						+ CreateGroup.getGid()
 						+ context.getString(R.string.share_content_tail));

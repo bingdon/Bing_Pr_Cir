@@ -65,9 +65,9 @@ public class CompleteMaster extends TabActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.perfect_master);
-		if (!ModifyInfoActivity.isModify()) {
-			findViewById(R.id.linearLayout1).setVisibility(View.VISIBLE);
-		}
+//		if (!ModifyInfoActivity.isModify()) {
+//			findViewById(R.id.linearLayout1).setVisibility(View.VISIBLE);
+//		}
 		initFilter();
 		initTab();
 		initBtn();

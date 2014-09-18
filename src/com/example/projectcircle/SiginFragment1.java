@@ -2,14 +2,17 @@ package com.example.projectcircle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.example.projectcircle.adpter.MasterDviAdapter;
+import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.complete.CompleteMaster;
 import com.example.projectcircle.complete.FootActivity1;
 import com.example.projectcircle.complete.FootActivity2;
 import com.example.projectcircle.complete.FootActivity3;
 import com.example.projectcircle.complete.FootActivity4;
 import com.example.projectcircle.complete.FootActivity5;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.setting.ModifyInfoActivity;
 
 import android.app.Activity;
@@ -30,7 +33,8 @@ import android.widget.EditText;
 /**
  * 机主 选择设备
  */
-public class SiginFragment1 extends TabActivity implements OnCheckedChangeListener, OnClickListener {
+public class SiginFragment1 extends TabActivity implements
+		OnCheckedChangeListener, OnClickListener {
 	/**
 	 * 选择设备
 	 */
@@ -48,11 +52,11 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.device_fragment);
 		initDevice();
-		
+
 		if (!ModifyInfoActivity.isModify()) {
 			findViewById(R.id.master).setVisibility(View.GONE);
 		}
-		
+
 	}
 
 	@Override
@@ -80,14 +84,17 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 		btn3.setOnCheckedChangeListener(this);
 		btn4.setOnCheckedChangeListener(this);
 		btn5.setOnCheckedChangeListener(this);
-		
+
 		findViewById(R.id.master_next).setVisibility(View.GONE);
 		CompleteMaster.listview = (ListView) findViewById(R.id.master_listview);
-		CompleteMaster.listview.setDividerHeight(0);//将listView分割线去掉
-		CompleteMaster.myAdapter = new MasterDviAdapter(getApplicationContext(), new ArrayList<HashMap<String, Object>>());
+		CompleteMaster.listview.setDividerHeight(0);// 将listView分割线去掉
+		CompleteMaster.myAdapter = new MasterDviAdapter(
+				getApplicationContext(),
+				new ArrayList<HashMap<String, Object>>());
 		CompleteMaster.listview.setAdapter(CompleteMaster.myAdapter);
-		
+
 		initTab();
+		inittab0();
 	}
 
 	@Override
@@ -125,8 +132,7 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 			break;
 		}
 	}
-	
-	
+
 	private void initTab() {
 		// TODO Auto-generated method stub
 		d_content = (EditText) findViewById(R.id.sigin_car);
@@ -160,7 +166,7 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 		d_radio4.setOnClickListener(this);
 		d_radio5.setOnClickListener(this);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
@@ -173,7 +179,7 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 			d_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab1");
 			CompleteMaster.type = "挖掘机";
-//			next.setVisibility(View.VISIBLE);
+			// next.setVisibility(View.VISIBLE);
 		}
 		if (v.getId() == R.id.car_radiobtn2) {
 			d_radio1.setBackgroundResource(R.drawable.onechoice);
@@ -183,7 +189,7 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 			d_radio5.setBackgroundResource(R.drawable.onechoice);
 			d_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab2");
-//			next.setVisibility(View.VISIBLE);
+			// next.setVisibility(View.VISIBLE);
 			CompleteMaster.type = "自卸车";
 		}
 		if (v.getId() == R.id.car_radiobtn3) {
@@ -195,7 +201,7 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 			d_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab3");
 			CompleteMaster.type = "装载机";
-//			next.setVisibility(View.INVISIBLE);
+			// next.setVisibility(View.INVISIBLE);
 		}
 		if (v.getId() == R.id.car_radiobtn4) {
 			d_radio1.setBackgroundResource(R.drawable.onechoice);
@@ -205,7 +211,7 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 			d_radio5.setBackgroundResource(R.drawable.onechoice);
 			d_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab4");
-//			CompleteMaster.next.setVisibility(View.VISIBLE);
+			// CompleteMaster.next.setVisibility(View.VISIBLE);
 			CompleteMaster.type = "平板车";
 		}
 		if (v.getId() == R.id.car_radiobtn5) {
@@ -216,8 +222,61 @@ public class SiginFragment1 extends TabActivity implements OnCheckedChangeListen
 			d_radio5.setBackgroundResource(R.drawable.onechoice_press);
 			d_content.setVisibility(View.VISIBLE);
 			tabhost.setCurrentTabByTag("tab5");
-//			next.setVisibility(View.VISIBLE);
+			// next.setVisibility(View.VISIBLE);
 			CompleteMaster.type = "其它";
 		}
 	}
+
+	private void inittab0() {
+		if (MyApplication.getMyPersonBean()==null) {
+			return;
+		}
+		if (MyApplication.getMyPersonBean().getType().equals("机主")) {
+			if (null != MyApplication.getMyPersonBean().getEquipment()) {
+				String devicestrString = MyApplication.getMyPersonBean()
+						.getEquipment();
+				int length = devicestrString.indexOf(",");
+				AppLog.i("设备", "长度1:"+devicestrString);
+				AppLog.i("设备", "长度:"+length);
+				if (length < 0) {
+					initDevice(devicestrString);
+				} else {
+					String device[] = devicestrString.split(",");
+					AppLog.i("设备", "长度2:"+device.length);
+					for (int i = 0; i < device.length; i++) {
+						initDevice(device[i]);
+						AppLog.i("设备", "长度3:"+device[i]);
+					}
+				}
+
+			}
+		}
+	}
+
+	private void initDevice(String str) {
+		switch (str) {
+		case "挖掘机":
+			btn1.setChecked(true);
+			break;
+		case "自卸车":
+			btn2.setChecked(true);
+			break;
+
+		case "装载机":
+			btn3.setChecked(true);
+			break;
+
+		case "平板车":
+			btn4.setChecked(true);
+			break;
+
+		case "其它":
+			btn5.setChecked(true);
+			break;
+
+		default:
+			break;
+		}
+	}
+
 }

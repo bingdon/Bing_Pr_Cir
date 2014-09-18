@@ -108,7 +108,7 @@ public class FriendRequest extends Activity implements HandlerListener {
 	private void parseFriendRequestList2(String response) {
 		// TODO Auto-generated method stub
 		try {
-			Log.i("解析好友请求的response", response + "");
+			Log.i("解析好友请求的response", "解析好友请求的:"+response);
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("friends");
 			JSONArray json = obj.getJSONArray("resultlist");
@@ -179,7 +179,7 @@ public class FriendRequest extends Activity implements HandlerListener {
 	public void addPeople(int position) {
 		// TODO Auto-generated method stub
 		NewConstactBean newConstactBean = rConstactBeans.get(position);
-		befriend(newConstactBean.getId(), position);
+		befriend(newConstactBean.getCid(), position);
 	}
 
 	private void befriend(String accept_id, final int position) {
