@@ -1,5 +1,7 @@
 package com.example.projectcircle;
 
+import com.example.projectcircle.app.MyApplication;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -15,6 +17,12 @@ public class SiginFragment4 extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.device_fragment3);
 		yewu = (EditText) findViewById(R.id.yewufanwei);
+		try {
+			yewu.setText(MyApplication.getMyPersonBean().getBusiness());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 		yewu_neirong = yewu.getText().toString();
 	}
 

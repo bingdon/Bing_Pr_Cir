@@ -465,9 +465,14 @@ public class ModifyInfoActivity extends TabActivity {
 			return;
 		}
 
-		if (TextUtils.isEmpty(equipment)) {
+		if (TextUtils.isEmpty(equipment) && !type.equals("其它")) {
 			ToastUtils.showShort(context, "请选择设备");
 			return;
+		} else if (type.equals("其它")) {
+			type = c_content.getText().toString();
+			business = SiginFragment4.yewu.getText().toString();
+			equipment="";
+			new MyHttpClient().CompleteCompany(LoginActivity.id, "", "", business, new AsyncHttpResponseHandler());
 		}
 
 		doSubMit(id, realname, age, sign, intro, type, equipment, accept,
@@ -1084,6 +1089,13 @@ public class ModifyInfoActivity extends TabActivity {
 			break;
 
 		default:
+			tabhost.setCurrentTab(3);
+			rg.check(R.id.sigin_radiobtn4);
+			try {
+				c_content.setText(MyApplication.getMyPersonBean().getType());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 			break;
 		}
 	}
@@ -1091,10 +1103,9 @@ public class ModifyInfoActivity extends TabActivity {
 	private void sendSubmit() {
 		sendBroadcast(new Intent(ContantS.ACTION_SEND_SUBMIT));
 	}
-	
+
 	private void sendSubmitChange() {
 		sendBroadcast(new Intent(ContantS.ACTION_GET_USER_INFO));
 	}
-	
 
 }

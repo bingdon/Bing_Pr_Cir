@@ -390,8 +390,8 @@ public class SiginActivity extends TabActivity {
 			ToastUtils.showShort(getApplicationContext(), "密码不能为空!");
 			return;
 		}
-		if (password_edit.length() != 6) {
-			ToastUtils.showShort(getApplicationContext(), "密码必须6位数字或字母!");
+		if (password_edit.length() < 6) {
+			ToastUtils.showShort(getApplicationContext(), "密码必须6位以上的数字或字母!");
 			return;
 		}
 
@@ -415,8 +415,8 @@ public class SiginActivity extends TabActivity {
 			ToastUtils.showShort(getApplicationContext(), "未同意《用户协议》");
 			return;
 		}
-
-		if (TextUtils.isEmpty(equipment)) {
+		type_content = c_content.getText().toString().trim();
+		if (TextUtils.isEmpty(equipment)&&TextUtils.isEmpty(type_content)) {
 			ToastUtils.showShort(SiginActivity.this, "请选择设备");
 			return;
 		}

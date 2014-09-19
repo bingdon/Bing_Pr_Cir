@@ -135,6 +135,7 @@ public class GroupDetail extends Activity {
 				.cacheInMemory(true)// 是否緩存都內存中
 				.cacheOnDisc(true)// 是否緩存到sd卡上
 				.build();
+		isMember(gid, uid);
 	}
 
 	@Override
@@ -144,11 +145,15 @@ public class GroupDetail extends Activity {
 		GroupDetails(gid);
 		findMember(gid);
 		// 判断我是是不是群成员
-		isMember(gid, uid);
+		
 		;
 	}
 
-	// 判断我是是不是群成员
+	/**
+	 * 判断是否
+	 * @param gid
+	 * @param uid
+	 */
 	private void isMember(final String gid, String uid) {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
@@ -159,7 +164,7 @@ public class GroupDetail extends Activity {
 				try {
 					JSONObject result = new JSONObject(response);
 					if (result.getInt("result") == 1) {
-						Resources resources = getBaseContext().getResources();
+						Resources resources = getResources();
 						Drawable btnDrawable = resources
 								.getDrawable(R.drawable.apply_join_group);
 						apply_or_send.setBackgroundDrawable(btnDrawable);

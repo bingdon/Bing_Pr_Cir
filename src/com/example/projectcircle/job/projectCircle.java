@@ -335,6 +335,8 @@ public class projectCircle extends Activity implements OnRefreshListener,
 
 			public void onSuccess(String response) {
 				Log.i("listmoodµÄresponse", response);
+				list.clear();
+				listItem.clear();
 				parselistMood(response);
 				list_circle();
 //				doListMyMood();
