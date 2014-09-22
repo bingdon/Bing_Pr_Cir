@@ -163,6 +163,8 @@ public class ProCirAdapter extends BaseAdapter {
 		} else {
 			holder.picGridView.setVisibility(View.GONE);
 		}
+		holder.commeninfoTextView.setFocusable(false);
+		holder.commencounTextView.setFocusableInTouchMode(false);
 		holder.picGridView.setFocusable(false);
 		holder.picGridView.setFocusableInTouchMode(false);
 		holder.picGridView.setOnItemClickListener(new OnItemClickListener() {

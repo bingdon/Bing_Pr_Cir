@@ -146,7 +146,8 @@
                         android:id="@+id/icon_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/icon_address" />
+                        android:background="@drawable/icon_address" 
+                        android:visibility="invisible"/>
 
                     <TextView
                         android:id="@+id/main_distance_host"
@@ -155,7 +156,8 @@
                         android:layout_marginLeft="2dp"
                         android:text="1.2km"
                         android:textColor="#565656"
-                        android:textSize="11dp" />
+                        android:textSize="11dp" 
+                        android:visibility="invisible"/>
                 </LinearLayout>
             </LinearLayout>
             </LinearLayout>

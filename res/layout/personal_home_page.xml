@@ -762,7 +762,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="100dp"
                             android:gravity="center"
-                            android:numColumns="6"
+                            android:numColumns="5"
                             android:stretchMode="columnWidth" >
                         </GridView>
                     </RelativeLayout>
@@ -801,7 +801,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="100dp"
                             android:gravity="center"
-                            android:numColumns="6"
+                            android:numColumns="5"
                             android:stretchMode="columnWidth" />
 
                         <Button

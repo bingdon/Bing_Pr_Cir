@@ -36,6 +36,7 @@ import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.MyHttpClient;
+import com.example.projectcircle.util.ToastUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class CreateGroup extends Activity {
@@ -72,19 +73,20 @@ public class CreateGroup extends Activity {
 	private friendBroadcastReceiver receiver;
 
 	private static String gid;
-public static String getGid() {
+
+	public static String getGid() {
 		return gid;
 	}
 
-	//获取省份、区县、城市信息
+	// 获取省份、区县、城市信息
 	private String province;
 	private String city;
 	private String district;
 
 	private ProgressDialog progressDialog;
-	
-	public static String g_name="";
-	
+
+	public static String g_name = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -93,12 +95,12 @@ public static String getGid() {
 		initView();
 		initBtn();
 		initLoc();
-		progressDialog=new ProgressDialog(this);
-		//注册广播,添加请求信息里一点击同意，我这边好友列表里就增加相应的好友
-		  IntentFilter filter = new IntentFilter();
-	      filter.addAction("cn.abel.action.broadcast");
-	      receiver = new friendBroadcastReceiver();
-	      registerReceiver(receiver, filter);
+		progressDialog = new ProgressDialog(this);
+		// 注册广播,添加请求信息里一点击同意，我这边好友列表里就增加相应的好友
+		IntentFilter filter = new IntentFilter();
+		filter.addAction("cn.abel.action.broadcast");
+		receiver = new friendBroadcastReceiver();
+		registerReceiver(receiver, filter);
 	}
 
 	/**
@@ -146,10 +148,10 @@ public static String getGid() {
 			province = location.getProvince(); // 获取省份信息
 			city = location.getCity(); // 获取城市信息
 			district = location.getDistrict(); // 获取区县信息
-		    group_place.setText(""+location.getAddrStr());
-		    Log.i("创建群组所在的省", province);
-		    Log.i("创建群组所在的市", city);
-		    Log.i("创建群组所在的县", district);
+			group_place.setText("" + location.getAddrStr());
+			Log.i("创建群组所在的省", province);
+			Log.i("创建群组所在的市", city);
+			Log.i("创建群组所在的县", district);
 			latitude = location.getLatitude();
 			longitude = location.getLongitude();
 
@@ -192,7 +194,7 @@ public static String getGid() {
 				sb.append("noPoi information");
 			}
 			Log.i("群组地址", sb + "");
-			
+
 		}
 	}
 
@@ -204,8 +206,8 @@ public static String getGid() {
 		// TODO Auto-generated method stub
 		group_head = (ImageView) findViewById(R.id.c_group_camera);
 		group_name = (EditText) findViewById(R.id.c_group_name);
-		group_intro = (EditText) findViewById(R.id.c_group_jianjie);		
-        group_place = (TextView)findViewById(R.id.group_add_name);    
+		group_intro = (EditText) findViewById(R.id.c_group_jianjie);
+		group_place = (TextView) findViewById(R.id.group_add_name);
 		group_head.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -231,12 +233,13 @@ public static String getGid() {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.c_group_left:
-//				Intent intent = new Intent(CreateGroup.this, GroupPage.class);
-//				startActivity(intent);
+				// Intent intent = new Intent(CreateGroup.this,
+				// GroupPage.class);
+				// startActivity(intent);
 				finish();
 				break;
 			case R.id.c_group_next:
-				next();		
+				next();
 				break;
 			default:
 				break;
@@ -255,7 +258,11 @@ public static String getGid() {
 		intro = group_intro.getText().toString().trim();
 		place = group_place.getText().toString().trim();
 
-		headimage = "";	
+		headimage = "";
+		if (null==myBitmap) {
+			ToastUtils.showLong(getApplicationContext(), "请添加群组头像");
+			return;
+		}
 		if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(intro)
 				&& !TextUtils.isEmpty(place)) {
 			postGroup(uid, name, place, intro, limit, latitude, longitude);
@@ -277,14 +284,14 @@ public static String getGid() {
 				super.onFinish();
 				progressDialog.dismiss();
 			}
-			
+
 			public void onSuccess(String response) {
 				JSONObject obj;
 				try {
-					obj = new JSONObject(response);		
-					Log.i("这是创建群组的，看看头像上传成功没有", response+ "");
-					if (obj.getInt("result") == 1) {				
-							postfinish();
+					obj = new JSONObject(response);
+					Log.i("这是创建群组的，看看头像上传成功没有", response + "");
+					if (obj.getInt("result") == 1) {
+						postfinish();
 					} else {
 
 					}
@@ -299,9 +306,8 @@ public static String getGid() {
 		client.postGroupHeadImage(uid, headimage, res);
 	}
 
-
-	private void postGroup(String uid, final String name, String place, String intro,
-			String limit, double latitude, double longitude) {
+	private void postGroup(String uid, final String name, String place,
+			String intro, String limit, double latitude, double longitude) {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
 
@@ -309,31 +315,31 @@ public static String getGid() {
 			public void onStart() {
 				// TODO Auto-generated method stub
 				super.onStart();
-				
+
 				progressDialog.setMessage(getString(R.string.submiting));
 				progressDialog.show();
-				
+
 			}
-			
+
 			@Override
 			public void onFailure(Throwable error) {
 				// TODO Auto-generated method stub
 				super.onFailure(error);
 				progressDialog.dismiss();
 			}
-			
+
 			public void onSuccess(String response) {
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
 					Log.i("response-----result", obj.getInt("result") + "");
 					if (obj.getInt("result") == 1) {
-						//开始上传头像，参数传group的id
-					     JSONObject result = obj.getJSONObject("group");			
-						
-					    gid = result.getString("id");
-						postHeadStart(gid);	
-						g_name=name;
+						// 开始上传头像，参数传group的id
+						JSONObject result = obj.getJSONObject("group");
+
+						gid = result.getString("id");
+						postHeadStart(gid);
+						g_name = name;
 					} else {
 						progressDialog.dismiss();
 					}
@@ -354,11 +360,10 @@ public static String getGid() {
 	protected void postHeadStart(String gid) {
 		// TODO Auto-generated method stub
 		if (myBitmap != null) {
-			headimage =ImageUtil.bitmaptoString(myBitmap);		
-			//System.out.println(headimage);
+			headimage = ImageUtil.bitmaptoString(myBitmap);
+			// System.out.println(headimage);
 			postGroupHeadImage(gid, headimage);
-		}
-		else {
+		} else {
 			progressDialog.dismiss();
 			postfinish();
 		}
@@ -366,11 +371,11 @@ public static String getGid() {
 
 	private void postfinish() {
 		// TODO Auto-generated method stub
-//		Toast.makeText(getApplicationContext(), "添加成功！", Toast.LENGTH_LONG)
-//				.show();
-//		group_head.setImageBitmap(myBitmap);
-		Intent intent1 = new Intent(CreateGroup.this, CreateGroupSuccess.class);		
-		startActivity(intent1);		
+		// Toast.makeText(getApplicationContext(), "添加成功！", Toast.LENGTH_LONG)
+		// .show();
+		// group_head.setImageBitmap(myBitmap);
+		Intent intent1 = new Intent(CreateGroup.this, CreateGroupSuccess.class);
+		startActivity(intent1);
 	}
 
 	// 图片上传选择途径
@@ -481,20 +486,18 @@ public static String getGid() {
 		bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
 		return bitmap;// 压缩好比例大小后再进行质量压缩
 	}
-	//广播
-		private class friendBroadcastReceiver extends BroadcastReceiver{
 
-			@Override
-			public void onReceive(Context arg0, Intent arg1) {
-				// TODO Auto-generated method stub				
-				 //重新发一次请求，好更新friend 列表			
-		    finish();
-			}
+	// 广播
+	private class friendBroadcastReceiver extends BroadcastReceiver {
 
-
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			// TODO Auto-generated method stub
+			// 重新发一次请求，好更新friend 列表
+			finish();
 		}
 
-
+	}
 
 	@Override
 	protected void onDestroy() {

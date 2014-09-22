@@ -18,6 +18,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,6 +50,7 @@ import com.example.projectcircle.complete.CompleteDriver;
 import com.example.projectcircle.complete.CompleteInfo;
 import com.example.projectcircle.complete.CompleteMaster;
 import com.example.projectcircle.constants.ContantS;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.group.GroupPage;
 import com.example.projectcircle.personal.PersonalPage;
 import com.example.projectcircle.util.DistentsUtil;
@@ -260,6 +262,14 @@ public class HomeActivity extends Activity {
 				all_user.setOnClickListener(click_listener);// 全部按钮选中的时候老乡按钮不能选
 				professional.setOnClickListener(click_listener);// 全部按钮选中的时候机主、司机、商家按钮不能选
 				all_machine.setOnClickListener(click_listener);// 全部按钮选中时，挖掘机、自卸车、装载机、板车按钮不能选
+				fellow_villager.setOnClickListener(click_listener);
+				owner.setOnClickListener(click_listener);
+				a_driver.setOnClickListener(click_listener);
+				businesses.setOnClickListener(click_listener);
+				a_machine_lord.setOnClickListener(click_listener);
+				a_dump_truck.setOnClickListener(click_listener);
+				a_loader.setOnClickListener(click_listener);
+				a_scooter.setOnClickListener(click_listener);
 				sure.setOnClickListener(click_listener);
 				cancel.setOnClickListener(click_listener);
 			}
@@ -275,34 +285,66 @@ public class HomeActivity extends Activity {
 			switch (v.getId()) {
 			case R.id.all_user:
 				if (all_user.isChecked()) {
-					fellow_villager.setEnabled(false);
+					// fellow_villager.setEnabled(false);
+					fellow_villager.setChecked(false);
 				} else {
-					fellow_villager.setEnabled(true);
+					// fellow_villager.setEnabled(true);
+					// fellow_villager.setChecked(false);
 				}
 				break;
+			case R.id.fellow_villager:
+				if (fellow_villager.isChecked()) {
+					all_user.setChecked(false);
+				}
+				break;
+
 			case R.id.professional:
 				if (professional.isChecked()) {
-					owner.setEnabled(false);
-					a_driver.setEnabled(false);
-					businesses.setEnabled(false);
+					// owner.setEnabled(false);
+					// a_driver.setEnabled(false);
+					// businesses.setEnabled(false);
+
+					owner.setChecked(false);
+					a_driver.setChecked(false);
+					businesses.setChecked(false);
+
 				} else {
-					owner.setEnabled(true);
-					a_driver.setEnabled(true);
-					businesses.setEnabled(true);
+					// owner.setEnabled(true);
+					// a_driver.setEnabled(true);
+					// businesses.setEnabled(true);
 				}
 				break;
+
+			case R.id.owner:
+			case R.id.a_driver:
+			case R.id.businesses:
+				AppLog.i(TAG, "点击:" + v.getId());
+				professional.setChecked(false);
+				break;
+
 			case R.id.all_machine:
 				if (all_machine.isChecked()) {
-					a_machine_lord.setEnabled(false);
-					a_dump_truck.setEnabled(false);
-					a_loader.setEnabled(false);
-					a_scooter.setEnabled(false);
+					// a_machine_lord.setEnabled(false);
+					// a_dump_truck.setEnabled(false);
+					// a_loader.setEnabled(false);
+					// a_scooter.setEnabled(false);
+					a_machine_lord.setChecked(false);
+					a_dump_truck.setChecked(false);
+					a_loader.setChecked(false);
+					a_scooter.setChecked(false);
 				} else {
-					a_machine_lord.setEnabled(true);
-					a_dump_truck.setEnabled(true);
-					a_loader.setEnabled(true);
-					a_scooter.setEnabled(true);
+					// a_machine_lord.setEnabled(true);
+					// a_dump_truck.setEnabled(true);
+					// a_loader.setEnabled(true);
+					// a_scooter.setEnabled(true);
 				}
+				break;
+
+			case R.id.a_machine_lord:
+			case R.id.a_dump_truck:
+			case R.id.a_loader:
+			case R.id.a_scooter:
+				all_machine.setChecked(false);
 				break;
 			case R.id.sure:
 				if (all_user.isChecked()) {
@@ -457,6 +499,13 @@ public class HomeActivity extends Activity {
 				user.setHeadimage(obj.getString("headimage"));
 				user.setAccept(obj.getString("accept"));
 				try {
+					user.setLastlogintime(obj.getString("reflashtime"));
+					AppLog.i(TAG, "开始lema:"+obj.getString("reflashtime"));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+				try {
 					user.setLat(obj.getDouble("commercialLat"));
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -490,7 +539,7 @@ public class HomeActivity extends Activity {
 		LocationClientOption option = new LocationClientOption();
 		option.setLocationMode(LocationMode.Hight_Accuracy);// 设置定位模式,//Hight_Accuracy高精度、Battery_Saving低功耗、Device_Sensors仅设备(GPS)
 		option.setOpenGps(true);// 打开gps,设置是否打开gps，使用gps前提是用户硬件打开gps。默认是不打开gps的。
-		option.setScanSpan(60000);// 定位的时间间隔，单位：ms
+		option.setScanSpan(60000*10);// 定位的时间间隔，单位：ms
 		// 需要地址信息，设置为其他任何值（string类型，且不能为null）时，都表示无地址信息。
 		option.setAddrType("all");
 
@@ -781,6 +830,17 @@ public class HomeActivity extends Activity {
 					user.setAccept(obj.getString("accept"));
 					user.setLastlogintime(obj.getString("lastlogintime"));
 					try {
+						String reshtime=obj.getString("reflashtime");
+						if (!TextUtils.isEmpty(reshtime)) {
+							user.setLastlogintime(obj.getString("reflashtime"));
+						}
+						
+						AppLog.i(TAG, "开始lema:"+obj.getString("reflashtime"));
+					} catch (Exception e) {
+						// TODO: handle exception
+					}
+					
+					try {
 						user.setLat(obj.getDouble("commercialLat"));
 					} catch (Exception e) {
 						// TODO: handle exception
@@ -814,7 +874,7 @@ public class HomeActivity extends Activity {
 		uname_txt.setText(uname);
 		utype_txt.setText(utype);
 		// 地址只截取省，因为省市是由空格分开的，所以截取第一个空格前的内容即为省
-		if (null!=ucity) {
+		if (null != ucity) {
 			String arrays[] = ucity.split(" ");
 			ucity_txt.setText(arrays[0]);
 		}
@@ -1099,23 +1159,28 @@ public class HomeActivity extends Activity {
 			String types[] = type.split(",");
 			if (types != null) {
 				int length = types.length;
-				for (int i = 0; i < length; i++) {
-					if (types[i].equals("机主")) {
-						owner.setChecked(true);
-						continue;
-					}
+				if (length == 3) {
+					professional.setChecked(true);
+				} else {
+					for (int i = 0; i < length; i++) {
+						if (types[i].equals("机主")) {
+							owner.setChecked(true);
+							continue;
+						}
 
-					if (types[i].equals("商家")) {
-						businesses.setChecked(true);
-						continue;
-					}
+						if (types[i].equals("商家")) {
+							businesses.setChecked(true);
+							continue;
+						}
 
-					if (types[i].equals("司机")) {
-						a_driver.setChecked(true);
-						continue;
-					}
+						if (types[i].equals("司机")) {
+							a_driver.setChecked(true);
+							continue;
+						}
 
+					}
 				}
+
 			}
 		}
 
@@ -1125,6 +1190,10 @@ public class HomeActivity extends Activity {
 			String types[] = equ.split(",");
 			if (types != null) {
 				int length = types.length;
+				if (length == 4) {
+					all_machine.setChecked(true);
+					return;
+				}
 				for (int i = 0; i < length; i++) {
 					if (types[i].equals("挖掘机")) {
 						a_machine_lord.setChecked(true);

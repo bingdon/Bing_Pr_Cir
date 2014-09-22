@@ -16,6 +16,8 @@ public class FriendChat implements BaseColumns {
 	
 	public static final String HEAD_IMAGE="head_img";
 	
+	public static final String UID="uid";
+	
 	public static final String IS_COM="is_com";
 	
 }

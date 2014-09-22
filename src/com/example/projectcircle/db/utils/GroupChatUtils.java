@@ -13,6 +13,7 @@ import com.example.projectcircle.bean.GroupChatData;
 import com.example.projectcircle.db.ProJectDatebase;
 import com.example.projectcircle.db.interfaces.FriendChatAbs;
 import com.example.projectcircle.db.interfaces.GroupChatInterface;
+import com.example.projectcircle.other.ChatMsgEntity;
 
 public class GroupChatUtils implements GroupChatInterface {
 	private String gid = "";
@@ -281,7 +282,9 @@ public class GroupChatUtils implements GroupChatInterface {
 
 		return id;
 	}
-
+	/**
+	 * @deprecated
+	 */
 	@Override
 	public long insert(String uid, String name, String headimg, String content,
 			String time, String showtime, int iscom) {
@@ -309,4 +312,35 @@ public class GroupChatUtils implements GroupChatInterface {
 		return id;
 
 	}
+	
+	
+	public long insert(ChatMsgEntity chatMsgEntity) {
+		// TODO Auto-generated method stub
+
+		long id = -1;
+		try {
+			int iscom = 0;
+			if (chatMsgEntity.getMsgType()) {
+				iscom = 1;
+			}
+			ContentValues values = new ContentValues();
+			values.put(GroupChatData.CONTENT, chatMsgEntity.getText());
+			values.put(GroupChatData.TIME, chatMsgEntity.getDate());
+			values.put(GroupChatData.SHOW_TIME, chatMsgEntity.getDate());
+			values.put(GroupChatData.IS_COM, iscom);
+			values.put(GroupChatData.UID, chatMsgEntity.getUid());
+			values.put(GroupChatData.NAME, chatMsgEntity.getName());
+			values.put(GroupChatData.HEAD_IMAG, chatMsgEntity.getHeadimgString());
+
+			id = ProJectDatebase.proDatabase.insert(GroupChatData.TABLE_NAME
+					+ gid, null, values);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return id;
+
+	}
+	
 }

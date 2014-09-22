@@ -108,23 +108,20 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 		}
 		// Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
 
-		
-		int flag0=GroupChatOther.isSameId(message);
-		
-		Log.i(TAG, "消息类型:"+flag0);
-		
-		if (flag0==0) {//是当前群组聊天
-			
-		
+		int flag0 = GroupChatOther.isSameId(message);
+
+		Log.i(TAG, "消息类型:" + flag0);
+
+		if (flag0 == 0) {// 是当前群组聊天
+
 			sendMsg2Group(message, context);
-			
-		}else if (flag0==1) { //非当前群组聊天
-			
+
+		} else if (flag0 == 1) { // 非当前群组聊天
+
 			sendMsg2Gro(message, context);
-			
-		}else  { //非群组聊天
-			
-			
+
+		} else { // 非群组聊天
+
 			int falg = Chat.isSameId(message);
 			switch (falg) {
 			case 0:
@@ -135,29 +132,27 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 					sendMsgAOpenchat(message, context);
 					// updateContent(context, messageString);
 				}
-				
+
 				break;
 
 			case 1:
 
 				sendMsg2Fri(message, context);
-				
+
 				break;
 
 			default:
 				break;
 			}
-			
-		}
-		
-		
 
-//		if (Chat.isLive) {
-//			sendMsg2Chat(message, context);
-//		} else {
-//			sendMsgAOpenchat(message, context);
-//			// updateContent(context, messageString);
-//		}
+		}
+
+		// if (Chat.isLive) {
+		// sendMsg2Chat(message, context);
+		// } else {
+		// sendMsgAOpenchat(message, context);
+		// // updateContent(context, messageString);
+		// }
 
 	}
 
@@ -326,9 +321,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 		intent.putExtra("msg", msg);
 		context.sendBroadcast(intent);
 	}
-	
-	
-	
+
 	private void sendMsg2Fri(String msg, Context context) {
 		Intent intent = new Intent();
 		intent.setAction(ContantS.ACTION_GET_MSG_FRI);
@@ -337,16 +330,23 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 		intent.putExtra("msg", msg);
 		SaveChattoDb.saveChat2db(msg, context);
 		try {
-			String name=SaveChattoDb.getPersonInfo(msg).getUsername();
-			NoticeUtils.noticeMsg(context, name+"发来消息", ""+name, ContantS.CHAT_MSG);
+			String name = SaveChattoDb.getPersonInfo(msg).getUsername();
+			NoticeUtils.noticeMsg(context, name + "发来消息", "" + name,
+					ContantS.CHAT_MSG);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-		
+
 	}
-	
-	
+
+	/**
+	 * 非当前群组聊天处理
+	 * 
+	 * @param msg
+	 *            消息
+	 * @param context
+	 *            上下文
+	 */
 	private void sendMsg2Gro(String msg, Context context) {
 		Intent intent = new Intent();
 		intent.setAction(ContantS.ACTION_GET_MSG_FRI);
@@ -354,22 +354,21 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 		context.sendBroadcast(intent);
 		intent.putExtra("msg", msg);
 		SaveChattoDb.saveGroupChat2db(msg, context);
-		String name=MyGroup.getGroupname(SaveChattoDb.getgId(msg));
-		NoticeUtils.noticeMsg(context, name+"发来消息", ""+name, ContantS.CHAT_MSG);
-		
-	}
-	
+		String name = MyGroup.getGroupname(SaveChattoDb.getgId(msg));
+		NoticeUtils.noticeMsg(context, name + "发来消息", "" + name,
+				ContantS.CHAT_MSG);
 
-	
-	private void sendMsg2Group(String msg, Context context){
-		
+	}
+
+	private void sendMsg2Group(String msg, Context context) {
+
 		Intent intent = new Intent();
 		intent.setAction(ContantS.ACTION_GET_MSG_GROUP);
 		intent.putExtra("msg", msg);
 		context.sendBroadcast(intent);
-		
+
 	}
-	
+
 	private void sendMsgAOpenchat(String msg, Context context) {
 		Intent intent = new Intent();
 		intent.setClass(context, Chat.class);// 第一个参数是来源的activity；第二个是要前往的activity

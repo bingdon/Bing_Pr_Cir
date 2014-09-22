@@ -5,9 +5,11 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.example.projectcircle.complete.CompleteCommercial;
 import com.example.projectcircle.complete.CompleteDriver;
 import com.example.projectcircle.complete.CompleteInfo;
 import com.example.projectcircle.complete.CompleteMaster;
+import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.other.MessagePage;
 import com.example.projectcircle.personal.ModifyMySelf;
 import com.example.projectcircle.personal.MyPersonal;
@@ -83,6 +86,13 @@ public class ManagePage extends Activity {
 				.build();
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		unregisterReceiver(msgReceiver);
+	}
+	
 	/**
 	 * 个人信息 请求和解析
 	 * 
@@ -281,5 +291,19 @@ public class ManagePage extends Activity {
 				}).create();
 		dlg.show();
 	}
+	private void initFilter() {
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(ContantS.ACTION_GET_USER_INFO);
+		registerReceiver(msgReceiver, filter);
+	}
+	
+	private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			UserDetail(id);
+		}
+	};
 	
 }

@@ -12,6 +12,7 @@ import com.example.projectcircle.complete.CompleteInfo;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.setting.ModifyInfoActivity;
+import com.example.projectcircle.util.BingDateUtils;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -71,6 +72,8 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 	DatePickerDialog mDialog;
 
 	int year_index, month_index;
+	
+	private String real_Time="";
 	
 
 	@Override
@@ -313,7 +316,7 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 		int month = currentmonth - timemonth;
 		Log.i("month", month + "");
 		device_age = month / 12 + "";
-
+		
 		// System.out.println(device_age);
 		if (TextUtils.isEmpty(device_age)) {
 			return;
@@ -376,7 +379,7 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 			};
 		};
 		MyHttpClient client = new MyHttpClient();
-		client.CompleteDriver2(uid, type, driveryears, now_type,now_brand, res);
+		client.CompleteDriver2(uid, type, driveryears, now_type,now_brand,real_Time, res);
 	}
 	
 	
@@ -426,7 +429,7 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 							driver_time_month.setText(monthOfYear + 1 + "");
 							timeyear = year;
 							timemonth = monthOfYear + 1;
-
+							real_Time=year+"-"+(monthOfYear + 1);
 						}
 					}, calendar.get(Calendar.YEAR),
 					calendar.get(Calendar.MONTH),
@@ -542,18 +545,25 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 						JSONArray arr1 = arr.getJSONArray(0);
 						JSONObject equobj = arr1.getJSONObject(0);
 						driveryearO = equobj.getString("driveryear");
+						String driver_start=equobj.getString("dbegin");
+						AppLog.i(TAG, "时间:"+driver_start);
 						nequ = equobj.getString("nequ");
 						oequ=equobj.getString("oequ");
-						if (!TextUtils.isEmpty(driveryearO)) {
-							driver_time_year.setText(""+(2014-Integer.valueOf(driveryearO)));
-						}
-						
-						if (!TextUtils.isEmpty(nequ)) {
-							now_brand_txt.setText(nequ);
+						if (!TextUtils.isEmpty(driver_start)) {
+							String times[] = driver_start.split("-");
+							if (times!=null&times.length==2) {
+								driver_time_year.setText(""+times[0]);
+								driver_time_month.setText(""+times[1]);
+							}
+							
 						}
 						
 						if (!TextUtils.isEmpty(oequ)) {
-							now_type_txt.setText(oequ);
+							now_brand_txt.setText(oequ);
+						}
+						
+						if (!TextUtils.isEmpty(nequ)) {
+							now_type_txt.setText(nequ);
 						}
 						
 					} 
@@ -565,4 +575,26 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 
 		}
 	
+		private void countYear(String driver_start) {
+			Calendar calendar = Calendar.getInstance();
+			int year = calendar.get(Calendar.YEAR);
+			int month = calendar.get(Calendar.MONTH) + 1;
+			int montha = BingDateUtils.getMonth(driver_start);
+			int yeara = BingDateUtils.getYear(driver_start);
+			int monthdis = 0;
+			int yeardis = 0;
+			if (month >= montha) {
+				monthdis = month - montha;
+			} else {
+				year = year - 1;
+				yeardis = year - yeara;
+				monthdis = month + 12 - montha;
+			}
+			if (yeardis > 0) {
+				driveryearO = yeardis + "年" + monthdis + "个月";
+			} else {
+				driveryearO = monthdis + "个月";
+			}
+		}
+		
 }

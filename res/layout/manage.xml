@@ -176,7 +176,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@drawable/line" />
+                    android:background="@drawable/line"
+                    android:visibility="gone" />
                 <LinearLayout
                     android:id="@+id/m_right7_layout"
                     android:layout_width="match_parent"

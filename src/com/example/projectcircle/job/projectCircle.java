@@ -44,6 +44,7 @@ import com.example.projectcircle.bean.CommentBean;
 import com.example.projectcircle.bean.MoodBean;
 import com.example.projectcircle.bean.MoodInfo;
 import com.example.projectcircle.bean.StatusInfo;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.other.MsgListView.IXListViewListener;
 import com.example.projectcircle.util.BingDateUtils;
 import com.example.projectcircle.util.JsonUtils;
@@ -95,17 +96,17 @@ public class projectCircle extends Activity implements OnRefreshListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 设置头部title不让它显示
 		setContentView(R.layout.project_circle);
-		 myid = LoginActivity.id;
-		 try {
-			 String id=getIntent().getStringExtra("id");
-			 if (!TextUtils.isEmpty(id)) {
-				myid=id;
+		myid = LoginActivity.id;
+		try {
+			String id = getIntent().getStringExtra("id");
+			if (!TextUtils.isEmpty(id)) {
+				myid = id;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		 
-//		myid = "1";
+
+		// myid = "1";
 		// 初始化刷新控件
 		refeshInit();
 		doListMood();
@@ -339,7 +340,7 @@ public class projectCircle extends Activity implements OnRefreshListener,
 				listItem.clear();
 				parselistMood(response);
 				list_circle();
-//				doListMyMood();
+				// doListMyMood();
 				// list_circle();
 
 			}
@@ -350,13 +351,13 @@ public class projectCircle extends Activity implements OnRefreshListener,
 				super.onFinish();
 				mRefreshLayout.setRefreshing(false);
 			}
-			
+
 			@SuppressWarnings("deprecation")
 			@Override
 			public void onFailure(Throwable error) {
 				// TODO Auto-generated method stub
 				super.onFailure(error);
-				
+
 			}
 		};
 		MyHttpClient myhttpclient = new MyHttpClient();
@@ -697,9 +698,9 @@ public class projectCircle extends Activity implements OnRefreshListener,
 
 	@Override
 	public void onPicClick(int listPostino, int picPostion) {
-		List<String> list = this.list.get(picPostion).getImg();
+		List<String> list0 = this.list.get(listPostino).getImg();
 		Intent intent = new Intent();
-		intent.putStringArrayListExtra("imgurls", (ArrayList<String>) list);
+		intent.putStringArrayListExtra("imgurls", (ArrayList<String>) list0);
 		intent.putExtra("postion", picPostion);
 		intent.setClass(projectCircle.this, PhotoPagerActivity.class);
 		startActivity(intent);
@@ -739,6 +740,14 @@ public class projectCircle extends Activity implements OnRefreshListener,
 					.toString());
 			list.get(i).put("new_time", TimeUtility.getListTime(time));
 		}
+	}
+
+	private void delMood(int position) {
+		String moodid = list.get(position).getId();
+
+		list.remove(position);
+		myAdapter.notifyDataSetChanged();
+
 	}
 
 }

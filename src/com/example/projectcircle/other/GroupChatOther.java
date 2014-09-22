@@ -15,13 +15,16 @@ import com.example.projectcircle.adpter.ChatAdapter;
 import com.example.projectcircle.adpter.Utils;
 import com.example.projectcircle.bean.FriendChatBean;
 import com.example.projectcircle.bean.GroupChatBean;
+import com.example.projectcircle.bean.MyPersonBean;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.db.ProJectDatebase;
 import com.example.projectcircle.db.utils.FriendChatUtils;
 import com.example.projectcircle.db.utils.GroupChatUtils;
 import com.example.projectcircle.db.utils.GroupDatabaseUtils;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.BingDateUtils;
 import com.example.projectcircle.util.MyHttpClient;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.app.Activity;
@@ -70,6 +73,8 @@ public class GroupChatOther extends Activity {
 	private static final long TIME_DISTANCE = 6000 * 10;
 
 	private String groupnuname = "";
+	
+	private MyPersonBean personBean;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -417,6 +422,8 @@ public class GroupChatOther extends Activity {
 			gid = content.getString("gid");
 			JSONObject jsonObject2=jsonObject.getJSONObject("user");
 			uheadimg = MyHttpClient.IMAGE_URL + jsonObject2.getString("headimage");
+			personBean=new Gson().fromJson(jsonObject2.toString(), MyPersonBean.class);
+			uname=personBean.getUsername();
 			Log.i(TAG, "头像:"+uheadimg);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -441,6 +448,8 @@ public class GroupChatOther extends Activity {
 		chatMsgEntity.setHeadimgString(uheadimg);
 		chatMsgEntity.setUid(sendid);
 		chatMsgEntity.setTime(System.currentTimeMillis());
+		chatMsgEntity.setName(uname);
+		AppLog.i(TAG, "来着姓名:"+uname);
 
 		if (chatMsgList.size() > 0) {
 			long time = chatMsgList.get(chatMsgList.size() - 1).getTime();
@@ -569,8 +578,11 @@ public class GroupChatOther extends Activity {
 				chatMsgEntity.setDate(groupChatBeans.get(i).getShowTime());
 				chatMsgEntity.setHeadimgString(groupChatBeans.get(i)
 						.getHeadimg());
+				AppLog.i(TAG, "头像:"+groupChatBeans.get(i).getHeadimg());
 				chatMsgEntity.setText(groupChatBeans.get(i).getContent());
 				chatMsgEntity.setSend_state(true);
+				chatMsgEntity.setUid(groupChatBeans.get(i).getUid());
+				chatMsgEntity.setName(groupChatBeans.get(i).getName());
 				switch (groupChatBeans.get(i).getIscom()) {
 				case 0:
 					chatMsgEntity.setMsgType(false);
@@ -607,9 +619,10 @@ public class GroupChatOther extends Activity {
 		// groupChatUtils.insert(chatMsgEntity.getText(),
 		// chatMsgEntity.getDate(),
 		// chatMsgEntity.getDate(), iscom);
-		groupChatUtils.insert(chatMsgEntity.getUid(), groupnuname,
-				chatMsgEntity.getHeadimgString(), chatMsgEntity.getText(),
-				chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+//		groupChatUtils.insert(chatMsgEntity.getUid(), groupnuname,
+//				chatMsgEntity.getHeadimgString(), chatMsgEntity.getText(),
+//				chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+		groupChatUtils.insert(chatMsgEntity);
 
 	}
 

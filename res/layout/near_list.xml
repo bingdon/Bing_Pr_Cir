@@ -6,6 +6,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:orientation="horizontal" >
 
         <ImageView
@@ -19,11 +21,13 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical" 
+            android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -31,34 +35,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:maxEms="6"
                     android:singleLine="true"
+                    android:ellipsize="middle"
+                    android:layout_weight="1"
                     android:text="司机协会"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/icon_address" />
-
                 <TextView
-                    android:id="@+id/n_group_near"
+                    android:id="@+id/near_group_distance_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
+                    android:layout_gravity="right"
+                    android:layout_marginLeft="2dp"
                     android:layout_marginTop="10dp"
-                    android:text="中关村创业大厦"
+                    android:drawableLeft="@drawable/icon_address"
+                    android:text="1.2km"
                     android:textColor="#565656"
-                    android:textSize="12dp" />
+                    android:layout_weight="1"
+                    android:textSize="11dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -66,41 +67,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
                     android:text="群人数：88人"
                     android:textColor="#565656"
                     android:textSize="12dp" />
-                
+
                 <TextView
                     android:id="@+id/group_main"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/group_bg"
                     android:gravity="center"
                     android:text="群主"
                     android:textColor="@color/white"
-                    android:background="@drawable/group_bg"
-                    android:visibility="invisible"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/near_group_icon_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/icon_address" />
+                    android:textSize="12sp"
+                    android:visibility="invisible" />
 
                 <TextView
-                    android:id="@+id/near_group_distance_host"
+                    android:id="@+id/n_group_near"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="5dp"
-                    android:text="1.2km"
+                    android:layout_marginLeft="3dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/icon_address"
+                    android:text="中关村创业大厦"
                     android:textColor="#565656"
-                    android:textSize="11dp" />
+                    android:gravity="right"
+                    android:textSize="12dp" />
             </LinearLayout>
 
             <TextView

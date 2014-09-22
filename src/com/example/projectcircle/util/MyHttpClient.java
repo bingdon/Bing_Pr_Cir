@@ -288,7 +288,8 @@ public class MyHttpClient {
 	}
 
 	/**
-	 * 
+	 * @deprecated 此方法过期，请使用
+	 *             {@link #CompleteDriver2(String, String, String, String, String, String, AsyncHttpResponseHandler)}
 	 * @param id
 	 * @param type
 	 * @param driveryears
@@ -302,6 +303,21 @@ public class MyHttpClient {
 			HttpUtil.get(completeD_url + id + "&type=" + type + "&driveryears="
 					+ driveryears + "&nequ=" + nequ + "&oequ=" + oequ, params,
 					res);
+			Log.i("completeD_url", "添加:" + completeD_url + id + "&type=" + type
+					+ "&driveryears=" + driveryears + "&nequ=" + nequ);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void CompleteDriver2(String id, String type, String driveryears,
+			String nequ, String oequ, String dbegin,
+			AsyncHttpResponseHandler res) {
+		RequestParams params = new RequestParams();
+		try {
+			HttpUtil.get(completeD_url + id + "&type=" + type + "&driveryears="
+					+ driveryears + "&nequ=" + nequ + "&oequ=" + oequ
+					+ "&dbegin=" + dbegin, params, res);
 			Log.i("completeD_url", "添加:" + completeD_url + id + "&type=" + type
 					+ "&driveryears=" + driveryears + "&nequ=" + nequ);
 		} catch (Exception e) {

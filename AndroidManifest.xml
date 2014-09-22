@@ -214,7 +214,7 @@
         <activity android:name="com.example.projectcircle.job.PhotoPagerActivity" >
         </activity>
         <!-- 工作页 -->
-        <activity android:name="com.example.projectcircle.job.JobPage" >
+        <activity android:name="com.example.projectcircle.job.JobPage" android:theme="@style/AppNotitleTheme">
         </activity>
         <!-- 发布状态页 -->
         <activity

@@ -915,6 +915,8 @@ public class FriendPage extends Activity {
 			if (m > 0) {
 				tipNotice.setText(m + "");// ÓÐ¼¸¸ö
 				tipNotice.setVisibility(View.VISIBLE);
+			}else {
+				tipNotice.setVisibility(View.GONE);
 			}
 
 		} catch (Exception e) {

@@ -141,8 +141,8 @@ public class JobPage extends Activity {
 		total_txt2 = (TextView) findViewById(R.id.project_total);
 		total_txt3 = (TextView) findViewById(R.id.requirement_total);
 
-		total_txt1.setText("共有" + total1 + "个工作岗位供您选择");
-		total_txt2.setText("共有" + total2 + "个工作岗位供您选择");
+		total_txt1.setText("共有" + total1 + "个商家为您提供服务");
+		total_txt2.setText("共有" + total2 + "条设备需求信息");
 		total_txt3.setText("共有" + total3 + "个工作岗位供您选择");
 		circle.setOnClickListener(listener);
 		shop.setOnClickListener(listener);

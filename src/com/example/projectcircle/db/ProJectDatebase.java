@@ -18,8 +18,9 @@ public class ProJectDatebase {
 	private static final String CREATE_FRI_INFO_TALE = "(" + FriendChat._ID
 			+ " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," + FriendChat.TIME
 			+ " TEXT," + FriendChat.CONTENT + " TEXT," + FriendChat.TITLE
-			+ " TEXT," + FriendChat.HEAD_IMAGE + " TEXT," + FriendChat.SHOW_TIME
-			+ " VARCHAR(15) NOT NULL," + FriendChat.IS_COM + " INTEGER" + ");";
+			+ " TEXT," + FriendChat.HEAD_IMAGE + " TEXT,"+ FriendChat.UID + " TEXT,"
+			+ FriendChat.SHOW_TIME + " VARCHAR(15) NOT NULL,"
+			+ FriendChat.IS_COM + " INTEGER" + ");";
 
 	private static final String CREATE_GROUP_INFO_SQL_HEAD = "CREATE TABLE IF NOT EXISTS "
 			+ GroupChatData.TABLE_NAME;

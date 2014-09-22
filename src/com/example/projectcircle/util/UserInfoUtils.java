@@ -100,9 +100,9 @@ public class UserInfoUtils {
 //				Context.MODE_PRIVATE).edit().clear().commit();
 		
 		new FriendDatabaseUtils(context).deleteAll();
-		new GroupDatabaseUtils(context).deleteAll();
-		new MsgDataUtils(context).deleteAll();
-		new NewContactsUtily(context).deleteAll();
+//		new GroupDatabaseUtils(context).deleteAll();
+//		new MsgDataUtils(context).deleteAll();
+//		new NewContactsUtily(context).deleteAll();
 		
 		
 //		Log.i("É¾³ý", "É¾³ýA:"+a);

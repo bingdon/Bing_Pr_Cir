@@ -3,9 +3,12 @@ package com.example.projectcircle.adpter;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -15,6 +18,7 @@ import android.widget.TextView;
 import com.example.projectcircle.HomeActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.other.ChatMsgEntity;
+import com.example.projectcircle.personal.PersonalPage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -41,20 +45,23 @@ public class ChatAdapter extends BaseAdapter {
 	private Bitmap mBitmap;
 
 	DisplayImageOptions options;
-	private ImageLoader imageLoader=ImageLoader.getInstance();
+	private ImageLoader imageLoader = ImageLoader.getInstance();
 
 	public ChatAdapter(Context context, List<ChatMsgEntity> coll) {
 		ctx = context;
 		this.coll = coll;
 		mInflater = LayoutInflater.from(context);
 		// 配置图片加载及显示选项（还有一些其他的配置，查阅doc文档吧）
-		options = new DisplayImageOptions.Builder().cacheInMemory(true) // 加载图片时会在内存中加载缓存
-				.cacheInMemory(true)// 是否緩存都內存中
-				.cacheOnDisc(true)// 是否緩存到sd卡上
+		options = new DisplayImageOptions.Builder()
+				.cacheInMemory(true)
+				// 加载图片时会在内存中加载缓存
+				.cacheInMemory(true)
+				// 是否緩存都內存中
+				.cacheOnDisc(true)
+				// 是否緩存到sd卡上
 				.showStubImage(R.drawable.logo)
 				.showImageOnFail(R.drawable.logo)
-				.showImageForEmptyUri(R.drawable.logo)
-				.build();
+				.showImageForEmptyUri(R.drawable.logo).build();
 	}
 
 	@Override
@@ -93,7 +100,7 @@ public class ChatAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ChatMsgEntity entity = coll.get(position);
 		boolean isComMsg = entity.getMsgType();
-
+		final int itemePosition = position;
 		ViewHolder viewHolder = null;
 		if (convertView == null) {
 			if (isComMsg) {
@@ -107,6 +114,8 @@ public class ChatAdapter extends BaseAdapter {
 						.findViewById(R.id.tv_cometime);
 				viewHolder.tvContent = (TextView) convertView
 						.findViewById(R.id.tv_content);
+				viewHolder.leftname = (TextView) convertView
+						.findViewById(R.id.com_name_txt);
 				viewHolder.isComMsg = isComMsg;
 				convertView.setTag(viewHolder);
 			} else {
@@ -138,11 +147,41 @@ public class ChatAdapter extends BaseAdapter {
 				viewHolder.wait_send.setVisibility(View.INVISIBLE);
 			}
 
-			imageLoader.displayImage(HomeActivity.myUserhaedurl, viewHolder.userHeadIma, options);
-			
-		}else {
-			imageLoader.displayImage(entity.getHeadimgString(), viewHolder.userHeadIma, options);
+			imageLoader.displayImage(HomeActivity.myUserhaedurl,
+					viewHolder.userHeadIma, options);
+
+		} else {
+			imageLoader.displayImage(entity.getHeadimgString(),
+					viewHolder.userHeadIma, options);
+			if (!TextUtils.isEmpty(entity.getName())) {
+				viewHolder.leftname.setText(entity.getName());
+				viewHolder.leftname.setVisibility(View.VISIBLE);
+			} else {
+				viewHolder.leftname.setVisibility(View.GONE);
+			}
+
 		}
+
+		viewHolder.userHeadIma.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				try {
+					if (TextUtils.isEmpty(coll.get(itemePosition).getUid())) {
+						return;
+					}
+					Intent intent = new Intent();
+					intent.putExtra("id", coll.get(itemePosition).getUid());
+					intent.putExtra("type", "");
+					intent.putExtra("time","");
+					intent.setClass(ctx, PersonalPage.class);
+					ctx.startActivity(intent);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		});
 
 		// if (!isComMsg) {
 		//
@@ -208,6 +247,7 @@ public class ChatAdapter extends BaseAdapter {
 		public ImageView userHeadIma;
 		public boolean isComMsg = true;
 		public ProgressBar wait_send;
+		public TextView leftname;
 	}
 
 }

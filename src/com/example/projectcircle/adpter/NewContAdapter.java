@@ -4,11 +4,14 @@ import java.util.List;
 
 import com.example.projectcircle.R;
 import com.example.projectcircle.bean.NewConstactBean;
+import com.example.projectcircle.personal.PersonalPage;
 import com.example.projectcircle.util.LoadImageUtils;
 import com.example.projectcircle.util.MyHttpClient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -140,6 +143,32 @@ public class NewContAdapter extends BaseAdapter {
 			}
 		});
 
+		
+		holder.head.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				try {
+					Intent intent=new Intent();
+					intent.putExtra("id", list.get(adaPosition).getId());
+					if (TextUtils.isEmpty(list.get(adaPosition).getType())) {
+						intent.putExtra("type", "");
+					}else {
+						intent.putExtra("type", list.get(adaPosition).getType());
+					}
+					
+					intent.putExtra("time", list.get(adaPosition)
+							.getLastlogintime());
+					intent.setClass(context, PersonalPage.class);
+					context.startActivity(intent);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+			}
+		});
+		
 		return convertView;
 	}
 

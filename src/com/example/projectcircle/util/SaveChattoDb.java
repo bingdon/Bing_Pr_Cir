@@ -52,7 +52,9 @@ public class SaveChattoDb {
 			
 			MyPersonBean myPersonBean=getPersonInfo(message);
 			
-			SaveMsg2View(msg, context,id, myPersonBean.getHeadimage(), myPersonBean.getId());
+//			SaveMsg2View(msg, context,id, myPersonBean.getHeadimage(), myPersonBean.getId());
+			myPersonBean.setHeadimage(MyHttpClient.IMAGE_URL+myPersonBean.getHeadimage());
+			SaveMsg2View_(msg, context, id, myPersonBean);
 		}
 
 	}
@@ -122,7 +124,12 @@ public class SaveChattoDb {
 		return myPersonBean;
 
 	}
-
+	/**
+	 * @deprecated
+	 * @param msg
+	 * @param context
+	 * @param id
+	 */
 	private static void SaveMsg2View(String msg, Context context, String id) {
 		ChatMsgEntity chatMsgEntity = new ChatMsgEntity();
 		chatMsgEntity.setDate(Chat.getDate());
@@ -141,7 +148,8 @@ public class SaveChattoDb {
 			chatMsgEntity.setDate(Chat.getDate());
 			chatMsgEntity.setMsgType(true);
 			chatMsgEntity.setText(msg);
-			chatMsgEntity.setHeadimgString(myPersonBean.getHeadimage());
+			chatMsgEntity.setUid(myPersonBean.getId());
+			chatMsgEntity.setHeadimgString(MyHttpClient.IMAGE_URL+myPersonBean.getHeadimage());
 			chatMsgEntity.setName(myPersonBean.getUsername());
 			save(chatMsgEntity, context, id);
 		} catch (Exception e) {
@@ -169,6 +177,25 @@ public class SaveChattoDb {
 		chatMsgEntity.setText(msg);
 		saveGroupChat(chatMsgEntity, context, gid);
 	}
+	/**
+	 * 保存群组聊天
+	 * @param msg
+	 * @param context
+	 * @param gid
+	 * @param personBean
+	 */
+	public static void SaveMsg2View_(String msg, Context context, String gid, MyPersonBean personBean) {
+		ChatMsgEntity chatMsgEntity = new ChatMsgEntity();
+		chatMsgEntity.setDate(Chat.getDate());
+		chatMsgEntity.setHeadimgString(personBean.getHeadimage());
+		chatMsgEntity.setTime(System.currentTimeMillis());
+		chatMsgEntity.setUid(personBean.getId());
+		chatMsgEntity.setName(personBean.getUsername());
+		chatMsgEntity.setMsgType(true);
+		chatMsgEntity.setText(msg);
+		saveGroupChat(chatMsgEntity, context, gid);
+	}
+	
 
 	private static void save(ChatMsgEntity chatMsgEntity, Context context,
 			String id) {
@@ -198,9 +225,10 @@ public class SaveChattoDb {
 		if (chatMsgEntity.getMsgType()) {
 			iscom = 1;
 		}
-		groupChatUtils.insert(chatMsgEntity.getUid(), chatMsgEntity.getUid(),
-				chatMsgEntity.getHeadimgString(), chatMsgEntity.getText(),
-				chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+//		groupChatUtils.insert(chatMsgEntity.getUid(), chatMsgEntity.getUid(),
+//				chatMsgEntity.getHeadimgString(), chatMsgEntity.getText(),
+//				chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+		groupChatUtils.insert(chatMsgEntity);
 
 	}
 

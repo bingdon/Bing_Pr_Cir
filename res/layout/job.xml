@@ -172,7 +172,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="工程作业信息"
+                    android:text="设备需求信息"
                     android:textColor="@color/black"
                     android:textSize="15dp" />
 
@@ -255,7 +255,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
-                    android:text="提供最新工程项目"
+                    android:text="提供司机需求信息"
                     android:textColor="#565656"
                     android:textSize="12dp" />
 

@@ -34,6 +34,7 @@ import com.example.projectcircle.SiginActivity;
 import com.example.projectcircle.adpter.ImageAdapter;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.MyHttpClient;
+import com.example.projectcircle.util.ToastUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class CompleteInfo extends Activity implements OnClickListener {
@@ -273,7 +274,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 					if (obj.getInt("result") == 1) {
 						postfinish();
 					} else {
-
+						ToastUtils.showLong(CompleteInfo.this, "ÃÌº” ß∞‹!");
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block

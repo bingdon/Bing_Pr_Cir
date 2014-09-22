@@ -123,8 +123,14 @@ public class FriendChatUtils implements FriendChatAbs {
 			int timeIndex = cursor.getColumnIndex(FriendChat.TIME);
 			int showtIndex = cursor.getColumnIndex(FriendChat.SHOW_TIME);
 			int iscomIndex = cursor.getColumnIndex(FriendChat.IS_COM);
-			int headIndex=cursor.getColumnIndex(FriendChat.HEAD_IMAGE);
-			int nameIndex=cursor.getColumnIndex(FriendChat.TITLE);
+			int headIndex = cursor.getColumnIndex(FriendChat.HEAD_IMAGE);
+			int nameIndex = cursor.getColumnIndex(FriendChat.TITLE);
+			int uidIndex = 0;
+			try {
+				uidIndex = cursor.getColumnIndexOrThrow(FriendChat.UID);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 
 			for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor
 					.moveToNext()) {
@@ -136,6 +142,12 @@ public class FriendChatUtils implements FriendChatAbs {
 				friendChatBean.setIscom(cursor.getInt(iscomIndex));
 				friendChatBean.setHeadimg(cursor.getString(headIndex));
 				friendChatBean.setName(cursor.getString(nameIndex));
+				try {
+					friendChatBean.setUid(cursor.getString(uidIndex));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+
 				list.add(friendChatBean);
 			}
 
@@ -254,8 +266,9 @@ public class FriendChatUtils implements FriendChatAbs {
 		}
 		return updatepostion;
 	}
+
 	/**
-	 * @deprecated 此方法已过期 请使用{@link #insert(ChatMsgEntity)}}
+	 * @deprecated 此方法已过期 请使用{@link #insert(ChatMsgEntity)}
 	 */
 	@Override
 	public long insert(String content, String time, String showtime, int iscom) {
@@ -293,6 +306,12 @@ public class FriendChatUtils implements FriendChatAbs {
 			values.put(FriendChat.SHOW_TIME, chatMsgEntity.getDate());
 			values.put(FriendChat.HEAD_IMAGE, chatMsgEntity.getHeadimgString());
 			values.put(FriendChat.TITLE, chatMsgEntity.getName());
+			try {
+				values.put(FriendChat.UID, chatMsgEntity.getUid());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
 			values.put(FriendChat.IS_COM, iscom);
 
 			id = ProJectDatebase.proDatabase.insert(FriendChat.TABLE_NAME

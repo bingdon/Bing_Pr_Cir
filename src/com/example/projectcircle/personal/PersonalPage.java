@@ -3,6 +3,7 @@ package com.example.projectcircle.personal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,6 +52,7 @@ import com.example.projectcircle.friend.MaybeFriend;
 import com.example.projectcircle.group.GroupDetail;
 import com.example.projectcircle.job.projectCircle;
 import com.example.projectcircle.other.Chat;
+import com.example.projectcircle.util.BingDateUtils;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MsgUtils;
 import com.example.projectcircle.util.MyHttpClient;
@@ -116,7 +118,7 @@ public class PersonalPage extends Activity {
 	LinearLayout common_friend;
 	String id;
 	String uname, utype, ucity, udevice, ucontent, uheadimg, accept, info, uid,
-			age, group, gname, singn, rplace, udriverYear;
+			age, group, gname, singn, rplace, udriverYear, driver_start;
 
 	private LinearLayout qian_ming_lay;
 	private LinearLayout he_friend_lay;// 他的好友的layout
@@ -184,7 +186,7 @@ public class PersonalPage extends Activity {
 
 	private String driveryearO;
 
-	private String nequ;
+	private String nequ,oequ;
 
 	private TextView my_hobby;
 	List<UserInfo> friendList;
@@ -282,8 +284,11 @@ public class PersonalPage extends Activity {
 		// TODO Auto-generated method stub
 		// 共同好友的layout
 		common_friend_lay = (LinearLayout) findViewById(R.id.common_friend_lay);
-		Log.i("friendList", friendList + "");
+		// Log.i("返回:friendList", "返回:friendList:common" + friendList.size());
 		commfrihead.clear();
+		if (friendList == null) {
+			return;
+		}
 		for (int i = 0; i < friendList.size(); i++) {
 			String friid = friendList.get(i).getId();
 			if (isFriend(friid)) {
@@ -665,6 +670,8 @@ public class PersonalPage extends Activity {
 					JSONObject equobj = arr1.getJSONObject(0);
 					driveryearO = equobj.getString("driveryear");
 					nequ = equobj.getString("nequ");
+					oequ=equobj.getString("oequ");
+					driver_start = equobj.getString("dbegin");
 					JSONObject personal = arr1.getJSONObject(1);
 					uid = personal.getString("id");
 					uname = personal.getString("username");
@@ -792,13 +799,14 @@ public class PersonalPage extends Activity {
 				// int jialing = 2014 -
 				// Integer.parseInt(driveryearO);//2014减去驾龄起点，就是驾龄几年
 				driver_layout.setVisibility(View.VISIBLE);
+				countYear();
 				driver_txt.setText(driveryearO);
 			} else {
 				driver_layout.setVisibility(View.GONE);
 			}
 			if (!TextUtils.isEmpty(udevice) || !TextUtils.isEmpty(nequ)) {
 				equipment_details.setVisibility(View.VISIBLE);
-				equipment_detail_txt.setText(udevice + "      " + nequ);
+				equipment_detail_txt.setText(udevice + "      " +oequ +" "+ nequ);
 			} else {
 				equipment_details.setVisibility(View.GONE);
 			}
@@ -1235,7 +1243,7 @@ public class PersonalPage extends Activity {
 		// TODO Auto-generated method stub
 		listItem = new ArrayList<HashMap<String, Object>>();
 		// TODO Auto-generated method stub
-		Log.i("返回:friendList", "返回:friendList" + friendList);
+		Log.i("返回:friendList", "返回:friendList" + friendList.size());
 		if (friendList != null) {
 			for (int i = 0; i < friendList.size(); i++) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
@@ -1276,9 +1284,9 @@ public class PersonalPage extends Activity {
 				user.setLat(Double.valueOf(objo.getString("commercialLat")));
 				user.setLon(Double.valueOf(objo.getString("commercialLon")));
 				user.setLastlogintime(objo.getString("lastlogintime"));
-				if (isexit(user.getId())) {
-					friendList.add(user);
-				}
+				// if (isexit(user.getId())) {
+				friendList.add(user);
+				// }
 
 			}
 		} catch (JSONException e) {
@@ -1437,6 +1445,38 @@ public class PersonalPage extends Activity {
 				startActivity(intent4);
 			}
 		});
+	}
+
+	private void countYear() {
+		Calendar calendar = Calendar.getInstance();
+		int year = calendar.get(Calendar.YEAR);
+		int month = calendar.get(Calendar.MONTH) + 1;
+		String times[] = driver_start.split("-");
+		if (times!=null&&times.length==2) {
+			try {
+				int montha = Integer.valueOf(times[1]);
+				int yeara = Integer.valueOf(times[0]);
+				int monthdis = 0;
+				int yeardis = 0;
+				if (month >= montha) {
+					monthdis = month - montha;
+					yeardis = year - yeara;
+				} else {
+					year = year - 1;
+					yeardis = year - yeara;
+					monthdis = month + 12 - montha;
+				}
+				if (yeardis > 0) {
+					driveryearO = yeardis + "年" + monthdis + "个月";
+				} else {
+					driveryearO = monthdis + "个月";
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		}
+		
 	}
 
 }

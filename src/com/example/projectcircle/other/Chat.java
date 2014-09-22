@@ -37,6 +37,7 @@ import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.db.ProJectDatebase;
 import com.example.projectcircle.db.utils.FriendChatUtils;
 import com.example.projectcircle.db.utils.MsgDataUtils;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.BingDateUtils;
 import com.example.projectcircle.util.MyHttpClient;
 import com.google.gson.Gson;
@@ -193,6 +194,7 @@ public class Chat extends Activity {
 			entity.setDate(getDate());
 			entity.setMsgType(false);
 			entity.setText(message);
+			
 			// HealthHttpClient.doHttpPostMessage(BApplication.getPersonInfo()
 			// .getId(), contString, handler);
 			chatMsgList.add(entity);
@@ -352,6 +354,7 @@ public class Chat extends Activity {
 			entity.setMsgType(false);
 			entity.setText(contString);
 			entity.setTime(System.currentTimeMillis());
+			entity.setUid(LoginActivity.id);
 			// HealthHttpClient.doHttpPostMessage(BApplication.getPersonInfo()
 			// .getId(), contString, handler);
 			// postMessage(userid,sendid,contString);
@@ -459,6 +462,7 @@ public class Chat extends Activity {
 		chatMsgEntity.setMsgType(true);
 		chatMsgEntity.setText(msg);
 		chatMsgEntity.setHeadimgString(uheadimg);
+		chatMsgEntity.setUid(myPersonBean.getId());
 		chatMsgEntity.setTime(System.currentTimeMillis());
 		
 		if (chatMsgList.size()>0) {
@@ -581,13 +585,20 @@ public class Chat extends Activity {
 		FriendChatUtils friendChatUtils = new FriendChatUtils(this, sendid);
 		friendChatBeans = (List<FriendChatBean>) friendChatUtils.queryData();
 		if (null != friendChatBeans) {
+			AppLog.i(TAG, "´ïµ½:"+friendChatBeans.size());
 			int length = friendChatBeans.size();
 			for (int i = length-1; i >-1; i--) {
 				ChatMsgEntity chatMsgEntity = new ChatMsgEntity();
 				chatMsgEntity.setDate(friendChatBeans.get(i).getShowTime());
-				chatMsgEntity.setHeadimgString(uheadimg);
+				chatMsgEntity.setHeadimgString(friendChatBeans.get(i).getHeadimg());
 				chatMsgEntity.setText(friendChatBeans.get(i).getContent());
 				chatMsgEntity.setSend_state(true);
+				try {
+					chatMsgEntity.setUid(friendChatBeans.get(i).getUid());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
 				switch (friendChatBeans.get(i).getIscom()) {
 				case 0:
 					chatMsgEntity.setMsgType(false);
@@ -617,7 +628,8 @@ public class Chat extends Activity {
 		if (chatMsgEntity.getMsgType()) {
 			iscom=1;
 		}
-		friendChatUtils.insert(chatMsgEntity.getText(), chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+//		friendChatUtils.insert(chatMsgEntity.getText(), chatMsgEntity.getDate(), chatMsgEntity.getDate(), iscom);
+		friendChatUtils.insert(chatMsgEntity);
 		
 	}
 	
