@@ -87,7 +87,7 @@ public class SiginActivity extends TabActivity {
 	 * 选择职业
 	 */
 	private TabHost tabhost;
-	EditText c_content;
+	EditText c_content,d_content;
 	String crr_content;
 	// 职业的选项
 	public static String type = "机主";
@@ -243,6 +243,7 @@ public class SiginActivity extends TabActivity {
 	private void initCareer() {
 		// TODO Auto-generated method stub
 		c_content = (EditText) findViewById(R.id.sigin_carrer);
+		d_content = (EditText) findViewById(R.id.sigin_carrer);
 		tabhost = this.getTabHost();
 
 		TabSpec tabSpec1 = tabhost.newTabSpec("tab1").setIndicator("tab1")
@@ -415,7 +416,7 @@ public class SiginActivity extends TabActivity {
 			ToastUtils.showShort(getApplicationContext(), "未同意《用户协议》");
 			return;
 		}
-		type_content = c_content.getText().toString().trim();
+		type_content = c_content.getText().toString();
 		if (TextUtils.isEmpty(equipment)&&TextUtils.isEmpty(type_content)) {
 			ToastUtils.showShort(SiginActivity.this, "请选择设备");
 			return;

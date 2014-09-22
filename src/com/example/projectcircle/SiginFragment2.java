@@ -24,7 +24,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -49,7 +51,7 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 	 */
 	LinearLayout d_radio1, d_radio2, d_radio3, d_radio4, d_radio5;
 	CheckBox btn1, btn2, btn3, btn4, btn5;
-	EditText d_content;
+	public static EditText d_content;
 	TextView device_name;
 	String device_content;
 	public static String equipment;
@@ -108,7 +110,9 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 //		d_radio3 = (LinearLayout) findViewById(R.id.car_radiobtn3);
 //		d_radio4 = (LinearLayout) findViewById(R.id.car_radiobtn4);
 //		d_radio5 = (LinearLayout) findViewById(R.id.car_radiobtn5);
-
+		
+		d_content.addTextChangedListener(watcher);
+		
 		btn1 = (CheckBox) findViewById(R.id.device1_btn1);
 		btn2 = (CheckBox) findViewById(R.id.device1_btn2);
 		btn3 = (CheckBox) findViewById(R.id.device1_btn3);
@@ -596,5 +600,28 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 				driveryearO = monthdis + "¸öÔÂ";
 			}
 		}
+		
+		
+		private TextWatcher watcher=new TextWatcher() {
+			
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				equipment=s.toString();
+			}
+			
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
 		
 }

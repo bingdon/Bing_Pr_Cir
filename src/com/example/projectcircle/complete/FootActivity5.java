@@ -21,6 +21,7 @@ import com.example.projectcircle.HomeActivity;
 import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
+import com.example.projectcircle.SiginFragment1;
 import com.example.projectcircle.adpter.MasterDviAdapter;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -101,7 +102,7 @@ public class FootActivity5 extends Activity implements OnClickListener {
 		ebrand = brand.getText().toString();
 		//eweight = weight.getText().toString();
 		emodel = model.getText().toString();
-		ename = CompleteMaster.d_content.getText().toString();
+		ename = SiginFragment1.f_content.getText().toString();
 		if(!TextUtils.isEmpty(SiginActivity.id) && !TextUtils.isEmpty(SiginActivity.type)){
 			uid = SiginActivity.id;
 			type = SiginActivity.type;

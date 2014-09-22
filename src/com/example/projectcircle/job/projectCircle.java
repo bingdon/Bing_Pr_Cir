@@ -47,6 +47,7 @@ import com.example.projectcircle.bean.StatusInfo;
 import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.other.MsgListView.IXListViewListener;
 import com.example.projectcircle.util.BingDateUtils;
+import com.example.projectcircle.util.InputUtlity;
 import com.example.projectcircle.util.JsonUtils;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.TimeUtility;
@@ -616,6 +617,8 @@ public class projectCircle extends Activity implements OnRefreshListener,
 					ActionBar.LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			wrapper.addView(sendView, params);
+			sendEditText.requestFocus();
+			InputUtlity.showInputWindow(getApplicationContext(), sendEditText);
 		}
 		// if (listItem.get(position).containsKey("moodid")) {
 		// Log.i(TAG, "" + listItem.get(position).get("moodid"));

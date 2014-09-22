@@ -201,7 +201,7 @@
                                 android:textSize="12dp" />
 
                             <EditText
-                                android:id="@+id/sigin_car"
+                                android:id="@+id/sigin_car_"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -213,7 +213,7 @@
                                 android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textSize="10dp"
-                                android:visibility="invisible" />
+                                android:visibility="visible" />
                         </LinearLayout>
 
                         <ImageView

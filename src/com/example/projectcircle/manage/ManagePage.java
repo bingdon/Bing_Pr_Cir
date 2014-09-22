@@ -84,6 +84,7 @@ public class ManagePage extends Activity {
 				.cacheInMemory(true)// 是否緩存都內存中
 				.cacheOnDisc(true)// 是否緩存到sd卡上
 				.build();
+		initFilter();
 	}
 
 	@Override

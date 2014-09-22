@@ -101,7 +101,7 @@ public class CompleteMaster extends TabActivity implements OnClickListener {
 
 	private void initTab() {
 		// TODO Auto-generated method stub
-		d_content = (EditText) findViewById(R.id.sigin_car);
+		d_content = (EditText) findViewById(R.id.sigin_car_);
 		tabhost = this.getTabHost();
 
 		TabSpec tabSpec1 = tabhost.newTabSpec("tab1").setIndicator("tab1")

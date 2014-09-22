@@ -75,7 +75,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    android:hint="密码:请输入6位数字或字母"
+                    android:hint="密码:请输入6位或以上的数字或字母"
                     android:lines="1"
                     android:paddingLeft="5dp"
                     android:singleLine="true"

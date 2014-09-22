@@ -1183,7 +1183,7 @@ public class HomeActivity extends Activity {
 
 			}
 		}
-
+		AppLog.i(TAG, "显示设备:"+equ);
 		if (equ.equals("全部")) {
 			all_machine.setChecked(true);
 		} else {
@@ -1195,22 +1195,23 @@ public class HomeActivity extends Activity {
 					return;
 				}
 				for (int i = 0; i < length; i++) {
-					if (types[i].equals("挖掘机")) {
+					AppLog.i(TAG, "显示设备:"+types[i]);
+					if (types[i].equals("挖掘机")||types[i].equals(" 挖掘机")) {
 						a_machine_lord.setChecked(true);
 						continue;
 					}
 
-					if (types[i].equals("自卸车")) {
+					if (types[i].equals("自卸车")||types[i].equals(" 自卸车")) {
 						a_dump_truck.setChecked(true);
 						continue;
 					}
 
-					if (types[i].equals("装载机")) {
+					if (types[i].equals("装载机")||types[i].equals(" 装载机")) {
 						a_loader.setChecked(true);
 						continue;
 					}
 
-					if (types[i].equals("板车")) {
+					if (types[i].equals("板车")||types[i].equals(" 板车")) {
 						a_scooter.setChecked(true);
 						continue;
 					}

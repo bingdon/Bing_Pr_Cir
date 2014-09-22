@@ -41,6 +41,7 @@ public class SiginFragment1 extends TabActivity implements
 
 	public static CheckBox btn1, btn2, btn3, btn4, btn5;
 	public static EditText d_content;
+	public static EditText f_content;
 	public static String equipment;
 	public static String device1, device2, device3, device4, device5;
 	private TabHost tabhost;
@@ -72,6 +73,7 @@ public class SiginFragment1 extends TabActivity implements
 	private void initDevice() {
 		// TODO Auto-generated method stub
 		d_content = (EditText) findViewById(R.id.sigin_car);
+		f_content = (EditText) findViewById(R.id.sigin_car_);
 
 		btn1 = (CheckBox) findViewById(R.id.btn1);
 		btn2 = (CheckBox) findViewById(R.id.btn2);
@@ -224,6 +226,7 @@ public class SiginFragment1 extends TabActivity implements
 			tabhost.setCurrentTabByTag("tab5");
 			// next.setVisibility(View.VISIBLE);
 			CompleteMaster.type = "ÆäËü";
+			
 		}
 	}
 
@@ -275,6 +278,8 @@ public class SiginFragment1 extends TabActivity implements
 			break;
 
 		default:
+			btn5.setChecked(true);
+			d_content.setText(""+str);
 			break;
 		}
 	}
