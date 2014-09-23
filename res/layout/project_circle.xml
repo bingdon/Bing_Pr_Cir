@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:id="@+id/home_line"
+	 android:layout_width="match_parent"
+	 android:layout_height="match_parent"	 
+     android:background="@color/white" >
+
+    <RelativeLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/navbar_bg"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/project_circle"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/project_circle_left"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/sigin_back_selector" />
+
+           <Button
+               android:id="@+id/project_circle_right"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:layout_alignBottom="@+id/project_circle_left"
+               android:layout_alignParentRight="true"
+               android:layout_marginRight="17dp"
+               android:background="@drawable/near_group_selector" />
+        
+    </RelativeLayout>
+   <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list_swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="45dp" >
+
+        <com.example.projectcircle.view.BingListView
+            android:id="@+id/m_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants" >
+        </com.example.projectcircle.view.BingListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    
+
+
+</RelativeLayout>
