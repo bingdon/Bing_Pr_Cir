@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
 import com.example.projectcircle.adpter.ImageAdapter;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.ToastUtils;
@@ -267,6 +268,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 			public void onSuccess(String response) {
 				// System.out.println(response);
 				// parseInfo(response);
+				AppLog.i(CompleteInfo.class.getSimpleName(), "上传返回:"+response);
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
@@ -279,6 +281,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					ToastUtils.showLong(CompleteInfo.this, "服务器出错啦！");
 				}
 			}
 			

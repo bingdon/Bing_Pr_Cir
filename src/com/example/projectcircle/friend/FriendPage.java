@@ -19,6 +19,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -92,7 +94,7 @@ import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 public class FriendPage extends Activity {
-	private static final String TAG = null;
+	private static final String TAG = FriendPage.class.getSimpleName();
 	// private static final String TAG = "FriendPage";
 	ListView listview, listview2;
 	FriendAdapter myAdapter;
@@ -283,12 +285,13 @@ public class FriendPage extends Activity {
 					}
 					int size = 0;
 					try {
-						size = new NewContactsUtily(context).queryData().size();
+						size = getContactFriendNum();
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-					int m = totalrecord + new_friend_tip_count
+					int m = (totalrecord-getRequestFriendNum()) + new_friend_tip_count
 							- size;
+					setContactFriendNum(new_friend_tip_count);
 					if (m > 0) {
 						tipNotice.setText(m + "");// 有几个
 						tipNotice.setVisibility(View.VISIBLE);
@@ -581,6 +584,8 @@ public class FriendPage extends Activity {
 
 			Intent intent = new Intent(FriendPage.this, NewFriendActivity.class);
 			tipNotice.setVisibility(View.INVISIBLE);
+			setContactFriendNum(new_friend_tip_count);
+			setRequestFriendNum(totalrecord);
 			getTel();
 			intent.putStringArrayListExtra("tels", tel);
 			startActivity(intent);
@@ -906,12 +911,12 @@ public class FriendPage extends Activity {
 			totalrecord = response.getJSONObject("friends").getInt("totalrecord");
 			int size = 0;
 			try {
-				size = new NewContactsUtily(context).queryData().size();
+				size = getContactFriendNum();
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
 			AppLog.i(TAG, "数量:"+totalrecord+"::"+new_friend_tip_count+"::"+size);
-			int m = totalrecord + new_friend_tip_count - size;
+			int m = totalrecord-getRequestFriendNum() + new_friend_tip_count - size;
 			if (m > 0) {
 				tipNotice.setText(m + "");// 有几个
 				tipNotice.setVisibility(View.VISIBLE);
@@ -924,4 +929,30 @@ public class FriendPage extends Activity {
 		}
 	}
 
+	
+	private void setContactFriendNum(int count){
+		SharedPreferences sharedPreferences=getSharedPreferences(TAG, MODE_PRIVATE);
+		Editor editor=sharedPreferences.edit();
+		editor.putInt("contact", count);
+		editor.commit();
+	}
+	
+	private void setRequestFriendNum(int count){
+		SharedPreferences sharedPreferences=getSharedPreferences(TAG, MODE_PRIVATE);
+		Editor editor=sharedPreferences.edit();
+		editor.putInt("request", count);
+		editor.commit();
+	}
+	
+	private int getContactFriendNum(){
+		int count=0;
+		count=getSharedPreferences(TAG, MODE_PRIVATE).getInt("contact", 0);
+		return count;
+	}
+	
+	private int getRequestFriendNum(){
+		int count=0;
+		count=getSharedPreferences(TAG, MODE_PRIVATE).getInt("request", 0);
+		return count;
+	}
 }
