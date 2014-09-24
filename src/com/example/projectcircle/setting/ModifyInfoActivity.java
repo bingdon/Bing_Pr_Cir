@@ -12,35 +12,25 @@ import org.json.JSONObject;
 
 import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
-import com.example.projectcircle.SiginActivity;
 import com.example.projectcircle.SiginFragment1;
 import com.example.projectcircle.SiginFragment2;
 import com.example.projectcircle.SiginFragment3;
 import com.example.projectcircle.SiginFragment4;
-import com.example.projectcircle.adpter.HisDeviceGridAdapter;
 import com.example.projectcircle.adpter.MasterDviAdapter;
 import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.bean.EquInfo;
 import com.example.projectcircle.bean.UserInfo;
-import com.example.projectcircle.complete.CompleteCommercial;
-import com.example.projectcircle.complete.CompleteDriver;
-import com.example.projectcircle.complete.CompleteInfo;
 import com.example.projectcircle.complete.CompleteMaster;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.home.HomeSecActivity;
-import com.example.projectcircle.personal.ModifyMySelf;
-import com.example.projectcircle.personal.PersonalPage;
-import com.example.projectcircle.personal.PictureShow;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.LoadImageUtils;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.ToastUtils;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
@@ -85,9 +75,9 @@ public class ModifyInfoActivity extends TabActivity {
 	/**
 	 * 个人信息
 	 */
-	EditText realname_edit, age_edit, sign_edit, intro_edit, place_edit,
+	EditText realname_edit,  sign_edit, intro_edit, place_edit,
 			my_hobby;
-	TextView hometown_edit;
+	TextView hometown_edit,age_edit;
 	ImageView myhead;
 
 	String realname, hometown, age, sign, intro;
@@ -199,7 +189,7 @@ public class ModifyInfoActivity extends TabActivity {
 		myhead.setFocusableInTouchMode(true);
 		myhead.requestFocus();
 		realname_edit = (EditText) findViewById(R.id.modify_realname);
-		age_edit = (EditText) findViewById(R.id.modify_age);
+		age_edit = (TextView) findViewById(R.id.modify_age_);
 		sign_edit = (EditText) findViewById(R.id.modify_qianming);
 		intro_edit = (EditText) findViewById(R.id.modify_content);
 		hometown_edit = (TextView) findViewById(R.id.modify_hometown);

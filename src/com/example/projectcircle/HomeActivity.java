@@ -399,10 +399,19 @@ public class HomeActivity extends Activity {
 						equList.add("°å³µ");
 					}
 
-					equ = equList.toString();
-					equ.substring(0, equ.length() - 1);
-					equ = equ.replace("[", "");
-					equ = equ.replace("]", "");
+//					equ = equList.toString();
+					equ = "";
+					for (int i = 0; i < equList.size(); i++) {
+						if (!TextUtils.isEmpty(equ)) {
+							equ=equ+","+equList.get(i);
+						}else {
+							equ=equList.get(i);
+						}
+						
+					}
+//					equ.substring(0, equ.length() - 1);
+//					equ = equ.replace("[", "");
+//					equ = equ.replace("]", "");
 
 				}
 				;

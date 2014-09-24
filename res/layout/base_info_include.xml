@@ -85,7 +85,22 @@
             android:paddingLeft="5dp"
             android:singleLine="true"
             android:hint="输入你的年龄"
-            android:textColor="@color/black" />
+            android:textColor="@color/black" 
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/modify_age_"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+             android:hint="输入你的年龄"
+              android:textColor="@color/black"
+              android:drawableBottom="@drawable/edit_ling"
+              android:gravity="center|left"
+              android:textSize="18sp"
+              android:layout_gravity="center_vertical"
+            />
+
     </FrameLayout>
 
     <FrameLayout

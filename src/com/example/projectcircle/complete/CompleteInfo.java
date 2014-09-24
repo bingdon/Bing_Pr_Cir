@@ -20,6 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,9 +30,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
 import com.example.projectcircle.adpter.ImageAdapter;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.ToastUtils;
@@ -192,6 +195,9 @@ public class CompleteInfo extends Activity implements OnClickListener {
 	private void submit() {
 		// TODO Auto-generated method stub
 		id = SiginActivity.id;
+		if (TextUtils.isEmpty(id)) {
+			id = LoginActivity.id;
+		}
 		type = SiginActivity.type;		
 		// id = "25";
 		sign = my_sign.getText().toString();
@@ -267,6 +273,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 			public void onSuccess(String response) {
 				// System.out.println(response);
 				// parseInfo(response);
+				AppLog.i(CompleteInfo.class.getSimpleName(), "上传返回:"+response);
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
@@ -279,6 +286,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					ToastUtils.showLong(CompleteInfo.this, "服务器出错啦！");
 				}
 			}
 			

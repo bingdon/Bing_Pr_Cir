@@ -55,6 +55,7 @@ public class CompleteDriver extends Activity {
 	DatePickerDialog mDialog;
 
 	int year_index, month_index;
+	private String real_Time="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -189,7 +190,7 @@ public class CompleteDriver extends Activity {
 			};
 		};
 		MyHttpClient client = new MyHttpClient();
-		client.CompleteDriver2(uid, type, driveryears, now_type,now_brand, res);
+		client.CompleteDriver2(uid, type, driveryears, now_type,now_brand,real_Time, res);
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -227,7 +228,7 @@ public class CompleteDriver extends Activity {
 							driver_time_month.setText(monthOfYear + 1 + "");
 							timeyear = year;
 							timemonth = monthOfYear + 1;
-
+							real_Time=year+"-"+(monthOfYear + 1);
 						}
 					}, calendar.get(Calendar.YEAR),
 					calendar.get(Calendar.MONTH),
