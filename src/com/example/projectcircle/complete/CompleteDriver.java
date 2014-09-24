@@ -2,6 +2,7 @@ package com.example.projectcircle.complete;
 
 import java.util.Calendar;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.gsm.SmsMessage.SubmitPdu;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
+import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.setting.ModifyInfoActivity;
@@ -35,6 +38,10 @@ import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class CompleteDriver extends Activity {
+	
+	
+	private static final String TAG=CompleteMaster.class.getSimpleName();
+	
 	/**
 	 * EditText 司机驾驶信息
 	 */
@@ -67,6 +74,12 @@ public class CompleteDriver extends Activity {
 		initBtn();
 		initView();
 		initFilter();
+		try {
+			UserDetail(MyApplication.getMyPersonBean().getId());
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 
 	private void initView() {
@@ -308,4 +321,66 @@ public class CompleteDriver extends Activity {
 		super.onDestroy();
 		unregisterReceiver(msgReceiver);
 	}
+	
+	
+	private void UserDetail(String id) {
+		// TODO Auto-generated method stub
+		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "个人信息返回:" + response);
+					parseUserDetail1(response);
+			}
+
+		};
+		MyHttpClient client = new MyHttpClient();
+		client.UserDetail2(id, "司机", res);
+	}
+	
+	String driveryearO;
+	String nequ;
+	String oequ;
+	// 类型是司机时候的解析
+		private void parseUserDetail1(String response) {
+			// TODO Auto-generated method stub
+			try {
+				JSONObject result = new JSONObject(response);
+				Log.i("user detail response", response + "");
+				if (result.getInt("result") == 1) {
+					if (result.getInt("type") == 1) {
+						JSONArray arr = result.getJSONArray("driver");
+						JSONArray arr1 = arr.getJSONArray(0);
+						JSONObject equobj = arr1.getJSONObject(0);
+						driveryearO = equobj.getString("driveryear");
+						String driver_start=equobj.getString("dbegin");
+						AppLog.i(TAG, "时间:"+driver_start);
+						nequ = equobj.getString("nequ");
+						oequ=equobj.getString("oequ");
+						if (!TextUtils.isEmpty(driver_start)) {
+							String times[] = driver_start.split("-");
+							if (times!=null&times.length==2) {
+								driver_time_year.setText(""+times[0]);
+								driver_time_month.setText(""+times[1]);
+							}
+							
+						}
+						
+						if (!TextUtils.isEmpty(oequ)) {
+							now_brand_txt.setText(oequ);
+						}
+						
+						if (!TextUtils.isEmpty(nequ)) {
+							now_type_txt.setText(nequ);
+						}
+						
+					} 
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+	
 }

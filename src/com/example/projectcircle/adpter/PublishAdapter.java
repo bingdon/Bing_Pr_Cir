@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.example.projectcircle.R;
 import com.example.projectcircle.db.interfaces.PicClickListener;
+import com.example.projectcircle.util.LoadImageUtils;
 import com.example.projectcircle.util.PhoneUtlis;
 
 import android.content.Context;

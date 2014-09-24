@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
+import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.setting.ModifyInfoActivity;
 import com.example.projectcircle.util.MyHttpClient;
@@ -54,6 +55,7 @@ public class CompleteCommercial extends Activity {
 		initBtn();
 		initView();
 		initFilter();
+		initCompany();
 	}
 
 	private void initView() {
@@ -165,4 +167,21 @@ public class CompleteCommercial extends Activity {
 		super.onDestroy();
 		unregisterReceiver(msgReceiver);
 	}
+	
+	
+
+	private void initCompany() {
+		if (null==MyApplication.getMyPersonBean()) {
+			return;
+		}
+		String company = MyApplication.getMyPersonBean().getCompanyname();
+		String companyintro=MyApplication.getMyPersonBean().getBusinessinfo();
+		if (!TextUtils.isEmpty(company)) {
+			companyname_txt.setText(company);
+		}
+		if (!TextUtils.isEmpty(companyintro)) {
+			business_intro_txt.setText(companyintro);
+		}
+	}
+	
 }

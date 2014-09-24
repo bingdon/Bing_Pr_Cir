@@ -43,15 +43,15 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class postStatus extends Activity implements PicClickListener {
 	EditText mood_id;
-	String context,userid,id,name;
-	Button post_mood,button_back;
-    ImageView add_photo;	
+	String context, userid, id, name;
+	Button post_mood, button_back;
+	ImageView add_photo;
 	private ImageView image_id;
-	//private int    headimge;
-    private static final int REQUEST_CAMERA = 1;//上传头像所需要的
+	// private int headimge;
+	private static final int REQUEST_CAMERA = 1;// 上传头像所需要的
 	private static final String TAG = null;
-    private byte[] mContent;
-	 Bitmap myBitmap;
+	private byte[] mContent;
+	Bitmap myBitmap;
 	private GridView photo_gridview;
 	ArrayList<Bitmap> photo_array;
 	private ImageView photo_post;
@@ -64,32 +64,31 @@ public class postStatus extends Activity implements PicClickListener {
 	private List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 	private Button submit_button;
 	private TextView contentText;
-	private String content;//发表的内容
+	private String content;// 发表的内容
 	String moodid = "";
 	private View submintView;
 	private RelativeLayout post_status_layout;
-	
 
-	@Override	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//设置头部title不让它显示
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 设置头部title不让它显示
 		setContentView(R.layout.post_status);
-		progressDialog=new ProgressDialog(this);
+		progressDialog = new ProgressDialog(this);
 		userid = LoginActivity.id;
 		initView();
-		//发布状态
-       // postSatus();
-        back();
+		// 发布状态
+		// postSatus();
+		back();
 	}
 
 	private void initView() {
 		// TODO Auto-generated method stub
 		submintView = getLayoutInflater().inflate(R.layout.submit_layout, null);
 		post_status_layout = (RelativeLayout) findViewById(R.id.wrapper);
-		submit_button=(Button)findViewById(R.id.name_submit_btn);
-		contentText =(TextView)findViewById(R.id.editText1);
+		submit_button = (Button) findViewById(R.id.name_submit_btn);
+		contentText = (TextView) findViewById(R.id.editText1);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("url", R.drawable.publish_sec);
 		list.add(map);
@@ -99,28 +98,27 @@ public class postStatus extends Activity implements PicClickListener {
 		publishAdapter.setPicClickListerter(this);
 		submit_button.setOnClickListener(listener);
 	}
+
 	private OnClickListener listener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-		content = contentText.getText().toString();
-        postMood(userid,content);    
+			content = contentText.getText().toString();
+			postMood(userid, content);
 		}
 	};
 
-
-	protected void postMood(String uid,String context) {
+	protected void postMood(String uid, String context) {
 		// TODO Auto-generated method stub
-		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {	
+		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
 			public void onStart() {
 				// TODO Auto-generated method stub
 				super.onStart();
 				progressDialog.setMessage(getString(R.string.submiting));
 				progressDialog.show();
-		
-			}
 
+			}
 
 			public void onSuccess(String response) {
 				System.out.println(response);
@@ -128,38 +126,38 @@ public class postStatus extends Activity implements PicClickListener {
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
-					if (obj.getInt("result") == 1) {									
+					if (obj.getInt("result") == 1) {
 						JSONObject moodobj = obj.getJSONObject("mood");
-						 moodid =moodobj.getString("id");
-                        Log.i("moodid", moodid+"");
-				        listCircle(moodid);
-					   
+						moodid = moodobj.getString("id");
+						Log.i("moodid", moodid + "");
+						listCircle(moodid);
+
 					} else {
-						
+
 					}
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();				
-				} 
+					e.printStackTrace();
+				}
 			}
 
 			@Override
 			public void onFailure(Throwable error, String content) {
 				// TODO Auto-generated method stub
 				super.onFailure(error, content);
-		
 
 			}
-	
+
 		};
-		//Log.i("response  mybmp==", mybmp);
+		// Log.i("response  mybmp==", mybmp);
 		MyHttpClient myhttpclient = new MyHttpClient();
 		myhttpclient.PostMood(userid, context, res);
 	}
+
 	protected void listCircle(final String moodid) {
 		// TODO Auto-generated method stub
 		if (list.size() < 2) {
-//			confirShai();
+			// confirShai();
 			progressDialog.dismiss();
 			finish();
 			return;
@@ -170,24 +168,26 @@ public class postStatus extends Activity implements PicClickListener {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-		
-		       MyHttpClient.postMoodImg(moodid, bitmapNCutToString(list.get(0).get("url")
-				.toString()), new UpPicHandler(0));
+
+				MyHttpClient.postMoodImg(moodid, bitmapNCutToString(list.get(0)
+						.get("url").toString()), new UpPicHandler(0));
 			}
-			}).start();
+		}).start();
 	}
-	public class UpPicHandler extends AsyncHttpResponseHandler {	
-		private int index = 0;      
+
+	public class UpPicHandler extends AsyncHttpResponseHandler {
+		private int index = 0;
+
 		public UpPicHandler(int index) {
-			this.index = index;		
-			Log.i("index-----", index+"");
+			this.index = index;
+			Log.i("index-----", index + "");
 		}
 
 		@Override
 		public void onStart() {
 			// TODO Auto-generated method stub
-			super.onStart();			
-			Log.i("index", "开始" + index);				
+			super.onStart();
+			Log.i("index", "开始" + index);
 		}
 
 		@Override
@@ -197,21 +197,22 @@ public class postStatus extends Activity implements PicClickListener {
 			Log.i("content", "返回:" + content);
 			Log.i("index", "完成" + index);
 			Log.i("大小:", "大小:" + list.size());
-//			NoticeUtils.showProgressPublish(postStatus.this, index, list.size() - 2, ContantS.PUBLISH_SHAI_ID);
+			// NoticeUtils.showProgressPublish(postStatus.this, index,
+			// list.size() - 2, ContantS.PUBLISH_SHAI_ID);
 			if (index < list.size() - 2) {
-				index++;		
-				MyHttpClient.postMoodImg(
-						moodid,
-						bitmapNCutToString(list.get(index)
-								.get("url").toString()),
-						new UpPicHandler(index));
+				index++;
+				MyHttpClient.postMoodImg(moodid,
+						bitmapNCutToString(list.get(index).get("url")
+								.toString()), new UpPicHandler(index));
 				Log.i("-----moodid-----", moodid);
-				Log.i("list.get(index).geturl.toString()", list.get(index).get("url").toString());			
-			} else {				
-				//发送广播
-		    	Intent intent = new Intent(); 
-				intent.setAction("refesh.CircleAdapter"); 
-				intent.putExtra("msg", "you must refesh the CircleAdapter!!!!!!!!!!!!!!"); 
+				Log.i("list.get(index).geturl.toString()",
+						list.get(index).get("url").toString());
+			} else {
+				// 发送广播
+				Intent intent = new Intent();
+				intent.setAction("refesh.CircleAdapter");
+				intent.putExtra("msg",
+						"you must refesh the CircleAdapter!!!!!!!!!!!!!!");
 				postStatus.this.sendBroadcast(intent);
 				progressDialog.dismiss();
 				finish();
@@ -229,21 +230,21 @@ public class postStatus extends Activity implements PicClickListener {
 
 	}
 
-
 	private void parseUser(String response) {
 		// TODO Auto-generated method stub
 		try {
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("mood");
 			id = obj.getString("userid");
-//			headimage = obj.getString("headimage");
+			// headimage = obj.getString("headimage");
 			context = obj.getString("context");
-			Log.i("response  id==", id);	
+			Log.i("response  id==", id);
 			Log.i("response  context==", context);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
+
 	private void back() {
 		// TODO Auto-generated method stub
 		button_back = (Button) findViewById(R.id.n_group_left);
@@ -309,23 +310,24 @@ public class postStatus extends Activity implements PicClickListener {
 		// submit();
 	}
 
-//	private ArrayList<HashMap<String, Object>> getList() {
-//		// TODO Auto-generated method stub
-//	ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
-//		Log.i(TAG, "返回:photo_array" + photo_array);
-//		if(photo_array != null){
-//		for (int i = 0; i < photo_array.size(); i++) {
-//			HashMap<String, Object> map = new HashMap<String, Object>();
-//			map.put("photo_array", photo_array.get(i));
-////			map.put("gaddress", groupList.get(i).getGaddress());
-////			map.put("content", groupList.get(i).getContent());
-////			map.put("headimage", groupList.get(i).getHeadimage());
-////			map.put("people", people_num);
-//			listItem.add(map);
-//		}
-//		}
-//		return listItem;
-//	}
+	// private ArrayList<HashMap<String, Object>> getList() {
+	// // TODO Auto-generated method stub
+	// ArrayList<HashMap<String, Object>> listItem = new
+	// ArrayList<HashMap<String, Object>>();
+	// Log.i(TAG, "返回:photo_array" + photo_array);
+	// if(photo_array != null){
+	// for (int i = 0; i < photo_array.size(); i++) {
+	// HashMap<String, Object> map = new HashMap<String, Object>();
+	// map.put("photo_array", photo_array.get(i));
+	// // map.put("gaddress", groupList.get(i).getGaddress());
+	// // map.put("content", groupList.get(i).getContent());
+	// // map.put("headimage", groupList.get(i).getHeadimage());
+	// // map.put("people", people_num);
+	// listItem.add(map);
+	// }
+	// }
+	// return listItem;
+	// }
 	// 压缩图片方法
 	private Bitmap comp(Bitmap image) {
 
@@ -370,6 +372,7 @@ public class postStatus extends Activity implements PicClickListener {
 			PhotoUtils.secPic(postStatus.this);
 		}
 	}
+
 	/**
 	 * 把bitmap转换成String
 	 * 
@@ -386,6 +389,7 @@ public class postStatus extends Activity implements PicClickListener {
 		return Base64.encodeToString(b, Base64.DEFAULT);
 
 	}
+
 	/**
 	 * 根据路径获得突破并压缩返回bitmap用于显示
 	 * 
@@ -394,11 +398,9 @@ public class postStatus extends Activity implements PicClickListener {
 	 */
 	public static Bitmap getNoCutSmallBitmap(String filePath) {
 
-//		Matrix matrix = new Matrix();
-//		matrix.setRotate(ScanningActivity.angle);
+		// Matrix matrix = new Matrix();
+		// matrix.setRotate(ScanningActivity.angle);
 
-	
-		
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(filePath, options);
@@ -408,19 +410,19 @@ public class postStatus extends Activity implements PicClickListener {
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		
+
 		Bitmap mBitmap = BitmapFactory.decodeFile(filePath, options);
-//		float width=mBitmap.getWidth();
-//		float height=mBitmap.getHeight();
-//		float ratio=width/height;
-//		mBitmap = Bitmap.createBitmap(mBitmap, (int) (mBitmap.getWidth()/3),
-//				(int) (mBitmap.getHeight()-mBitmap.getHeight()*ratio/3)/2, (int) (mBitmap.getWidth()/3),
-//				(int) (mBitmap.getHeight() / 3*ratio), matrix, true);
-		
+		// float width=mBitmap.getWidth();
+		// float height=mBitmap.getHeight();
+		// float ratio=width/height;
+		// mBitmap = Bitmap.createBitmap(mBitmap, (int) (mBitmap.getWidth()/3),
+		// (int) (mBitmap.getHeight()-mBitmap.getHeight()*ratio/3)/2, (int)
+		// (mBitmap.getWidth()/3),
+		// (int) (mBitmap.getHeight() / 3*ratio), matrix, true);
 
 		return mBitmap;
 	}
-	
+
 	/**
 	 * 计算图片的缩放值
 	 * 
@@ -453,6 +455,5 @@ public class postStatus extends Activity implements PicClickListener {
 
 		return inSampleSize;
 	}
-
 
 }

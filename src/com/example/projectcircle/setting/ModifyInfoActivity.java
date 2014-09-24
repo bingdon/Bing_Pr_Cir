@@ -75,9 +75,8 @@ public class ModifyInfoActivity extends TabActivity {
 	/**
 	 * 个人信息
 	 */
-	EditText realname_edit,  sign_edit, intro_edit, place_edit,
-			my_hobby;
-	TextView hometown_edit,age_edit;
+	EditText realname_edit, sign_edit, intro_edit, place_edit, my_hobby;
+	TextView hometown_edit, age_edit;
 	ImageView myhead;
 
 	String realname, hometown, age, sign, intro;
@@ -461,10 +460,29 @@ public class ModifyInfoActivity extends TabActivity {
 		} else if (type.equals("其它")) {
 			type = c_content.getText().toString();
 			business = SiginFragment4.yewu.getText().toString();
-			equipment="";
-			new MyHttpClient().CompleteCompany(LoginActivity.id, "", "", business, new AsyncHttpResponseHandler());
+			equipment = "";
+			new MyHttpClient().CompleteCompany(LoginActivity.id, "", "",
+					business, new AsyncHttpResponseHandler());
 		}
-
+		String businessss = "";
+		if (!TextUtils.isEmpty(SiginFragment3.busi1)) {
+			businessss = businessss + SiginFragment3.busi1;
+		}
+		if (!TextUtils.isEmpty(SiginFragment3.busi2)) {
+			businessss = businessss + SiginFragment3.busi2;
+		}
+		if (!TextUtils.isEmpty(SiginFragment3.busi3)) {
+			businessss = businessss + SiginFragment3.busi3;
+		}
+		if (!TextUtils.isEmpty(SiginFragment3.busi4)) {
+			businessss = businessss + SiginFragment3.busi4;
+		}
+		if (type.equals("商家")
+				&& TextUtils.isEmpty(businessss)) {
+			ToastUtils.showShort(context, "请添加业务范围");
+			return;
+		}
+		AppLog.i(TAG, "经营范围:"+businessss);
 		doSubMit(id, realname, age, sign, intro, type, equipment, accept,
 				hometown);
 		sendSubmit();

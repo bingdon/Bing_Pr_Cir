@@ -326,7 +326,7 @@ public class SiginFragment2 extends Activity implements OnClickListener {
 			return;
 		}
 		if (TextUtils.isEmpty(now_device)) {
-			return;
+			now_device="";
 		}
 		CompleteDriver1(uid, type, device_age, now_device);
 	}

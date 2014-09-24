@@ -178,7 +178,7 @@ public class SiginFragment1 extends TabActivity implements
 			d_radio3.setBackgroundResource(R.drawable.onechoice);
 			d_radio4.setBackgroundResource(R.drawable.onechoice);
 			d_radio5.setBackgroundResource(R.drawable.onechoice);
-			d_content.setVisibility(View.INVISIBLE);
+			f_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab1");
 			CompleteMaster.type = "挖掘机";
 			// next.setVisibility(View.VISIBLE);
@@ -189,7 +189,7 @@ public class SiginFragment1 extends TabActivity implements
 			d_radio3.setBackgroundResource(R.drawable.onechoice);
 			d_radio4.setBackgroundResource(R.drawable.onechoice);
 			d_radio5.setBackgroundResource(R.drawable.onechoice);
-			d_content.setVisibility(View.INVISIBLE);
+			f_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab2");
 			// next.setVisibility(View.VISIBLE);
 			CompleteMaster.type = "自卸车";
@@ -200,7 +200,7 @@ public class SiginFragment1 extends TabActivity implements
 			d_radio3.setBackgroundResource(R.drawable.onechoice_press);
 			d_radio4.setBackgroundResource(R.drawable.onechoice);
 			d_radio5.setBackgroundResource(R.drawable.onechoice);
-			d_content.setVisibility(View.INVISIBLE);
+			f_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab3");
 			CompleteMaster.type = "装载机";
 			// next.setVisibility(View.INVISIBLE);
@@ -211,7 +211,7 @@ public class SiginFragment1 extends TabActivity implements
 			d_radio3.setBackgroundResource(R.drawable.onechoice);
 			d_radio4.setBackgroundResource(R.drawable.onechoice_press);
 			d_radio5.setBackgroundResource(R.drawable.onechoice);
-			d_content.setVisibility(View.INVISIBLE);
+			f_content.setVisibility(View.INVISIBLE);
 			tabhost.setCurrentTabByTag("tab4");
 			// CompleteMaster.next.setVisibility(View.VISIBLE);
 			CompleteMaster.type = "平板车";
@@ -222,7 +222,7 @@ public class SiginFragment1 extends TabActivity implements
 			d_radio3.setBackgroundResource(R.drawable.onechoice);
 			d_radio4.setBackgroundResource(R.drawable.onechoice);
 			d_radio5.setBackgroundResource(R.drawable.onechoice_press);
-			d_content.setVisibility(View.VISIBLE);
+			f_content.setVisibility(View.VISIBLE);
 			tabhost.setCurrentTabByTag("tab5");
 			// next.setVisibility(View.VISIBLE);
 			CompleteMaster.type = "其它";

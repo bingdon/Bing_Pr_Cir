@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,8 +36,13 @@ public class CompleteFinish extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
-				doLogin(tel, pwd);
+				if (TextUtils.isEmpty(tel)||TextUtils.isEmpty(pwd)) {
+					startActivity(new Intent(getApplicationContext(), MainActivity.class));
+					finish();
+				}else {
+					doLogin(tel, pwd);
+				}
+				
 			}
 		});
 	}

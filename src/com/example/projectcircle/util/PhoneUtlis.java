@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 
@@ -15,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Bitmap.Config;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Base64;
@@ -38,8 +40,7 @@ public class PhoneUtlis {
 		return Base64.encodeToString(b, Base64.DEFAULT);
 
 	}
-	
-	
+
 	/**
 	 * 把bitmap转换成String
 	 * 
@@ -55,11 +56,9 @@ public class PhoneUtlis {
 		return Base64.encodeToString(b, Base64.DEFAULT);
 
 	}
-	
-	
-	
+
 	/**
-	 * 把bitmap转换成String并压缩图片大小
+	 * 把bitmap转换成String并压缩图片大射1�7
 	 * 
 	 * @param filePath
 	 * @return
@@ -75,8 +74,7 @@ public class PhoneUtlis {
 		return Base64.encodeToString(b, Base64.DEFAULT);
 
 	}
-	
-	
+
 	/**
 	 * 把bitmap转换成String
 	 * 
@@ -94,7 +92,6 @@ public class PhoneUtlis {
 		return Base64.encodeToString(b, Base64.DEFAULT);
 
 	}
-	
 
 	/**
 	 * bitmap转String
@@ -110,30 +107,31 @@ public class PhoneUtlis {
 
 		return Base64.encodeToString(b, Base64.DEFAULT);
 	}
+
 	public static Bitmap comp1(Bitmap image) {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(Bitmap.CompressFormat.JPEG, 20, baos);
 		if (baos.toByteArray().length / 1024 > 1024) {// 判断如果图片大于1M,进行压缩避免在生成图片（BitmapFactory.decodeStream）时溢出
 			baos.reset();// 重置baos即清空baos
-			image.compress(Bitmap.CompressFormat.JPEG, 20, baos);// 这里压缩50%，把压缩后的数据存放到baos�?
+			image.compress(Bitmap.CompressFormat.JPEG, 20, baos);// 这里压缩50%，把压缩后的数据存放到baosￄ1�7
 		}
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
 		BitmapFactory.Options newOpts = new BitmapFactory.Options();
-		// �?��读入图片，此时把options.inJustDecodeBounds 设回true�?
+		// ￄ1�7��读入图片，此时把options.inJustDecodeBounds 设回trueￄ1�7
 		newOpts.inJustDecodeBounds = true;
 		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
 		newOpts.inJustDecodeBounds = false;
 		int w = newOpts.outWidth;
 		int h = newOpts.outHeight;
-		// 现在主流手机比较多是800*480分辨率，�?��高和宽我们设置为
-		float hh = 800f;// 这里设置高度�?00f
-		float ww = 480;// 这里设置宽度�?80f
-		// 缩放比�?由于是固定比例缩放，只用高或者宽其中�?��数据进行计算即可
-		int be = 1;// be=1表示不缩�?
-		if (w > h && w > ww) {// 如果宽度大的话根据宽度固定大小缩�?
+		// 现在主流手机比较多是800*480分辨率，ￄ1�7��高和宽我们设置为
+		float hh = 800f;// 这里设置高度ￄ1�700f
+		float ww = 480;// 这里设置宽度ￄ1�780f
+		// 缩放比�?由于是固定比例缩放，只用高或者宽其中ￄ1�7��数据进行计算即可
+		int be = 1;// be=1表示不缩ￄ1�7
+		if (w > h && w > ww) {// 如果宽度大的话根据宽度固定大小缩ￄ1�7
 			be = (int) (newOpts.outWidth / ww);
-		} else if (w < h && h > hh) {// 如果高度高的话根据宽度固定大小缩�?
+		} else if (w < h && h > hh) {// 如果高度高的话根据宽度固定大小缩ￄ1�7
 			be = (int) (newOpts.outHeight / hh);
 		}
 		if (be <= 0)
@@ -142,18 +140,18 @@ public class PhoneUtlis {
 
 		newOpts.inPreferredConfig = Config.ARGB_8888;
 
-		newOpts.inPurgeable = true;// 允许可清除
+		newOpts.inPurgeable = true;// 允许可清附1�7
 
 		newOpts.inInputShareable = true;// 以上options的两个属性必须联合使用才会有效果
 
-		// 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false�?
+		// 重新读入图片，注意此时已经把options.inJustDecodeBounds 设回falseￄ1�7
 		isBm = new ByteArrayInputStream(baos.toByteArray());
 		bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
-		return bitmap;// 压缩好比例大小后再进行质量压�?
+		return bitmap;// 压缩好比例大小后再进行质量压ￄ1�7
 	}
 
 	/**
-	 * 计算图片的缩放值
+	 * 计算图片的缩放�1�7�1�7
 	 * 
 	 * @param options
 	 * @param reqWidth
@@ -195,7 +193,7 @@ public class PhoneUtlis {
 
 		Matrix matrix = new Matrix();
 		matrix.setRotate(0);
-		
+
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(filePath, options);
@@ -205,21 +203,25 @@ public class PhoneUtlis {
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		
+
 		Bitmap mBitmap = BitmapFactory.decodeFile(filePath, options);
-		float width=mBitmap.getWidth();
-		float height=mBitmap.getHeight();
-		float ratio=width/height;
-		mBitmap = Bitmap.createBitmap(mBitmap, (int) (mBitmap.getWidth()/3),
-				(int) (mBitmap.getHeight()-mBitmap.getHeight()*ratio/3)/2, (int) (mBitmap.getWidth()/3),
-				(int) (mBitmap.getHeight() / 3*ratio), matrix, true);
-		
+		float width = mBitmap.getWidth();
+		float height = mBitmap.getHeight();
+		float ratio = width / height;
+		mBitmap = Bitmap
+				.createBitmap(mBitmap, (int) (mBitmap.getWidth() / 3),
+						(int) (mBitmap.getHeight() - mBitmap.getHeight()
+								* ratio / 3) / 2,
+						(int) (mBitmap.getWidth() / 3),
+						(int) (mBitmap.getHeight() / 3 * ratio), matrix, true);
+
 		saveFoodPic2Example(mBitmap);
 		return mBitmap;
 	}
-	
+
 	/**
 	 * 保存图片示例
+	 * 
 	 * @param mBitmap
 	 */
 	public static void saveFoodPic2Example(Bitmap mBitmap) {
@@ -236,7 +238,6 @@ public class PhoneUtlis {
 		}
 
 	}
-	
 
 	/**
 	 * 根据路径获得突破并压缩返回bitmap用于显示
@@ -246,35 +247,70 @@ public class PhoneUtlis {
 	 */
 	public static Bitmap getNoCutSmallBitmap(String filePath) {
 
-//		Matrix matrix = new Matrix();
-//		matrix.setRotate(ScanningActivity.angle);
+		// Matrix matrix = new Matrix();
+		// matrix.setRotate(ScanningActivity.angle);
 
-	
-		
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(filePath, options);
 
+		ExifInterface exif = null;
+		 try {  
+             exif = new ExifInterface(filePath);  
+         } catch (IOException e) {  
+             e.printStackTrace();  
+             exif = null;  
+         } 
+		 
+		 int digree=0;
+		 if (exif != null) {  
+             // ��ȡͼƬ�����������Ϣ  
+             int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,  
+                     ExifInterface.ORIENTATION_UNDEFINED);  
+             // ������ת�Ƕ�  
+             switch (ori) {  
+             case ExifInterface.ORIENTATION_ROTATE_90:  
+                 digree = 90;  
+                 break;  
+             case ExifInterface.ORIENTATION_ROTATE_180:  
+                 digree = 180;  
+                 break;  
+             case ExifInterface.ORIENTATION_ROTATE_270:  
+                 digree = 270;  
+                 break;  
+             default:  
+                 digree = 0;  
+                 break;  
+             }  
+         }  
+		 
 		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, 400, 400);
+		options.inSampleSize = calculateInSampleSize(options, 480, 800);
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		
+
 		Bitmap mBitmap = BitmapFactory.decodeFile(filePath, options);
-//		float width=mBitmap.getWidth();
-//		float height=mBitmap.getHeight();
-//		float ratio=width/height;
-//		mBitmap = Bitmap.createBitmap(mBitmap, (int) (mBitmap.getWidth()/3),
-//				(int) (mBitmap.getHeight()-mBitmap.getHeight()*ratio/3)/2, (int) (mBitmap.getWidth()/3),
-//				(int) (mBitmap.getHeight() / 3*ratio), matrix, true);
+
+		 if (digree != 0) {  
+             // ��תͼƬ  
+             Matrix m = new Matrix();  
+             m.postRotate(digree);  
+             mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(),  
+            		 mBitmap.getHeight(), m, true);  
+         }  
 		
+		// float width=mBitmap.getWidth();
+		// float height=mBitmap.getHeight();
+		// float ratio=width/height;
+		// mBitmap = Bitmap.createBitmap(mBitmap, (int) (mBitmap.getWidth()/3),
+		// (int) (mBitmap.getHeight()-mBitmap.getHeight()*ratio/3)/2, (int)
+		// (mBitmap.getWidth()/3),
+		// (int) (mBitmap.getHeight() / 3*ratio), matrix, true);
 
 		return mBitmap;
 	}
-	
 
-	
 	/**
 	 * 根据路径获得突破并压缩返回bitmap用于显示且压缩大小为50x50
 	 * 
@@ -286,7 +322,6 @@ public class PhoneUtlis {
 		Matrix matrix = new Matrix();
 		matrix.setRotate(0);
 
-		
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(filePath, options);
@@ -296,25 +331,27 @@ public class PhoneUtlis {
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;
-		
-		Bitmap mBitmap = BitmapFactory.decodeFile(filePath, options);
-		float width=mBitmap.getWidth();
-		float height=mBitmap.getHeight();
-		float ratio=width/height;
-		mBitmap = Bitmap.createBitmap(mBitmap, (int) (mBitmap.getWidth()/3),
-				(int) (mBitmap.getHeight()-mBitmap.getHeight()*ratio/3)/2, (int) (mBitmap.getWidth()/3),
-				(int) (mBitmap.getHeight() / 3*ratio), matrix, true);
 
-		mBitmap=zoomImage(mBitmap, 30, 30);
-		
-//		SavePic.saveFoodPic2Example(mBitmap);
-		
+		Bitmap mBitmap = BitmapFactory.decodeFile(filePath, options);
+		float width = mBitmap.getWidth();
+		float height = mBitmap.getHeight();
+		float ratio = width / height;
+		mBitmap = Bitmap
+				.createBitmap(mBitmap, (int) (mBitmap.getWidth() / 3),
+						(int) (mBitmap.getHeight() - mBitmap.getHeight()
+								* ratio / 3) / 2,
+						(int) (mBitmap.getWidth() / 3),
+						(int) (mBitmap.getHeight() / 3 * ratio), matrix, true);
+
+		mBitmap = zoomImage(mBitmap, 30, 30);
+
+		// SavePic.saveFoodPic2Example(mBitmap);
+
 		return mBitmap;
 	}
-	
-	
+
 	/**
-	 * 从手机内存获得图片
+	 * 从手机内存获得图牄1�7
 	 * 
 	 * @param context
 	 * @return
@@ -388,7 +425,7 @@ public class PhoneUtlis {
 	}
 
 	/**
-	 * 添加到图库
+	 * 添加到图庄1�7
 	 */
 	public static void galleryAddPic(Context context, String path) {
 		Intent mediaScanIntent = new Intent(
@@ -400,7 +437,7 @@ public class PhoneUtlis {
 	}
 
 	/**
-	 * 获取保存图片的目录
+	 * 获取保存图片的目彄1�7
 	 * 
 	 * @return
 	 */
@@ -416,7 +453,7 @@ public class PhoneUtlis {
 	}
 
 	/**
-	 * 获取保存 隐患检查的图片文件夹名称
+	 * 获取保存 隐患棄1�7查的图片文件夹名秄1�7
 	 * 
 	 * @return
 	 */
@@ -424,7 +461,6 @@ public class PhoneUtlis {
 		return "sheguantong";
 	}
 
-	
 	public static Bitmap comp(Bitmap image) {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -462,34 +498,33 @@ public class PhoneUtlis {
 		bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
 		return bitmap;
 	}
-	
-	
+
 	/***
-     * 图片的缩放方法
-     * 
-     * @param bgimage
-     *            ：源图片资源
-     * @param newWidth
-     *            ：缩放后宽度
-     * @param newHeight
-     *            ：缩放后高度
-     * @return
-     */
-    public static Bitmap zoomImage(Bitmap bgimage, double newWidth,
-                    double newHeight) {
-            // 获取这个图片的宽和高
-            float width = bgimage.getWidth();
-            float height = bgimage.getHeight();
-            // 创建操作图片用的matrix对象
-            Matrix matrix = new Matrix();
-            // 计算宽高缩放率
-            float scaleWidth = ((float) newWidth) / width;
-            float scaleHeight = ((float) newHeight) / height;
-            // 缩放图片动作
-            matrix.postScale(scaleWidth, scaleHeight);
-            Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
-                            (int) height, matrix, true);
-            return bitmap;
-    }
-	
+	 * 图片的缩放方泄1�7
+	 * 
+	 * @param bgimage
+	 *            ：源图片资源
+	 * @param newWidth
+	 *            ：缩放后宽度
+	 * @param newHeight
+	 *            ：缩放后高度
+	 * @return
+	 */
+	public static Bitmap zoomImage(Bitmap bgimage, double newWidth,
+			double newHeight) {
+		// 获取这个图片的宽和高
+		float width = bgimage.getWidth();
+		float height = bgimage.getHeight();
+		// 创建操作图片用的matrix对象
+		Matrix matrix = new Matrix();
+		// 计算宽高缩放玄1�7
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) newHeight) / height;
+		// 缩放图片动作
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
+				(int) height, matrix, true);
+		return bitmap;
+	}
+
 }

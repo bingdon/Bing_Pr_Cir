@@ -56,6 +56,8 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 
 	private static final String TAG = SiginFragment3.class.getSimpleName();
 
+	public static String yewufweiString="";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -304,7 +306,7 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 		if (!TextUtils.isEmpty(busi4)) {
 			businessss = businessss + busi4;
 		}
-
+		yewufweiString=businessss;
 		client.CompleteCompany(id, companyname, business, businessss, res);
 	}
 

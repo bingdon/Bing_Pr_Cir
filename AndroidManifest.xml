@@ -219,7 +219,7 @@
         <!-- 发布状态页 -->
         <activity
             android:name="com.example.projectcircle.job.postStatus"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme" android:screenOrientation="portrait">
         </activity>
         <!-- 工程圈页 -->
         <activity
@@ -450,6 +450,11 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity android:name=".group.GroupModifyActivity" android:theme="@style/AppNotitleTheme"></activity>
+        <receiver android:name=".receiver.DownCompleReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

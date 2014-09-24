@@ -152,8 +152,11 @@ public class NewContactsUtily implements NewContactsInterface {
 			values.put(ContactsTable.TYPE, newConstactBean.getType_());
 			values.put(ContactsTable.STATE, newConstactBean.getIsAccpet());
 			values.put(ContactsTable.CID, newConstactBean.getCid());
-			String where = ContactsTable.UID + " = ?";
-			String[] whereValue = { String.valueOf(newConstactBean.getId()) };
+			String where = ContactsTable.UID + " = ? " +
+					" and " + ContactsTable.TYPE
+					+ " = ?";
+			String[] whereValue = { String.valueOf(newConstactBean.getId()),
+					String.valueOf(newConstactBean.getType_()) };
 			// 调用方法插入数据
 			updatepostion = ProJectDatebase.proDatabase.update(
 					ContactsTable.TABLE_NAME, values, where, whereValue);

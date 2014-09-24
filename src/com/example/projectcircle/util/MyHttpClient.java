@@ -145,6 +145,8 @@ public class MyHttpClient {
 			+ "updateGroup";
 
 	private static final String DESTROY_GROUP_URL = BASE_URL + "destroyGroup";
+	
+	public static final String APP_URL_DOWNLOAD="http://www.gcquan.com/download/";
 
 	/**
 	 * 鐧诲綍鍜屾敞鍐��������

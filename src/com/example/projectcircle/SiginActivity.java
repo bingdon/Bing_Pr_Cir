@@ -422,6 +422,25 @@ public class SiginActivity extends TabActivity {
 			return;
 		}
 
+		String businessss = "";
+		if (!TextUtils.isEmpty(SiginFragment3.busi1)) {
+			businessss = businessss + SiginFragment3.busi1;
+		}
+		if (!TextUtils.isEmpty(SiginFragment3.busi2)) {
+			businessss = businessss + SiginFragment3.busi2;
+		}
+		if (!TextUtils.isEmpty(SiginFragment3.busi3)) {
+			businessss = businessss + SiginFragment3.busi3;
+		}
+		if (!TextUtils.isEmpty(SiginFragment3.busi4)) {
+			businessss = businessss + SiginFragment3.busi4;
+		}
+		if (type.equals("商家")
+				&& TextUtils.isEmpty(businessss)) {
+			ToastUtils.showShort(SiginActivity.this, "请添加业务范围");
+			return;
+		}
+		
 		if (!TextUtils.isEmpty(account) && !TextUtils.isEmpty(password)
 				&& !TextUtils.isEmpty(realname) && !TextUtils.isEmpty(hometown)
 				&& !TextUtils.isEmpty(birthday) && user_agreement.isChecked()) {
@@ -465,7 +484,7 @@ public class SiginActivity extends TabActivity {
 			public void onFinish() {
 				// TODO Auto-generated method stub
 				super.onFinish();
-
+				progressDialog.dismiss();
 			}
 
 			public void onSuccess(String response) {
@@ -487,6 +506,8 @@ public class SiginActivity extends TabActivity {
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					Toast.makeText(getApplicationContext(), "注册失败",
+							Toast.LENGTH_LONG).show();
 				}
 			}
 
@@ -494,7 +515,7 @@ public class SiginActivity extends TabActivity {
 			public void onFailure(Throwable error, String response) {
 				// TODO Auto-generated method stub
 				super.onFailure(error, response);
-				progressDialog.dismiss();
+				
 			}
 
 			@Override

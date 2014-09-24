@@ -23,6 +23,7 @@ import com.example.projectcircle.friend.FriendPage;
 import com.example.projectcircle.job.JobPage;
 import com.example.projectcircle.manage.ManagePage;
 import com.example.projectcircle.other.MessagePage;
+import com.example.projectcircle.util.UpdataAppUtlity;
 
 /**
  * 主界面底部菜单栏
@@ -125,7 +126,7 @@ public class MainActivity extends TabActivity {
 		update(tabhost);
 
 		initFilter();
-		
+		UpdataAppUtlity.upDateApp(MainActivity.this);
 	}
 	
 	

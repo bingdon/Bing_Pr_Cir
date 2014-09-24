@@ -25,6 +25,7 @@ import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
 import com.example.projectcircle.adpter.MasterDviAdapter;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -207,6 +208,7 @@ public class FootActivity2 extends Activity implements OnClickListener {
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
 
 			public void onSuccess(String response) {
+				AppLog.i("AsyncHttpResponseHandler", "上传返回:"+response);
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
@@ -224,6 +226,8 @@ public class FootActivity2 extends Activity implements OnClickListener {
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					Toast.makeText(getApplicationContext(), "添加失败！",
+							Toast.LENGTH_LONG).show();
 				}
 			}
 

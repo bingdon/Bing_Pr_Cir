@@ -17,6 +17,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
@@ -108,7 +110,6 @@ public class PhotoUtils {
 
 	}
 
-	
 	// Í¼Æ¬ÉÏ´«Ñ¡ÔñÍ¾¾¶
 	public static void secPic(final Activity context) {
 		final CharSequence[] items = { "Ïà²á", "ÅÄÕÕ" };
@@ -120,10 +121,12 @@ public class PhotoUtils {
 						if (item == 1) {
 							if (SdUtils.ExistSDCard()) {
 								try {
+									
 									imageFileUri = context
 											.getContentResolver()
 											.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 													new ContentValues());
+
 								} catch (Exception e) {
 									// TODO: handle exception
 									e.printStackTrace();
@@ -144,7 +147,10 @@ public class PhotoUtils {
 										.putExtra(
 												android.provider.MediaStore.EXTRA_OUTPUT,
 												imageFileUri);
-
+								// getImageByCamera.putExtra(MediaStore.Images.Media.ORIENTATION,
+								// 0);
+								// getImageByCamera.putExtra("return-data",
+								// true);
 								context.startActivityForResult(
 										getImageByCamera, 1);
 							} else {
@@ -167,13 +173,13 @@ public class PhotoUtils {
 		dlg.show();
 	}
 
-	@SuppressWarnings("deprecation")
 	public static String getPicPathFromUri(Uri uri, Activity activity) {
 		String value = uri.getPath();
 
 		if (value.startsWith("/external")) {
 			String[] proj = { MediaStore.Images.Media.DATA };
-			Cursor cursor = activity.managedQuery(uri, proj, null, null, null);
+			Cursor cursor = activity.getContentResolver().query(uri, proj,
+					null, null, null);
 			int column_index = cursor
 					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 			cursor.moveToFirst();

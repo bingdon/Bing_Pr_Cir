@@ -78,7 +78,7 @@ public class UpdataAppUtlity {
 
 		try {
 			JSONObject jsonObject = new JSONObject(content);
-			String url = ""
+			String url = MyHttpClient.APP_URL_DOWNLOAD
 					+ jsonObject.getJSONArray("versions").getJSONObject(0)
 							.getString("clientPath");
 			String versionNum = jsonObject.getJSONArray("versions")
@@ -88,19 +88,34 @@ public class UpdataAppUtlity {
 					+ "\n"
 					+ jsonObject.getJSONArray("versions").getJSONObject(0)
 							.getString("updateInfo");
-
-			if (!versionNum.equals(getLoVersion())) {
+			JSONObject aJsonObject = jsonObject.getJSONArray("versions")
+					.getJSONObject(0);
+			int forcedUpdate = aJsonObject.getInt("forcedUpdate");
+			double aversionNum=0;
+			double bversionNum=0;
+			try {
+				 aversionNum = Double.valueOf(versionNum);
+				 bversionNum = Double.valueOf(getLoVersion());
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+			
+			if (aversionNum > bversionNum) {
 				Toast.makeText(
 						context,
 						context.getResources()
 								.getString(R.string.hasnewversion),
 						Toast.LENGTH_SHORT).show();
 				downDialog(url, updateinfo);
+			} else {
+				ToastUtils
+						.showLong(context, context.getString(R.string.update));
 			}
-
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			ToastUtils.showLong(context, context.getString(R.string.update));
 		}
 
 	}
@@ -151,7 +166,7 @@ public class UpdataAppUtlity {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
+
 	}
 
 }

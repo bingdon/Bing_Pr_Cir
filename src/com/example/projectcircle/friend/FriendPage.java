@@ -291,7 +291,6 @@ public class FriendPage extends Activity {
 					}
 					int m = (totalrecord-getRequestFriendNum()) + new_friend_tip_count
 							- size;
-					setContactFriendNum(new_friend_tip_count);
 					if (m > 0) {
 						tipNotice.setText(m + "");// 有几个
 						tipNotice.setVisibility(View.VISIBLE);
@@ -466,13 +465,6 @@ public class FriendPage extends Activity {
 		}
 	};
 
-	// 位置计算
-
-	// private void locationCal() {
-	// // TODO Auto-generated method stub
-	// Double distance = DistentsUtil.DistanceOfTwoPoints(friendlat, friendlon,
-	// mylat, mylon) / 1000;
-	// }
 	private void initList() {
 		// TODO Auto-generated method stub
 		getList_friend();

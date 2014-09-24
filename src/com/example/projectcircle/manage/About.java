@@ -7,7 +7,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.example.projectcircle.R;
-import com.example.projectcircle.util.ToastUtils;
 import com.example.projectcircle.util.UpdataAppUtlity;
 
 public class About extends Activity {
@@ -43,8 +42,6 @@ public class About extends Activity {
 				finish();
 				break;
 			case R.id.about_update:
-				ToastUtils.showLong(getApplicationContext(),
-						getString(R.string.update));
 				UpdataAppUtlity.upDateApp(About.this);
 				break;
 			default:
