@@ -37,6 +37,7 @@ import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.db.interfaces.PicClickListener;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.NoticeUtils;
+import com.example.projectcircle.util.PhoneUtlis;
 import com.example.projectcircle.util.PhotoUtils;
 import com.example.projectcircle.util.ToastUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -169,7 +170,7 @@ public class postStatus extends Activity implements PicClickListener {
 			public void run() {
 				// TODO Auto-generated method stub
 
-				MyHttpClient.postMoodImg(moodid, bitmapNCutToString(list.get(0)
+				MyHttpClient.postMoodImg(moodid, PhoneUtlis.bitmapNCutToString(list.get(0)
 						.get("url").toString()), new UpPicHandler(0));
 			}
 		}).start();
@@ -225,6 +226,8 @@ public class postStatus extends Activity implements PicClickListener {
 		public void onFailure(Throwable error, String content) {
 			// TODO Auto-generated method stub
 			super.onFailure(error, content);
+			progressDialog.dismiss();
+			finish();
 
 		}
 

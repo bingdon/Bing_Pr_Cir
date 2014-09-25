@@ -17,6 +17,7 @@ import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.MainActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.SiginActivity;
+import com.example.projectcircle.personal.PersonalPage;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.ToastUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -70,7 +71,7 @@ public class AddFriend extends Activity {
 					obj = new JSONObject(response);
 					if (obj.getInt("result") == 1) {				
 					Intent intent = new Intent(AddFriend.this,
-								DetailInformation.class);
+								PersonalPage.class);
 					intent.putExtra("id",
 							id); 
 					intent.putExtra("address",

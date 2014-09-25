@@ -84,7 +84,7 @@ public class PhoneUtlis {
 	public static synchronized String bitmapNCutToString(String filePath) {
 
 		Bitmap bm = getNoCutSmallBitmap(filePath);
-
+		bm=comp(bm);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.PNG, 40, baos);
 		byte[] b = baos.toByteArray();
@@ -215,6 +215,45 @@ public class PhoneUtlis {
 						(int) (mBitmap.getWidth() / 3),
 						(int) (mBitmap.getHeight() / 3 * ratio), matrix, true);
 
+		
+		ExifInterface exif = null;
+		 try {  
+            exif = new ExifInterface(filePath);  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+            exif = null;  
+        } 
+		 
+		 int digree=0;
+		 if (exif != null) {  
+            // 读取图片中相机方向信息  
+            int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,  
+                    ExifInterface.ORIENTATION_UNDEFINED);  
+            // 计算旋转角度  
+            switch (ori) {  
+            case ExifInterface.ORIENTATION_ROTATE_90:  
+                digree = 90;  
+                break;  
+            case ExifInterface.ORIENTATION_ROTATE_180:  
+                digree = 180;  
+                break;  
+            case ExifInterface.ORIENTATION_ROTATE_270:  
+                digree = 270;  
+                break;  
+            default:  
+                digree = 0;  
+                break;  
+            }  
+        }  
+		
+		 if (digree != 0) {  
+             // 旋转图片  
+             Matrix m = new Matrix();  
+             m.postRotate(digree);  
+             mBitmap = Bitmap.createBitmap(mBitmap, 0, 0, mBitmap.getWidth(),  
+            		 mBitmap.getHeight(), m, true);  
+         }  
+		 
 		saveFoodPic2Example(mBitmap);
 		return mBitmap;
 	}
@@ -285,7 +324,7 @@ public class PhoneUtlis {
          }  
 		 
 		// Calculate inSampleSize
-		options.inSampleSize = calculateInSampleSize(options, 480, 800);
+		options.inSampleSize = calculateInSampleSize(options, 400, 400);
 
 		// Decode bitmap with inSampleSize set
 		options.inJustDecodeBounds = false;

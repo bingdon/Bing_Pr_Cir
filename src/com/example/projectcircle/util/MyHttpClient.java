@@ -739,8 +739,8 @@ public class MyHttpClient {
 			params.put("moodid", moodid);
 			params.put("moodpicStr", moodimage2);
 			HttpUtil.post(postmood_img, params, res);
-			Log.i("postmood_img", postmood_img + moodid + "&moodpicStr="
-					+ moodimage2);
+//			Log.i("postmood_img", postmood_img + moodid + "&moodpicStr="
+//					+ moodimage2);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
