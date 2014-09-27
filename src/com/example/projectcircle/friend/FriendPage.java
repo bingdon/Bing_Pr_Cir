@@ -98,7 +98,6 @@ public class FriendPage extends Activity {
 	// private static final String TAG = "FriendPage";
 	ListView listview, listview2;
 	FriendAdapter myAdapter;
-	FriendAdapter myAdapter2;
 
 	/** 获取库Phon表字段 **/
 	private static final String[] PHONES_PROJECTION = new String[] {
@@ -332,7 +331,7 @@ public class FriendPage extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i("我的好友列表response", response);
+				Log.i("我的好友列表response", "返回:"+response);
 				parsefindfriend(response);
 				listItem.clear();
 				listItem = getList_friend();
@@ -359,6 +358,7 @@ public class FriendPage extends Activity {
 	}
 
 	private void parsefindfriend(String response) {
+		
 		try {
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("friends");
@@ -384,7 +384,13 @@ public class FriendPage extends Activity {
 				user.setAccept(objo.getString("accept"));
 				user.setLat(Double.valueOf(objo.getString("commercialLat")));
 				user.setLon(Double.valueOf(objo.getString("commercialLon")));
-				user.setLastlogintime(objo.getString("lastlogintime"));
+//				user.setLastlogintime(objo.getString("lastlogintime"));
+				try {
+					user.setLastlogintime(objo.getString("reflashtime"));
+				} catch (Exception e) {
+					// TODO: handle exception
+					AppLog.w(TAG, "错误:"+e.getMessage());
+				}
 				friendList.add(user);
 				saveFriendinfo(user.getUsername(), user.getId(),
 						user.getHeadimage());
@@ -607,6 +613,7 @@ public class FriendPage extends Activity {
 			for (int i = 0; i < friendList.size(); i++) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				// map.put("friendID", friendList.get(i).getId());
+				Log.i("返回:friendList", "返回:friendList" + friendList.get(i).getLastlogintime());
 				map.put("address", friendList.get(i).getAddress());
 				map.put("type", friendList.get(i).getType());
 				map.put("headimage", friendList.get(i).getHeadimage());
@@ -907,12 +914,14 @@ public class FriendPage extends Activity {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			AppLog.i(TAG, "数量:"+totalrecord+"::"+new_friend_tip_count+"::"+size);
+			
 			int m = totalrecord-getRequestFriendNum() + new_friend_tip_count - size;
+			AppLog.i(TAG, "数量:"+totalrecord+"::"+new_friend_tip_count+"::"+size+"::"+m);
 			if (m > 0) {
 				tipNotice.setText(m + "");// 有几个
 				tipNotice.setVisibility(View.VISIBLE);
 			}else {
+				setRequestFriendNum(totalrecord);
 				tipNotice.setVisibility(View.GONE);
 			}
 

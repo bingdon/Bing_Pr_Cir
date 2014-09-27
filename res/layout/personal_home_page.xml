@@ -58,7 +58,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="50dp"
                     android:background="@drawable/touxiang_01"
-                    android:scaleType="fitXY" />
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:id="@+id/main_name"
