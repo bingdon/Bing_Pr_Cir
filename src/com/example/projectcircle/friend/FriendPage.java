@@ -1,5 +1,8 @@
 package com.example.projectcircle.friend;
 
+import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.GetFriendsProvider;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -193,8 +196,6 @@ public class FriendPage extends Activity {
 		// api.handleIntent(getIntent(), this);
 	}
 
-	
-	
 	private void getContactInNumber() {
 		// TODO Auto-generated method stub
 		ContentResolver resolver = FriendPage.this.getContentResolver();
@@ -288,8 +289,8 @@ public class FriendPage extends Activity {
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-					int m = (totalrecord-getRequestFriendNum()) + new_friend_tip_count
-							- size;
+					int m = (totalrecord - getRequestFriendNum())
+							+ new_friend_tip_count - size;
 					if (m > 0) {
 						tipNotice.setText(m + "");// 有几个
 						tipNotice.setVisibility(View.VISIBLE);
@@ -331,7 +332,7 @@ public class FriendPage extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i("我的好友列表response", "返回:"+response);
+				Log.i("我的好友列表response", "返回:" + response);
 				parsefindfriend(response);
 				listItem.clear();
 				listItem = getList_friend();
@@ -358,7 +359,7 @@ public class FriendPage extends Activity {
 	}
 
 	private void parsefindfriend(String response) {
-		
+
 		try {
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("friends");
@@ -367,7 +368,7 @@ public class FriendPage extends Activity {
 			int length = json.length();
 			System.out.println("length==" + length);
 			Log.i(TAG, "JSONArray:" + json);
-//			new FriendDatabaseUtils(FriendPage.this).deleteAll();
+			// new FriendDatabaseUtils(FriendPage.this).deleteAll();
 			for (int i = 0; i < length; i++) {
 				UserInfo user = new UserInfo();
 				JSONObject objo = json.getJSONObject(i);
@@ -384,12 +385,12 @@ public class FriendPage extends Activity {
 				user.setAccept(objo.getString("accept"));
 				user.setLat(Double.valueOf(objo.getString("commercialLat")));
 				user.setLon(Double.valueOf(objo.getString("commercialLon")));
-//				user.setLastlogintime(objo.getString("lastlogintime"));
+				// user.setLastlogintime(objo.getString("lastlogintime"));
 				try {
 					user.setLastlogintime(objo.getString("reflashtime"));
 				} catch (Exception e) {
 					// TODO: handle exception
-					AppLog.w(TAG, "错误:"+e.getMessage());
+					AppLog.w(TAG, "错误:" + e.getMessage());
 				}
 				friendList.add(user);
 				saveFriendinfo(user.getUsername(), user.getId(),
@@ -507,32 +508,32 @@ public class FriendPage extends Activity {
 			}
 		});
 		// 长按listview
-//		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
-//
-//			@Override
-//			public boolean onItemLongClick(AdapterView<?> parent, View view,
-//					final int position, long id) {
-//				// TODO Auto-generated method stub
-//				new AlertDialog.Builder(self)
-//						.setTitle("确认要删除此好友吗？")
-//						.setIcon(android.R.drawable.ic_dialog_info)
-//						.setPositiveButton("确定",
-//								new DialogInterface.OnClickListener() {
-//
-//									@Override
-//									public void onClick(DialogInterface dialog,
-//											int which) {
-//										// TODO Auto-generated method stub
-//										// 按确定后删除
-//										cid = listItem.get(position - 1).get(
-//												"ccid");
-//										denyfriend(cid, position);
-//									}
-//								}).setNegativeButton("取消", null).show();
-//				return true;
-//			}
-//
-//		});
+		// listview.setOnItemLongClickListener(new OnItemLongClickListener() {
+		//
+		// @Override
+		// public boolean onItemLongClick(AdapterView<?> parent, View view,
+		// final int position, long id) {
+		// // TODO Auto-generated method stub
+		// new AlertDialog.Builder(self)
+		// .setTitle("确认要删除此好友吗？")
+		// .setIcon(android.R.drawable.ic_dialog_info)
+		// .setPositiveButton("确定",
+		// new DialogInterface.OnClickListener() {
+		//
+		// @Override
+		// public void onClick(DialogInterface dialog,
+		// int which) {
+		// // TODO Auto-generated method stub
+		// // 按确定后删除
+		// cid = listItem.get(position - 1).get(
+		// "ccid");
+		// denyfriend(cid, position);
+		// }
+		// }).setNegativeButton("取消", null).show();
+		// return true;
+		// }
+		//
+		// });
 	}
 
 	// 调用删除好友的接口，和好友请求列表里边的拒绝好友是一个接口
@@ -609,11 +610,13 @@ public class FriendPage extends Activity {
 
 		// TODO Auto-generated method stub
 		Log.i("返回:friendList", "返回:friendList" + friendList);
+		List<io.rong.imlib.RongIMClient.UserInfo> userInfos = new ArrayList<>();
 		if (friendList != null) {
 			for (int i = 0; i < friendList.size(); i++) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				// map.put("friendID", friendList.get(i).getId());
-				Log.i("返回:friendList", "返回:friendList" + friendList.get(i).getLastlogintime());
+				Log.i("返回:friendList", "返回:friendList"
+						+ friendList.get(i).getLastlogintime());
 				map.put("address", friendList.get(i).getAddress());
 				map.put("type", friendList.get(i).getType());
 				map.put("headimage", friendList.get(i).getHeadimage());
@@ -626,6 +629,12 @@ public class FriendPage extends Activity {
 				map.put("lastlogintime", friendList.get(i).getLastlogintime());
 				map.put("commercialLat", friendList.get(i).getLat());
 				map.put("commercialLon", friendList.get(i).getLon());
+				io.rong.imlib.RongIMClient.UserInfo userInfo = new io.rong.imlib.RongIMClient.UserInfo(
+						friendList.get(i).getId(), friendList.get(i)
+								.getUsername(), MyHttpClient.IMAGE_URL
+								+ friendList.get(i).getHeadimage());
+//				setGetFriendProvider(userInfos);
+				userInfos.add(userInfo);
 				listItem.add(map);
 			}
 		}
@@ -906,21 +915,24 @@ public class FriendPage extends Activity {
 
 	private void getFriend_RequestCount(JSONObject response) {
 		try {
-			AppLog.i(TAG, "数量:"+response);
-			totalrecord = response.getJSONObject("friends").getInt("totalrecord");
+			AppLog.i(TAG, "数量:" + response);
+			totalrecord = response.getJSONObject("friends").getInt(
+					"totalrecord");
 			int size = 0;
 			try {
 				size = getContactFriendNum();
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			
-			int m = totalrecord-getRequestFriendNum() + new_friend_tip_count - size;
-			AppLog.i(TAG, "数量:"+totalrecord+"::"+new_friend_tip_count+"::"+size+"::"+m);
+
+			int m = totalrecord - getRequestFriendNum() + new_friend_tip_count
+					- size;
+			AppLog.i(TAG, "数量:" + totalrecord + "::" + new_friend_tip_count
+					+ "::" + size + "::" + m);
 			if (m > 0) {
 				tipNotice.setText(m + "");// 有几个
 				tipNotice.setVisibility(View.VISIBLE);
-			}else {
+			} else {
 				setRequestFriendNum(totalrecord);
 				tipNotice.setVisibility(View.GONE);
 			}
@@ -930,30 +942,44 @@ public class FriendPage extends Activity {
 		}
 	}
 
-	
-	private void setContactFriendNum(int count){
-		SharedPreferences sharedPreferences=getSharedPreferences(TAG, MODE_PRIVATE);
-		Editor editor=sharedPreferences.edit();
+	private void setContactFriendNum(int count) {
+		SharedPreferences sharedPreferences = getSharedPreferences(TAG,
+				MODE_PRIVATE);
+		Editor editor = sharedPreferences.edit();
 		editor.putInt("contact", count);
 		editor.commit();
 	}
-	
-	private void setRequestFriendNum(int count){
-		SharedPreferences sharedPreferences=getSharedPreferences(TAG, MODE_PRIVATE);
-		Editor editor=sharedPreferences.edit();
+
+	private void setRequestFriendNum(int count) {
+		SharedPreferences sharedPreferences = getSharedPreferences(TAG,
+				MODE_PRIVATE);
+		Editor editor = sharedPreferences.edit();
 		editor.putInt("request", count);
 		editor.commit();
 	}
-	
-	private int getContactFriendNum(){
-		int count=0;
-		count=getSharedPreferences(TAG, MODE_PRIVATE).getInt("contact", 0);
+
+	private int getContactFriendNum() {
+		int count = 0;
+		count = getSharedPreferences(TAG, MODE_PRIVATE).getInt("contact", 0);
 		return count;
 	}
-	
-	private int getRequestFriendNum(){
-		int count=0;
-		count=getSharedPreferences(TAG, MODE_PRIVATE).getInt("request", 0);
+
+	private int getRequestFriendNum() {
+		int count = 0;
+		count = getSharedPreferences(TAG, MODE_PRIVATE).getInt("request", 0);
 		return count;
 	}
+
+	private void setGetFriendProvider(
+			final List<io.rong.imlib.RongIMClient.UserInfo> userInfos) {
+		RongIM.setGetFriendsProvider(new GetFriendsProvider() {
+
+			@Override
+			public List<io.rong.imlib.RongIMClient.UserInfo> getFriends() {
+				// TODO Auto-generated method stub
+				return userInfos;
+			}
+		});
+	}
+
 }

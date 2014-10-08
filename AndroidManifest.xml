@@ -455,6 +455,113 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
             </intent-filter>
         </receiver>
+        
+        
+         <!-- Begin Rong Cloud -->
+
+        <activity
+            android:name="io.rong.imkit.RongActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/RcTheme">>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:host="com.example.projectcircle"
+                    android:pathPrefix="/conversationsetting/"
+                    android:scheme="rong"/>
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.example.projectcircle"
+                    android:path="/grouplist"
+                    android:scheme="rong" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.example.projectcircle"
+                    android:path="/conversationgrouplist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="io.rong.imkit.RongSingleActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/RcTheme"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.example.projectcircle"
+                    android:path="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="io.rong.imkit.RongSecActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/RcTheme"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.example.projectcircle"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="io.rong.voipkit.activity.CallSideActivity"
+            android:theme="@style/RcTheme"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="io.rong.voipkit.activity.CalledSideActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/RcTheme"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="io.rong.voipkit.calledSideActivity.action" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="io.rong.imkit.service.RongIMService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service
+            android:name="io.rong.imlib.PushService"
+            android:process="io.rong.push.service" />
+
+        <service android:name="io.rong.imlib.RongService" />
+
+        <receiver android:name="io.rong.imlib.RongReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <!-- End Rong Cloud -->
+        
+        
+        
     </application>
 
 </manifest>

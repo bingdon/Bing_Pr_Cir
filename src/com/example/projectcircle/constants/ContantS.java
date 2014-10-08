@@ -33,4 +33,6 @@ public interface ContantS {
 
 	public static final String WX_APP_ID = "wx6de80e608488614e";
 
+	public static final String RONG_APP_ID="3argexb6rhe0e";
+	
 }

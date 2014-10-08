@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -50,7 +51,7 @@ import com.example.projectcircle.personal.MyPersonal;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class MessagePage extends Activity {
+public class MessagePage extends FragmentActivity {
 	Button right;
 	private static final String TAG = "MessagePage";
 	ListView listview;
@@ -127,7 +128,7 @@ public class MessagePage extends Activity {
 		// TODO Auto-generated method stub
 		listview = (ListView) findViewById(R.id.message_listView);
 		registerForContextMenu(listview);// 为 ListView 的所有 item 注册 ContextMenu
-		
+
 		headview = this.getLayoutInflater().inflate(R.layout.message_headview,
 				null);
 		listview.addHeaderView(headview);
@@ -688,7 +689,7 @@ public class MessagePage extends Activity {
 		public void onSuccess(JSONObject response) {
 			// TODO Auto-generated method stub
 			super.onSuccess(response);
-			AppLog.i(TAG, "群组返回:"+response);
+			AppLog.i(TAG, "群组返回:" + response);
 			getgroupCount(response);
 		}
 	};
@@ -697,7 +698,7 @@ public class MessagePage extends Activity {
 		try {
 			int count = response.getJSONObject("gu").getInt("totalrecord");
 			addgroup_Notice.setText("" + count);
-			AppLog.i(TAG, "群组返回:"+count);
+			AppLog.i(TAG, "群组返回:" + count);
 			if (count > 0) {
 				addgroup_Notice.setVisibility(View.VISIBLE);
 			} else {
@@ -706,7 +707,7 @@ public class MessagePage extends Activity {
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			AppLog.w(TAG, "群组返回:"+e.getStackTrace());
+			AppLog.w(TAG, "群组返回:" + e.getStackTrace());
 		}
 	}
 

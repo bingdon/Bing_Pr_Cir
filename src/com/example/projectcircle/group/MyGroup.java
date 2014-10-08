@@ -1,5 +1,9 @@
 package com.example.projectcircle.group;
 
+import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.OperationCallback.ErrorCode;
+import io.rong.imlib.RongIMClient;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,7 @@ import com.example.projectcircle.adpter.MyGroupAdapter;
 import com.example.projectcircle.bean.GroupDataBean;
 import com.example.projectcircle.bean.GroupInfo;
 import com.example.projectcircle.db.utils.GroupDatabaseUtils;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MyHttpClient;
 import com.google.gson.Gson;
@@ -34,7 +39,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class MyGroup extends Activity {
 	private static final String TAG = "GroupPage";
-	public static boolean isMyGroup=false;
+	public static boolean isMyGroup = false;
 	ListView listview;
 	MyGroupAdapter myAdapter;
 	Button back;
@@ -54,8 +59,8 @@ public class MyGroup extends Activity {
 		setContentView(R.layout.group_list);
 		initBtn();
 		uid = LoginActivity.id;
-		isMyGroup=true;
-		
+		isMyGroup = true;
+
 	}
 
 	@Override
@@ -64,14 +69,14 @@ public class MyGroup extends Activity {
 		super.onResume();
 		findGroup(uid);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		isMyGroup=false;
+		isMyGroup = false;
 	}
-	
+
 	private void findGroup(String uid) {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
@@ -162,6 +167,7 @@ public class MyGroup extends Activity {
 
 	private ArrayList<HashMap<String, Object>> getList() {
 		ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
+		List<RongIMClient.Group> groups = new ArrayList<>();
 		// TODO Auto-generated method stub
 		if (groupList != null) {
 			for (int i = 0; i < groupList.size(); i++) {
@@ -179,7 +185,7 @@ public class MyGroup extends Activity {
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
+
 				glatitude = groupList.get(i).getLat();
 				glongtitude = groupList.get(i).getLon();
 				double distance = DistentsUtil.getDistance(glongtitude,
@@ -187,8 +193,15 @@ public class MyGroup extends Activity {
 				distance = DistentsUtil.changep2(distance);
 				map.put("distance", distance);
 				map.put("count", groupList.get(i).getCount());
+				RongIMClient.Group group = new RongIMClient.Group(groupList
+						.get(i).getId(), groupList.get(i).getGname(), MyHttpClient.IMAGE_URL+groupList
+						.get(i).getHeadimage());
+				groups.add(group);
 				listItem.add(map);
 			}
+			
+//			sysnGroups(groups);
+			
 		}
 		return listItem;
 	}
@@ -256,5 +269,24 @@ public class MyGroup extends Activity {
 		return groupDataBean;
 
 	}
+	
+	
+	private void sysnGroups(List<RongIMClient.Group> groups){
+		RongIM.getInstance().syncGroup(groups, new RongIM.OperationCallback() {
+			
+			@Override
+			public void onSuccess() {
+				// TODO Auto-generated method stub
+				AppLog.i(TAG, "³É¹¦");
+			}
+			
+			@Override
+			public void onError(ErrorCode arg0) {
+				// TODO Auto-generated method stub
+				AppLog.i(TAG, "Ê§°Ü:"+arg0);
+			}
+		});
+	}
+	
 
 }

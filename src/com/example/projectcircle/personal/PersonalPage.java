@@ -1,5 +1,7 @@
 package com.example.projectcircle.personal;
 
+import io.rong.imkit.RongIM;
+
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -1109,6 +1111,7 @@ public class PersonalPage extends Activity {
 				intent2.putExtra("username", "" + uname);
 				intent2.putExtra("headimg", "" + uheadimg);
 				startActivity(intent2);
+//				RongIM.getInstance().startPrivateChat(PersonalPage.this, uid, uname);
 				// finish();
 				break;
 

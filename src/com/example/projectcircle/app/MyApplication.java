@@ -1,5 +1,7 @@
 package com.example.projectcircle.app;
 
+import io.rong.imkit.RongIM;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import com.example.projectcircle.WelcomeActivity;
 import com.example.projectcircle.bean.MyPersonBean;
 import com.example.projectcircle.bean.PersonalInfo;
 import com.example.projectcircle.bean.UserInfo;
+import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.other.ImageInfo;
 import com.example.projectcircle.util.FileUtils;
 import com.example.projectcircle.util.SdUtils;
@@ -99,6 +102,7 @@ public class MyApplication  extends FrontiaApplication  {
 
 //		super.onCreate();
 		mInstance = this;
+		RongIM.init(mInstance, ContantS.RONG_APP_ID, R.drawable.logo);
 //		initEngineManager(this);
 //		initImageLoader(getApplicationContext());
 //		if (SdUtils.ExistSDCard()) {

@@ -1,5 +1,7 @@
 package com.example.projectcircle.group;
 
+import io.rong.imkit.RongIM;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.json.JSONArray;
@@ -499,6 +501,7 @@ public class GroupDetail extends Activity {
 		intent.putExtra("gid", gid);
 		intent.putExtra("gname", name);
 		startActivity(intent);
+//		RongIM.getInstance().startGroupChat(GroupDetail.this, gid, name);
 
 	}
 
