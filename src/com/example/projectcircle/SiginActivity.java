@@ -884,7 +884,7 @@ public class SiginActivity extends TabActivity {
 					// 将字节数组转换为ImageView可调用的Bitmap对象
 					myBitmap = ImageUtil.getPicFromBytes(mContent, null);
 					myBitmap = CompleteInfo.comp(myBitmap);
-					myBitmap = ImageUtil.toRoundCorner(myBitmap, 20);
+//					myBitmap = ImageUtil.toRoundCorner(myBitmap, 20);
 					myhead.setImageBitmap(myBitmap);
 				} catch (Exception e) {
 					// TODO: handle exception

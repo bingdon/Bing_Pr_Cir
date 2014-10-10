@@ -1,5 +1,9 @@
 package com.example.projectcircle;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient.ConnectCallback;
+import io.rong.imlib.RongIMClient.ConnectCallback.ErrorCode;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +17,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -52,6 +57,7 @@ import com.example.projectcircle.complete.CompleteMaster;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.group.GroupPage;
+import com.example.projectcircle.group.MyGroup;
 import com.example.projectcircle.personal.PersonalPage;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MyHttpClient;
@@ -187,6 +193,9 @@ public class HomeActivity extends Activity {
 				.cacheInMemory(true)// 是否緩存都內存中
 				.cacheOnDisc(true)// 是否緩存到sd卡上
 				.build();
+
+		connectRongServer();
+		MyGroup.findGroup0(LoginActivity.id);
 	}
 
 	private void initFilter() {
@@ -399,19 +408,19 @@ public class HomeActivity extends Activity {
 						equList.add("板车");
 					}
 
-//					equ = equList.toString();
+					// equ = equList.toString();
 					equ = "";
 					for (int i = 0; i < equList.size(); i++) {
 						if (!TextUtils.isEmpty(equ)) {
-							equ=equ+","+equList.get(i);
-						}else {
-							equ=equList.get(i);
+							equ = equ + "," + equList.get(i);
+						} else {
+							equ = equList.get(i);
 						}
-						
+
 					}
-//					equ.substring(0, equ.length() - 1);
-//					equ = equ.replace("[", "");
-//					equ = equ.replace("]", "");
+					// equ.substring(0, equ.length() - 1);
+					// equ = equ.replace("[", "");
+					// equ = equ.replace("]", "");
 
 				}
 				;
@@ -509,11 +518,11 @@ public class HomeActivity extends Activity {
 				user.setAccept(obj.getString("accept"));
 				try {
 					user.setLastlogintime(obj.getString("reflashtime"));
-					AppLog.i(TAG, "开始lema:"+obj.getString("reflashtime"));
+					AppLog.i(TAG, "开始lema:" + obj.getString("reflashtime"));
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
-				
+
 				try {
 					user.setLat(obj.getDouble("commercialLat"));
 				} catch (Exception e) {
@@ -548,7 +557,7 @@ public class HomeActivity extends Activity {
 		LocationClientOption option = new LocationClientOption();
 		option.setLocationMode(LocationMode.Hight_Accuracy);// 设置定位模式,//Hight_Accuracy高精度、Battery_Saving低功耗、Device_Sensors仅设备(GPS)
 		option.setOpenGps(true);// 打开gps,设置是否打开gps，使用gps前提是用户硬件打开gps。默认是不打开gps的。
-		option.setScanSpan(60000*10);// 定位的时间间隔，单位：ms
+		option.setScanSpan(60000 * 10);// 定位的时间间隔，单位：ms
 		// 需要地址信息，设置为其他任何值（string类型，且不能为null）时，都表示无地址信息。
 		option.setAddrType("all");
 
@@ -637,7 +646,7 @@ public class HomeActivity extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i(TAG, "返回:" + response);
+				Log.i(TAG, "信息返回:" + response);
 				parseUserDetail(response);
 				LoginActivity.parseUserInfo(response, HomeActivity.this);
 				// 判断头部的“当前资料不完整，完善后有助于交友”这行字是否显示
@@ -839,16 +848,16 @@ public class HomeActivity extends Activity {
 					user.setAccept(obj.getString("accept"));
 					user.setLastlogintime(obj.getString("lastlogintime"));
 					try {
-						String reshtime=obj.getString("reflashtime");
+						String reshtime = obj.getString("reflashtime");
 						if (!TextUtils.isEmpty(reshtime)) {
 							user.setLastlogintime(obj.getString("reflashtime"));
 						}
-						
-						AppLog.i(TAG, "开始lema:"+obj.getString("reflashtime"));
+
+						AppLog.i(TAG, "开始lema:" + obj.getString("reflashtime"));
 					} catch (Exception e) {
 						// TODO: handle exception
 					}
-					
+
 					try {
 						user.setLat(obj.getDouble("commercialLat"));
 					} catch (Exception e) {
@@ -1192,7 +1201,7 @@ public class HomeActivity extends Activity {
 
 			}
 		}
-		AppLog.i(TAG, "显示设备:"+equ);
+		AppLog.i(TAG, "显示设备:" + equ);
 		if (equ.equals("全部")) {
 			all_machine.setChecked(true);
 		} else {
@@ -1204,23 +1213,23 @@ public class HomeActivity extends Activity {
 					return;
 				}
 				for (int i = 0; i < length; i++) {
-					AppLog.i(TAG, "显示设备:"+types[i]);
-					if (types[i].equals("挖掘机")||types[i].equals(" 挖掘机")) {
+					AppLog.i(TAG, "显示设备:" + types[i]);
+					if (types[i].equals("挖掘机") || types[i].equals(" 挖掘机")) {
 						a_machine_lord.setChecked(true);
 						continue;
 					}
 
-					if (types[i].equals("自卸车")||types[i].equals(" 自卸车")) {
+					if (types[i].equals("自卸车") || types[i].equals(" 自卸车")) {
 						a_dump_truck.setChecked(true);
 						continue;
 					}
 
-					if (types[i].equals("装载机")||types[i].equals(" 装载机")) {
+					if (types[i].equals("装载机") || types[i].equals(" 装载机")) {
 						a_loader.setChecked(true);
 						continue;
 					}
 
-					if (types[i].equals("板车")||types[i].equals(" 板车")) {
+					if (types[i].equals("板车") || types[i].equals(" 板车")) {
 						a_scooter.setChecked(true);
 						continue;
 					}
@@ -1231,4 +1240,58 @@ public class HomeActivity extends Activity {
 
 	}
 
+	/**
+	 * 连接融云服务器
+	 */
+	private void connectRongServer() {
+		String token = LoginActivity.getToken(getApplicationContext());
+		AppLog.i(TAG, "登陆TOKEN:"
+				+token);
+		if (!TextUtils.isEmpty(token)) {
+			RongIM.connect(token, new ConnectCallback() {
+
+				@Override
+				public void onSuccess(String arg0) {
+					// TODO Auto-generated method stub
+					AppLog.i(TAG, "登陆成功:" + arg0);
+				}
+
+				@Override
+				public void onError(ErrorCode arg0) {
+					// TODO Auto-generated method stub
+					AppLog.i(TAG, "登陆失败:" + arg0);
+					showLoginAgain();
+					
+				}
+			});
+		}else {
+			showLoginAgain();
+		}
+	}
+
+	
+	private void showLoginAgain(){
+		new AlertDialog.Builder(HomeActivity.this).setTitle("连接提示")
+		.setMessage("连接服务器失败，是否重新登陆?")
+		.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+				finish();
+			}
+		})
+		.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		}).show();
+	}
+	
+	
+	
 }

@@ -197,7 +197,7 @@ public class ImageUtil {
 
 		ByteArrayOutputStream bStream = new ByteArrayOutputStream();
 
-		bitmap.compress(CompressFormat.JPEG, 100, bStream);
+		bitmap.compress(CompressFormat.JPEG, 40, bStream);
 
 		byte[] bytes = bStream.toByteArray();
 

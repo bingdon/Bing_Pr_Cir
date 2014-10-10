@@ -1,5 +1,7 @@
 package com.example.projectcircle.manage;
 
+import io.rong.imkit.RongIM;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -279,6 +281,12 @@ public class ManagePage extends Activity {
 						// 这里item是根据选择的方式，
 						// 在items数组里面定义了两种方式，拍照的下标为1所以就调用拍照方法
 						if (item == 1) {
+							try {
+								RongIM.getInstance().disconnect();
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+							
 							UserInfoUtils.delPersonInfo(ManagePage.this);
 							Intent intent = new Intent(ManagePage.this,LoginActivity.class);
 							startActivity(intent);

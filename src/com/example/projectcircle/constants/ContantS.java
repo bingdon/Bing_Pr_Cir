@@ -35,4 +35,8 @@ public interface ContantS {
 
 	public static final String RONG_APP_ID="3argexb6rhe0e";
 	
+	public static final int PERIOD_TIME=2;
+	
+	public static final int DELAY_TIME=1;
+	
 }

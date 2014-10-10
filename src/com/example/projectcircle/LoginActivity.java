@@ -56,6 +56,7 @@ public class LoginActivity extends Activity implements OnCheckedChangeListener {
 	private boolean isauto = false;
 	private ProgressDialog progressDialog;
 	private String lastAccount = "";
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -164,7 +165,7 @@ public class LoginActivity extends Activity implements OnCheckedChangeListener {
 			}
 
 			public void onSuccess(String response) {
-				System.out.println(response);
+				AppLog.i(TAG, "登陆返回:"+response);
 				parseUser(response);
 				JSONObject obj;
 				try {
@@ -210,6 +211,10 @@ public class LoginActivity extends Activity implements OnCheckedChangeListener {
 			try {
 				myPersonBean = new Gson().fromJson(obj.toString(),
 						MyPersonBean.class);
+				if (!TextUtils.isEmpty(myPersonBean.getToken())&&myPersonBean.getToken().length()>20) {
+					AppLog.i(TAG, "保存Token:"+myPersonBean.getToken()+"长度:"+myPersonBean.getToken().length());
+					saveToken(LoginActivity.this, myPersonBean.getToken());
+				}
 				MyApplication.setMyPersonBean(myPersonBean);
 				UserInfoUtils.setPersonInfo(myPersonBean, LoginActivity.this);
 			} catch (Exception e) {
@@ -239,6 +244,9 @@ public class LoginActivity extends Activity implements OnCheckedChangeListener {
 			try {
 				myPersonBean = new Gson().fromJson(obj.toString(),
 						MyPersonBean.class);
+				if (!TextUtils.isEmpty(myPersonBean.getToken())&&myPersonBean.getToken().length()>20) {
+					saveToken(context, myPersonBean.getToken());
+				}
 				MyApplication.setMyPersonBean(myPersonBean);
 				AppLog.i(TAG, "Bean返回:"+myPersonBean.getAddress());
 				AppLog.i(TAG, "Bean返回:"+myPersonBean.getPlace());
@@ -327,4 +335,23 @@ public class LoginActivity extends Activity implements OnCheckedChangeListener {
 		unregisterReceiver(msgReceiver);
 	}
 
+	
+	private static void saveToken(Context context,String token){
+		SharedPreferences sharedPreferences = context.getSharedPreferences(TAG,
+				Context.MODE_PRIVATE);
+		Editor editor=sharedPreferences.edit();
+		editor.putString("token", token);
+		editor.commit();
+	}
+	
+	public static String getToken(Context context){
+		String token="";
+		SharedPreferences sharedPreferences = context.getSharedPreferences(TAG,
+				Context.MODE_PRIVATE);
+		token=sharedPreferences.getString("token", "");
+		return token;
+		
+	}
+	
+	
 }

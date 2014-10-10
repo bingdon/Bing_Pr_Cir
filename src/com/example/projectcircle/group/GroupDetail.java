@@ -1,6 +1,9 @@
 package com.example.projectcircle.group;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.GetGroupInfoProvider;
+import io.rong.imkit.RongIM.OperationCallback.ErrorCode;
+import io.rong.imlib.RongIMClient.Group;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -147,12 +150,13 @@ public class GroupDetail extends Activity {
 		GroupDetails(gid);
 		findMember(gid);
 		// 判断我是是不是群成员
-		
+
 		;
 	}
 
 	/**
 	 * 判断是否
+	 * 
 	 * @param gid
 	 * @param uid
 	 */
@@ -162,7 +166,7 @@ public class GroupDetail extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i("判断是否是群成员的response", "返回:" + response);
+				Log.i("判断是否是群成员的response", "群组返回:" + response);
 				try {
 					JSONObject result = new JSONObject(response);
 					if (result.getInt("result") == 1) {
@@ -241,7 +245,7 @@ public class GroupDetail extends Activity {
 				if (id.equals(LoginActivity.id)) {
 					findViewById(R.id.edit).setVisibility(View.VISIBLE);
 					mButton.setText("解散群");
-				}else if (!MyGroup.isMyGroup) {
+				} else if (!MyGroup.isMyGroup) {
 					mButton.setVisibility(View.GONE);
 				}
 			}
@@ -249,6 +253,7 @@ public class GroupDetail extends Activity {
 			try {
 				groupInfo = new Gson().fromJson(json.getJSONObject(0)
 						.toString(), GroupInfo.class);
+			
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
@@ -491,17 +496,17 @@ public class GroupDetail extends Activity {
 			return;
 		}
 
-		if (!MsgUtils.isExitMsgList(gid, GroupDetail.this)) {
-			MsgUtils.saveMsgList(MyGroup.getGroupname(gid), " ",
-					"" + Chat.getDate(), gid, headimage, 1, 0, GroupDetail.this);
-		}
-
-		Intent intent = new Intent();
-		intent.setClass(GroupDetail.this, GroupChatOther.class);
-		intent.putExtra("gid", gid);
-		intent.putExtra("gname", name);
-		startActivity(intent);
-//		RongIM.getInstance().startGroupChat(GroupDetail.this, gid, name);
+		// if (!MsgUtils.isExitMsgList(gid, GroupDetail.this)) {
+		// MsgUtils.saveMsgList(MyGroup.getGroupname(gid), " ",
+		// "" + Chat.getDate(), gid, headimage, 1, 0, GroupDetail.this);
+		// }
+		//
+		// Intent intent = new Intent();
+		// intent.setClass(GroupDetail.this, GroupChatOther.class);
+		// intent.putExtra("gid", gid);
+		// intent.putExtra("gname", name);
+		// startActivity(intent);
+		RongIM.getInstance().startGroupChat(GroupDetail.this, gid, name);
 
 	}
 
@@ -532,8 +537,10 @@ public class GroupDetail extends Activity {
 	private void mangerGroup() {
 		if (id.equals(LoginActivity.id)) {
 			MyHttpClient.destroyGroup(gid, handler);
+			quitGroup();
 		} else {
 			MyHttpClient.deleteMember2Group(gid, id, handler);
+			quitGroup();
 		}
 	}
 
@@ -542,5 +549,22 @@ public class GroupDetail extends Activity {
 			finish();
 		};
 	};
+
+	private void quitGroup() {
+		RongIM.getInstance().quitGroup(gid, new RongIM.OperationCallback() {
+
+			@Override
+			public void onSuccess() {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onError(ErrorCode arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
 
 }

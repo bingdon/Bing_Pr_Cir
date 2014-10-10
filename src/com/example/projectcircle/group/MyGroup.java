@@ -1,8 +1,10 @@
 package com.example.projectcircle.group;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.GetGroupInfoProvider;
 import io.rong.imkit.RongIM.OperationCallback.ErrorCode;
 import io.rong.imlib.RongIMClient;
+import io.rong.imlib.RongIMClient.Group;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -194,14 +196,15 @@ public class MyGroup extends Activity {
 				map.put("distance", distance);
 				map.put("count", groupList.get(i).getCount());
 				RongIMClient.Group group = new RongIMClient.Group(groupList
-						.get(i).getId(), groupList.get(i).getGname(), MyHttpClient.IMAGE_URL+groupList
-						.get(i).getHeadimage());
+						.get(i).getId(), groupList.get(i).getGname(),
+						MyHttpClient.IMAGE_URL
+								+ groupList.get(i).getHeadimage());
 				groups.add(group);
 				listItem.add(map);
 			}
-			
-//			sysnGroups(groups);
-			
+
+			 sysnGroups(groups);
+
 		}
 		return listItem;
 	}
@@ -269,24 +272,113 @@ public class MyGroup extends Activity {
 		return groupDataBean;
 
 	}
-	
-	
-	private void sysnGroups(List<RongIMClient.Group> groups){
+
+	public static void sysnGroups(List<RongIMClient.Group> groups) {
+		if (groups.size()==0) {
+			return;
+		}
 		RongIM.getInstance().syncGroup(groups, new RongIM.OperationCallback() {
-			
+
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
-				AppLog.i(TAG, "成功");
+				AppLog.i(TAG, "同步成功");
 			}
-			
+
 			@Override
 			public void onError(ErrorCode arg0) {
 				// TODO Auto-generated method stub
-				AppLog.i(TAG, "失败:"+arg0);
+				AppLog.i(TAG, "同步失败:" + arg0);
 			}
 		});
+
+		for (int i = 0; i < groups.size(); i++) {
+			RongIM.getInstance().joinGroup(groups.get(i).getId(),
+					groups.get(i).getName(), new RongIM.OperationCallback() {
+
+						@Override
+						public void onSuccess() {
+							// TODO Auto-generated method stub
+							AppLog.i(TAG, "加入成功");
+						}
+
+						@Override
+						public void onError(ErrorCode arg0) {
+							// TODO Auto-generated method stub
+							AppLog.i(TAG, "加入失败:" + arg0);
+						}
+					});
+			
+			
+		}
+		
+		final List<RongIMClient.Group> groups1=groups;
+		RongIM.setGetGroupInfoProvider(new GetGroupInfoProvider() {
+			
+			@Override
+			public Group getGroupInfo(String arg0) {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < groups1.size(); i++) {
+					if (groups1.get(i).getId().equals(arg0)) {
+						return groups1.get(i);
+					}
+				}
+				return null;
+			}
+		});
+		
+
+	}
+
+	
+	public static void findGroup0(String uid) {
+		// TODO Auto-generated method stub
+		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				// TODO Auto-generated method stub
+				Log.i("我的群组列表", "返回:" + response);
+				parseMyGroupList0(response);
+			}
+
+		};
+		MyHttpClient client = new MyHttpClient();
+		client.findGroup(uid, res);
 	}
 	
+	private static void parseMyGroupList0(String response) {
+		// TODO Auto-generated method stub
+		List<RongIMClient.Group> groups = new ArrayList<>();
+		try {
+			JSONObject result = new JSONObject(response);
+			JSONObject obj = result.getJSONObject("groups");
+			List<GroupInfo> groupList = new ArrayList<GroupInfo>();
+			JSONArray json = obj.getJSONArray("resultlist");
+			int length = json.length();
+			System.out.println("length==" + length);
+			Log.i("我的群组列表", "JSONArray:" + json);
+			for (int i = 0; i < length; i++) {
+				GroupInfo group = new GroupInfo();
+				JSONObject objo = json.getJSONObject(i);
+				Log.i(TAG, "objo:" + objo);
+				group.setId(objo.getString("id"));
+				group.setGname(objo.getString("gname"));
+				group.setGaddress(objo.getString("gaddress"));
+				group.setHeadimage(objo.getString("headimage"));
+				group.setContent(objo.getString("content"));
+				group = new Gson().fromJson(objo.toString(), GroupInfo.class);
+				group.setLat(Double.parseDouble(objo.getString("commercialLat")));
+				group.setLon(Double.parseDouble(objo.getString("commercialLon")));
+				Group group2=new Group(group.getId(), group.getGname(), MyHttpClient.IMAGE_URL+group.getHeadimage());
+				groups.add(group2);
+				groupList.add(group);
+			}
+			sysnGroups(groups);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 
+	}
+	
+	
 }

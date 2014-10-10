@@ -1,5 +1,11 @@
 package com.example.projectcircle;
 
+import io.rong.imkit.RongIM;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import android.app.TabActivity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +13,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +24,7 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
+import com.baidu.platform.comapi.map.w;
 import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.constants.ContantS;
 import com.example.projectcircle.debug.AppLog;
@@ -34,6 +43,8 @@ import com.example.projectcircle.util.UpdataAppUtlity;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity {
 
+	private static final String TAG = MainActivity.class.getSimpleName();
+
 	private TabHost tabhost;
 
 	String current;
@@ -48,18 +59,18 @@ public class MainActivity extends TabActivity {
 	TextView tabName2;
 	TextView tabName3;
 	TextView tabName4;
-	
-	
-	public static int msgcount=0;
-	
+
+	public static int msgcount = 0;
+
 	public static TextView msgTextView;
-	
+
+	private ScheduledExecutorService service;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mainfragment);
-		
-		
+
 		tabhost = this.getTabHost();
 		// ts1 = tableHost.newTabSpec("tabOne");//实例化一个分页
 		// ts1.setIndicator("Tab1");//设置此分页显示的标题
@@ -113,28 +124,33 @@ public class MainActivity extends TabActivity {
 		// });
 
 		initUI();
-		
+
 		tabhost.setOnTabChangedListener(new OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
 				update(tabhost);
 			}
 		});
-		
-		
+
 		tabhost.setCurrentTab(0);
 		update(tabhost);
 
 		initFilter();
 		UpdataAppUtlity.upDateApp(MainActivity.this);
+		initRunable();
 	}
-	
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		unregisterReceiver(msgReceiver);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
 	}
 
 	private void initUI() {
@@ -179,8 +195,8 @@ public class MainActivity extends TabActivity {
 		tabSpec2.setContent(tabIntent2);
 		tabSpec2.setIndicator(tab2);
 		tabhost.addTab(tabSpec2);
-		
-		msgTextView=(TextView)tab2.findViewById(R.id.msg_notice);
+
+		msgTextView = (TextView) tab2.findViewById(R.id.msg_notice);
 
 		View tab3 = inflater.inflate(R.layout.tab_bottom, null);
 		tabIcon3 = (ImageView) tab3.findViewById(R.id.tab_imageV);
@@ -211,7 +227,7 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void update(final TabHost tabHost) {
-		AppLog.i("jjj", "设备:"+MyApplication.getMyPersonBean().getEquipment());
+		AppLog.i("jjj", "设备:" + MyApplication.getMyPersonBean().getEquipment());
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			View v = tabHost.getTabWidget().getChildAt(i);
 			ImageView tabIcon = (ImageView) v.findViewById(R.id.tab_imageV);
@@ -235,10 +251,10 @@ public class MainActivity extends TabActivity {
 				case 2:
 
 					tabIcon.setImageResource(R.drawable.tabbar_press_12);
-					
+
 					msgTextView.setVisibility(View.GONE);
-					msgcount=0;
-					
+					msgcount = 0;
+
 					break;
 
 				case 3:
@@ -301,18 +317,16 @@ public class MainActivity extends TabActivity {
 		}
 	}
 
-	
-	
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
 		// TODO Auto-generated method stub
 
 		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
 				&& event.getAction() == KeyEvent.ACTION_DOWN) {
-			
+
 			Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_MAIN);
-			intent.addCategory(Intent.CATEGORY_HOME);           
+			intent.addCategory(Intent.CATEGORY_HOME);
 			startActivity(intent);
 			return true;
 		}
@@ -320,50 +334,94 @@ public class MainActivity extends TabActivity {
 		return super.dispatchKeyEvent(event);
 	}
 
-	
-	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		
-		if (keyCode==KeyEvent.KEYCODE_BACK&&event.getAction()==KeyEvent.ACTION_UP) {
+
+		if (keyCode == KeyEvent.KEYCODE_BACK
+				&& event.getAction() == KeyEvent.ACTION_UP) {
 			Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_MAIN);
-			intent.addCategory(Intent.CATEGORY_HOME);           
+			intent.addCategory(Intent.CATEGORY_HOME);
 			startActivity(intent);
 			return true;
 		}
-		
+
 		return super.onKeyDown(keyCode, event);
 	}
-	
-	
-	
+
 	private void initFilter() {
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ContantS.ACTION_GET_MSG_FRI);
 		registerReceiver(msgReceiver, filter);
 	}
-	
-	
-	private BroadcastReceiver msgReceiver=new BroadcastReceiver() {
-		
+
+	private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
+
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
-				msgcount++;
-				msgTextView.setVisibility(View.VISIBLE);
-				msgTextView.setText(""+msgcount);
+			msgcount++;
+			msgTextView.setVisibility(View.VISIBLE);
+			msgTextView.setText("" + msgcount);
 		}
 	};
-	
-	
-	
-	public static void removeNotice(){
+
+	public static void removeNotice() {
 		msgTextView.setVisibility(View.GONE);
-		msgcount=0;
+		msgcount = 0;
 	}
-	
+
+	private void initRunable() {
+		service = Executors.newScheduledThreadPool(1);
+		service.scheduleAtFixedRate(checkNoticeRunnable, ContantS.DELAY_TIME,
+				ContantS.PERIOD_TIME, TimeUnit.SECONDS);
+	}
+
+	private Runnable checkNoticeRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			try {
+				int count = RongIM.getInstance().getTotalUnreadCount();
+				Message msg = new Message();
+				msg.what = 0;
+				msg.obj = count;
+				mHandler.sendMessage(msg);
+			} catch (Exception e) {
+				// TODO: handle exception
+				AppLog.e(TAG, "检查错误:" + e.getMessage());
+			}
+
+		}
+	};
+
+	private Handler mHandler = new Handler(new Handler.Callback() {
+
+		@Override
+		public boolean handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			int what = msg.what;
+
+			switch (what) {
+			case 0:
+				int count = (int) msg.obj;
+				if (count <= 0) {
+					msgTextView.setVisibility(View.GONE);
+				} else {
+					msgTextView.setVisibility(View.VISIBLE);
+					msgTextView.setText("" + count);
+				}
+				break;
+
+			default:
+				break;
+			}
+			return false;
+		}
+	});
+
 	// @Override
 	// protected void onResume() {
 	// // TODO Auto-generated method stub

@@ -47,7 +47,6 @@ import com.example.projectcircle.db.utils.MsgDataUtils;
 import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.friend.FriendPage;
 import com.example.projectcircle.group.MyGroup;
-import com.example.projectcircle.personal.MyPersonal;
 import com.example.projectcircle.util.MyHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 

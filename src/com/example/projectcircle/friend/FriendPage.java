@@ -14,12 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -28,7 +26,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -57,6 +54,7 @@ import com.example.projectcircle.HomeActivity;
 import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.adpter.FriendAdapter;
+import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.bean.FriendDataBean;
 import com.example.projectcircle.bean.GroupChatBean;
 import com.example.projectcircle.bean.UserInfo;
@@ -190,9 +188,9 @@ public class FriendPage extends Activity {
 		// 获取通讯录联系人，并判断是否为好友，以便像微信那样出来那种提示
 		FriendRequestUtils.requestNum();
 		getContactInNumber();
-		if (null != myAdapter) {
-			findfriend(id);
-		}
+//		if (null != myAdapter) {
+//			findfriend(id);
+//		}
 		// api.handleIntent(getIntent(), this);
 	}
 
@@ -359,7 +357,7 @@ public class FriendPage extends Activity {
 	}
 
 	private void parsefindfriend(String response) {
-
+		ArrayList<io.rong.imlib.RongIMClient.UserInfo> userInfos = new ArrayList<>();
 		try {
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("friends");
@@ -392,10 +390,17 @@ public class FriendPage extends Activity {
 					// TODO: handle exception
 					AppLog.w(TAG, "错误:" + e.getMessage());
 				}
+				io.rong.imlib.RongIMClient.UserInfo userInfo = new io.rong.imlib.RongIMClient.UserInfo(
+						user.getId(), user.getUsername(),
+						MyHttpClient.IMAGE_URL + user.getHeadimage());
+				userInfos.add(userInfo);
 				friendList.add(user);
 				saveFriendinfo(user.getUsername(), user.getId(),
 						user.getHeadimage());
 			}
+
+			setGetFriendProvider(userInfos);
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -610,7 +615,6 @@ public class FriendPage extends Activity {
 
 		// TODO Auto-generated method stub
 		Log.i("返回:friendList", "返回:friendList" + friendList);
-		List<io.rong.imlib.RongIMClient.UserInfo> userInfos = new ArrayList<>();
 		if (friendList != null) {
 			for (int i = 0; i < friendList.size(); i++) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
@@ -629,12 +633,6 @@ public class FriendPage extends Activity {
 				map.put("lastlogintime", friendList.get(i).getLastlogintime());
 				map.put("commercialLat", friendList.get(i).getLat());
 				map.put("commercialLon", friendList.get(i).getLon());
-				io.rong.imlib.RongIMClient.UserInfo userInfo = new io.rong.imlib.RongIMClient.UserInfo(
-						friendList.get(i).getId(), friendList.get(i)
-								.getUsername(), MyHttpClient.IMAGE_URL
-								+ friendList.get(i).getHeadimage());
-//				setGetFriendProvider(userInfos);
-				userInfos.add(userInfo);
 				listItem.add(map);
 			}
 		}
@@ -971,13 +969,25 @@ public class FriendPage extends Activity {
 	}
 
 	private void setGetFriendProvider(
-			final List<io.rong.imlib.RongIMClient.UserInfo> userInfos) {
+			ArrayList<io.rong.imlib.RongIMClient.UserInfo> userInfos) {
+		if (userInfos.size()==0) {
+			return;
+		}
+		io.rong.imlib.RongIMClient.UserInfo userInfo = new io.rong.imlib.RongIMClient.UserInfo(
+				MyApplication.getMyPersonBean().getId(), MyApplication
+						.getMyPersonBean().getUsername(),
+				MyHttpClient.IMAGE_URL
+						+ MyApplication.getMyPersonBean().getHeadimage());
+//		userInfos.clear();
+		userInfos.add(userInfo);
+		final List<io.rong.imlib.RongIMClient.UserInfo> userInfo0 = userInfos;
+		AppLog.i(TAG, "头像地址:"+userInfo.getPortraitUri()+"用户数量:"+userInfo0.size());
 		RongIM.setGetFriendsProvider(new GetFriendsProvider() {
 
 			@Override
 			public List<io.rong.imlib.RongIMClient.UserInfo> getFriends() {
 				// TODO Auto-generated method stub
-				return userInfos;
+				return userInfo0;
 			}
 		});
 	}

@@ -22,6 +22,16 @@ public class MyPersonBean implements Serializable{
 	
 	private String businessinfo;
 	
+	private String token;
+	
+	public String getToken() {
+		return ""+token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public String getBusinessinfo() {
 		return businessinfo;
 	}

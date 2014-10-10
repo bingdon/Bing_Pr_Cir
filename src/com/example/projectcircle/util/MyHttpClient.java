@@ -12,6 +12,8 @@ import com.loopj.android.http.RequestParams;
  */
 public class MyHttpClient {
 
+	public static final String BASE_URL_ = "http://www.gcquan.com/project/";
+	
 	public static final String BASE_URL = "http://www.gcquan.com/project/api/";
 	/**
 	 * 鐧诲綍鍜屾敞鍐��������
@@ -122,7 +124,7 @@ public class MyHttpClient {
 	/**
 	 * 鍥剧墖鍦板潃
 	 */
-	public static final String IMAGE_URL = "http://115.28.81.148/project/upload/";
+	public static final String IMAGE_URL = BASE_URL_+"upload/";
 	// 涓婁紶涓汉澶村儚
 	public final static String headurl = BASE_URL + "uploadHeadimage";
 	// 涓婁紶缇ょ粍澶村儚

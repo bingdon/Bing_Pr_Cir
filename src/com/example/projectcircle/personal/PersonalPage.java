@@ -1102,16 +1102,16 @@ public class PersonalPage extends Activity {
 					return;
 				}
 
-				if (!MsgUtils.isExitMsgList(uid, PersonalPage.this)) {
-					MsgUtils.saveMsgList(uname, " ", "" + Chat.getDate(), uid,
-							uheadimg, 0, 0, PersonalPage.this);
-				}
-				Intent intent2 = new Intent(PersonalPage.this, Chat.class);
-				intent2.putExtra("id", uid);
-				intent2.putExtra("username", "" + uname);
-				intent2.putExtra("headimg", "" + uheadimg);
-				startActivity(intent2);
-//				RongIM.getInstance().startPrivateChat(PersonalPage.this, uid, uname);
+//				if (!MsgUtils.isExitMsgList(uid, PersonalPage.this)) {
+//					MsgUtils.saveMsgList(uname, " ", "" + Chat.getDate(), uid,
+//							uheadimg, 0, 0, PersonalPage.this);
+//				}
+//				Intent intent2 = new Intent(PersonalPage.this, Chat.class);
+//				intent2.putExtra("id", uid);
+//				intent2.putExtra("username", "" + uname);
+//				intent2.putExtra("headimg", "" + uheadimg);
+//				startActivity(intent2);
+				RongIM.getInstance().startPrivateChat(PersonalPage.this, uid, uname);
 				// finish();
 				break;
 
