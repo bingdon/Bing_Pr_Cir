@@ -50,7 +50,7 @@ public class PhoneUtlis {
 	public static String bitmapToString(Bitmap bitmap) {
 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 40, baos);
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 40, baos);
 		byte[] b = baos.toByteArray();
 
 		return Base64.encodeToString(b, Base64.DEFAULT);

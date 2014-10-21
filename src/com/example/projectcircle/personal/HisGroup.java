@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.example.projectcircle.HomeActivity;
+import com.example.projectcircle.LoginActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.adpter.NearGpAdapter;
 import com.example.projectcircle.bean.GroupInfo;
@@ -17,6 +18,7 @@ import com.example.projectcircle.group.GroupDetail;
 import com.example.projectcircle.group.GroupPage;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MyHttpClient;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.app.Activity;
@@ -84,37 +86,39 @@ public class HisGroup  extends Activity {
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
 				Log.i("返回:findCreateGroup的response", "返回:" + response);
-				parsefindCreateGroup(response);
+//				parsefindCreateGroup(response);
+				parseMyGroupList(response);
 				initList();
 			}
 		};
 		MyHttpClient client = new MyHttpClient();
-		client.findCreatGroup(id, res);
+		client.findGroup(id, res);
 	}
-	private void parsefindCreateGroup(String response) {
+	private void parseMyGroupList(String response) {
 		// TODO Auto-generated method stub
 		try {
 			JSONObject result = new JSONObject(response);
-			JSONObject obj = result.getJSONObject("groups");	
-			JSONArray json = obj.getJSONArray("resultlist");
+			JSONObject obj = result.getJSONObject("groups");
 			groupList = new ArrayList<GroupInfo>();
+			JSONArray json = obj.getJSONArray("resultlist");
 			int length = json.length();
 			System.out.println("length==" + length);
-			Log.i(TAG, "JSONArray:" + json);
+			Log.i("我的群组列表", "JSONArray:" + json);
 			for (int i = 0; i < length; i++) {
 				GroupInfo group = new GroupInfo();
 				JSONObject objo = json.getJSONObject(i);
-				Log.i(TAG, "obj:" + objo);
-				gid = objo.getString("id");
+				Log.i(TAG, "objo:" + objo);
 				group.setId(objo.getString("id"));
 				group.setGname(objo.getString("gname"));
-				group.setContent(objo.getString("content"));
-				group.setHeadimage(objo.getString("headimage"));
 				group.setGaddress(objo.getString("gaddress"));
+				group.setHeadimage(objo.getString("headimage"));
+				group.setContent(objo.getString("content"));
+				group = new Gson().fromJson(objo.toString(), GroupInfo.class);
 				group.setLat(Double.parseDouble(objo.getString("commercialLat")));
-				group.setLon( Double.parseDouble(objo.getString("commercialLon")));			
-				groupList.add(group);	
+				group.setLon(Double.parseDouble(objo.getString("commercialLon")));
+				groupList.add(group);
 			}
+			System.out.println("my group list==" + groupList);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -158,8 +162,9 @@ public class HisGroup  extends Activity {
 				glongtitude =groupList.get(i).getLon();
 				double distance = DistentsUtil.getDistance(glongtitude,glatitude,
 						 mylon,mylat) / 1000;
-				distance = DistentsUtil.changep2(distance / 1000);
+				distance = DistentsUtil.changep2(distance);
 				map.put("distance", distance);
+				map.put("count", groupList.get(i).getCount());
 				listItem.add(map);
 			}
 			}

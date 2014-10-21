@@ -91,13 +91,13 @@ public class projectCircle extends Activity implements OnRefreshListener,
 	private boolean isRefresh = false;// 是否刷新中
 	private SwipeRefreshLayout mRefreshLayout;
 	private int comPostion = 0;
+	private boolean isme=false;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);// 设置头部title不让它显示
 		setContentView(R.layout.project_circle);
-		myid = LoginActivity.id;
 		try {
 			String id = getIntent().getStringExtra("id");
 			if (!TextUtils.isEmpty(id)) {
@@ -105,6 +105,10 @@ public class projectCircle extends Activity implements OnRefreshListener,
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		if (TextUtils.isEmpty(myid)) {
+			myid = LoginActivity.id;
+			isme=true;
 		}
 
 		// myid = "1";
@@ -362,7 +366,12 @@ public class projectCircle extends Activity implements OnRefreshListener,
 			}
 		};
 		MyHttpClient myhttpclient = new MyHttpClient();
-		myhttpclient.listMood(myid, res);
+		if (isme) {
+			myhttpclient.listMood(myid, res);
+		}else {
+			myhttpclient.userMood(myid, res);
+		}
+		
 	}
 
 	private void parseListMyMood(String response) {

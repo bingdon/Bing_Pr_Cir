@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -99,6 +100,9 @@ public class JobPage extends Activity {
 	}
 
 	private void parseAllBusiness(String response) {
+		if (TextUtils.isEmpty(response)) {
+			return;
+		}
 		try {
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("users");
@@ -110,6 +114,9 @@ public class JobPage extends Activity {
 	}
 
 	private void parseJobList(String response) {
+		if (TextUtils.isEmpty(response)) {
+			return;
+		}
 		try {
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("jtypes");
@@ -121,6 +128,9 @@ public class JobPage extends Activity {
 	}
 
 	private void parseJobList1(String response) {
+		if (TextUtils.isEmpty(response)) {
+			return;
+		}
 		try {
 			JSONObject result = new JSONObject(response);
 			JSONObject obj = result.getJSONObject("jtypes");

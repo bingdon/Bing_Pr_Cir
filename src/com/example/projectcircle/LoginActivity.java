@@ -253,7 +253,7 @@ public class LoginActivity extends Activity implements OnCheckedChangeListener {
 				UserInfoUtils.setPersonInfo(myPersonBean, context);
 			} catch (Exception e) {
 				// TODO: handle exception
-				Log.e(TAG, "½âÎö´íÎó");
+				AppLog.e(TAG, "½âÎö´íÎó");
 			}
 
 			id = obj.getString("id");

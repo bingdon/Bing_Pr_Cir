@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,7 +81,13 @@ public class Requirement extends Activity implements OnClickListener {
 		};
 		MyHttpClient client = new MyHttpClient();
 //		client.JobList(type, res);
-		client.JobList1_(HomeActivity.getLat(), HomeActivity.getLon(), type, res);
+		String lat=HomeActivity.getLat();
+		String lon=HomeActivity.getLon();
+		if (TextUtils.isEmpty(lat)) {
+			lat="0";
+			lon="0";
+		}
+		client.JobList1_(lat, lon, type, res);
 	}
 
 	private void parseJobList(String response) {
@@ -174,14 +181,14 @@ public class Requirement extends Activity implements OnClickListener {
 			listItem.add(map);
 		}
 		//将距离大于150的去掉，只显示150Km以内的信息
-		for(int i = 0,len = listItem.size();i<len; i++){
-			if((Double)(listItem.get(i).get("distance")) > 150){
-			listItem.remove(i);
-			  --len;//减少一个  
-		       --i;//多谢deny_guoshou指正，如果不加会出现评论1楼所说的情况。  
-			}
-		Log.i("listItem工程作业列表", listItem+"");		
-		}
+//		for(int i = 0,len = listItem.size();i<len; i++){
+//			if((Double)(listItem.get(i).get("distance")) > 150){
+//			listItem.remove(i);
+//			  --len;//减少一个  
+//		       --i;//多谢deny_guoshou指正，如果不加会出现评论1楼所说的情况。  
+//			}
+//		Log.i("listItem工程作业列表", listItem+"");		
+//		}
 		return listItem;
 	}
 

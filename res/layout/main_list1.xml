@@ -110,7 +110,8 @@
                         android:text="设备：拖拉机"
                         android:textColor="#565656"
                         android:ellipsize="marquee"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                       />
                 </LinearLayout>
             </LinearLayout>
 

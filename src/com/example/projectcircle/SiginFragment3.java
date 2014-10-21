@@ -56,8 +56,8 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 
 	private static final String TAG = SiginFragment3.class.getSimpleName();
 
-	public static String yewufweiString="";
-	
+	public static String yewufweiString = "";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -295,18 +295,38 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 		MyHttpClient client = new MyHttpClient();
 		String businessss = "";
 		if (!TextUtils.isEmpty(busi1)) {
-			businessss = businessss + busi1;
+			if (TextUtils.isEmpty(businessss)) {
+				businessss = businessss + "" + busi1;
+			} else {
+				businessss = businessss + "," + busi1;
+			}
+			
 		}
 		if (!TextUtils.isEmpty(busi2)) {
-			businessss = businessss + busi2;
+			if (TextUtils.isEmpty(businessss)) {
+				businessss = businessss + busi2;
+			} else {
+				businessss = businessss + "," + busi2;
+			}
+			
 		}
 		if (!TextUtils.isEmpty(busi3)) {
-			businessss = businessss + busi3;
+			if (TextUtils.isEmpty(businessss)) {
+				businessss = businessss  + busi3;
+			} else {
+				businessss = businessss + "," + busi3;
+			}
+			
 		}
 		if (!TextUtils.isEmpty(busi4)) {
-			businessss = businessss + busi4;
+			if (TextUtils.isEmpty(businessss)) {
+				businessss = businessss +  busi4;
+			} else {
+				businessss = businessss + "," + busi4;
+			}
+			
 		}
-		yewufweiString=businessss;
+		yewufweiString = businessss;
 		client.CompleteCompany(id, companyname, business, businessss, res);
 	}
 
@@ -383,7 +403,7 @@ public class SiginFragment3 extends Activity implements OnCheckedChangeListener 
 
 	private void initCompany() {
 		String company = MyApplication.getMyPersonBean().getCompanyname();
-		String companyintro=MyApplication.getMyPersonBean().getBusinessinfo();
+		String companyintro = MyApplication.getMyPersonBean().getBusinessinfo();
 		if (!TextUtils.isEmpty(company)) {
 			companyname_txt.setText(company);
 		}

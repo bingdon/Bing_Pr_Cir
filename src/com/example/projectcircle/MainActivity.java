@@ -1,6 +1,9 @@
 package com.example.projectcircle;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.ConversationBehaviorListener;
+import io.rong.imlib.RongIMClient.ConversationType;
+import io.rong.imlib.RongIMClient.UserInfo;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,6 +35,8 @@ import com.example.projectcircle.friend.FriendPage;
 import com.example.projectcircle.job.JobPage;
 import com.example.projectcircle.manage.ManagePage;
 import com.example.projectcircle.other.MessagePage;
+import com.example.projectcircle.personal.PersonalPage;
+import com.example.projectcircle.util.ToastUtils;
 import com.example.projectcircle.util.UpdataAppUtlity;
 
 /**
@@ -138,6 +143,24 @@ public class MainActivity extends TabActivity {
 		initFilter();
 		UpdataAppUtlity.upDateApp(MainActivity.this);
 		initRunable();
+		RongIM.setConversationBehaviorListener(new ConversationBehaviorListener() {
+			
+			@Override
+			public void onClickUserPortrait(Context arg0, ConversationType arg1,
+					UserInfo arg2) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, PersonalPage.class);
+				intent.putExtra("id", arg2.getUserId());
+				startActivity(intent);
+			}
+			
+			@Override
+			public void onClickMessage(Context arg0,
+					io.rong.imlib.RongIMClient.Message arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	@Override
@@ -227,7 +250,6 @@ public class MainActivity extends TabActivity {
 	}
 
 	private void update(final TabHost tabHost) {
-		AppLog.i("jjj", "…Ë±∏:" + MyApplication.getMyPersonBean().getEquipment());
 		for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
 			View v = tabHost.getTabWidget().getChildAt(i);
 			ImageView tabIcon = (ImageView) v.findViewById(R.id.tab_imageV);

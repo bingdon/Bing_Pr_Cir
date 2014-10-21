@@ -46,12 +46,15 @@ import com.example.projectcircle.bean.EquInfo;
 import com.example.projectcircle.bean.FriendDataBean;
 import com.example.projectcircle.bean.GroupInfo;
 import com.example.projectcircle.bean.MoodInfo;
+import com.example.projectcircle.bean.MyPersonBean;
 import com.example.projectcircle.bean.StatusInfo;
 import com.example.projectcircle.bean.UserInfo;
 import com.example.projectcircle.db.utils.FriendDatabaseUtils;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.friend.FriendPage;
 import com.example.projectcircle.friend.MaybeFriend;
 import com.example.projectcircle.group.GroupDetail;
+import com.example.projectcircle.job.PhotoPagerActivity;
 import com.example.projectcircle.job.projectCircle;
 import com.example.projectcircle.other.Chat;
 import com.example.projectcircle.util.BingDateUtils;
@@ -188,7 +191,7 @@ public class PersonalPage extends Activity {
 
 	private String driveryearO;
 
-	private String nequ,oequ;
+	private String nequ, oequ;
 
 	private TextView my_hobby;
 	List<UserInfo> friendList;
@@ -262,7 +265,12 @@ public class PersonalPage extends Activity {
 		dectRelationship();
 		// 设备详情照片
 		EquDetail(id);
-		UserDetail(id, type);
+		if (TextUtils.isEmpty(type)) {
+			UserDetail00(id, type);
+		} else {
+			UserDetail(id, type);
+		}
+
 		// 判断是否为好友
 		if (isFriend(id)) {
 			addfriend.setText("取消好友");
@@ -342,7 +350,7 @@ public class PersonalPage extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i(TAG, "个人信息返回:" + response);
+				Log.i(TAG, "个人设备信息返回:" + response);
 				try {
 					deviceList = new ArrayList<>();
 					JSONObject result = new JSONObject(response);
@@ -417,23 +425,24 @@ public class PersonalPage extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i(TAG, "返回:" + response);
+				AppLog.i(TAG, "群组返回0:" + response);
 				parsefindCreateGroup(response);
 				// 他的群组头像列出来
 				initHisGroup();
 			}
 		};
 		MyHttpClient client = new MyHttpClient();
-		client.findCreatGroup(id, res);
+		client.findGroup(id, res);
 	}
 
 	// 他的群组头像
 	private void initHisGroup() {
 		// TODO Auto-generated method stub
 		he_group_lay = (LinearLayout) findViewById(R.id.he_group_lay);
-		if (friendList == null) {
+		if (groupList == null) {
 			return;
 		}
+		AppLog.i(TAG, "群组个数:" + groupList.size());
 		if (groupList.size() == 0) {
 			he_group_lay.setVisibility(View.GONE);
 		}
@@ -493,6 +502,7 @@ public class PersonalPage extends Activity {
 			groupList = new ArrayList<GroupInfo>();
 			JSONArray json = obj.getJSONArray("resultlist");
 			int length = json.length();
+
 			System.out.println("length==" + length);
 			for (int i = 0; i < length; i++) {
 				GroupInfo group = new GroupInfo();
@@ -505,7 +515,7 @@ public class PersonalPage extends Activity {
 				groupList.add(group);
 			}
 		} catch (JSONException e) {
-			e.printStackTrace();
+			AppLog.w(TAG, "群组返回:" + e.getMessage());
 		}
 
 	}
@@ -521,17 +531,53 @@ public class PersonalPage extends Activity {
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
 				Log.i(TAG, "个人信息返回:" + response);
-				if (type.equals("司机")) {
-					parseUserDetail1(response);
-				} else if (type.equals("机主")) {
-					parseUserDetail2(response);
-				} else if (type.equals("商家")) {
-					parseUserDetail3(response);
+
+				if (TextUtils.isEmpty(type)) {
+					parseUserDetail5(response);
+					Log.i(TAG, "个人信息返回:" + typess);
+					if (typess.equals("司机")) {
+						parseUserDetail1(response);
+						Log.i(TAG, "个人信息返回:" + typess);
+					} else if (typess.equals("机主")) {
+						parseUserDetail2(response);
+						Log.i(TAG, "个人信息返回:" + typess);
+					} else if (typess.equals("商家")) {
+						parseUserDetail3(response);
+						Log.i(TAG, "个人信息返回:" + typess);
+					} else {
+						Log.i(TAG, "个人信息返回:" + "其他");
+						parseUserDetail4(response);
+					}
 				} else {
-					parseUserDetail4(response);
+					if (type.equals("司机")) {
+						parseUserDetail1(response);
+					} else if (type.equals("机主")) {
+						parseUserDetail2(response);
+					} else if (type.equals("商家")) {
+						parseUserDetail3(response);
+					} else {
+						parseUserDetail4(response);
+					}
 				}
+
 				// initCall();
 				initView();
+			}
+
+		};
+		MyHttpClient client = new MyHttpClient();
+		client.UserDetail2(id, type, res);
+	}
+
+	private void UserDetail00(final String id, final String type) {
+		// TODO Auto-generated method stub
+		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
+			@Override
+			public void onSuccess(String response) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "个人信息返回:" + response);
+				parseUserDetail5(response);
+				UserDetail(id, typess);
 			}
 
 		};
@@ -659,12 +705,28 @@ public class PersonalPage extends Activity {
 
 	}
 
+	private String typess = "";
+
+	public void parseUserDetail5(String response) {
+		try {
+			JSONObject result = new JSONObject(response);
+			JSONObject obj = result.getJSONObject("userO");
+			MyPersonBean myPersonBean = new Gson().fromJson(obj.toString(),
+					MyPersonBean.class);
+			typess = myPersonBean.getType();
+			type = typess;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	// 类型是司机时候的解析
 	private void parseUserDetail1(String response) {
 		// TODO Auto-generated method stub
 		try {
 			JSONObject result = new JSONObject(response);
-			Log.i("user detail response", response + "");
+			Log.i("user detail response", "个人解析:" + response);
 			if (result.getInt("result") == 1) {
 				if (result.getInt("type") == 1) {
 					JSONArray arr = result.getJSONArray("driver");
@@ -672,7 +734,7 @@ public class PersonalPage extends Activity {
 					JSONObject equobj = arr1.getJSONObject(0);
 					driveryearO = equobj.getString("driveryear");
 					nequ = equobj.getString("nequ");
-					oequ=equobj.getString("oequ");
+					oequ = equobj.getString("oequ");
 					driver_start = equobj.getString("dbegin");
 					JSONObject personal = arr1.getJSONObject(1);
 					uid = personal.getString("id");
@@ -808,7 +870,8 @@ public class PersonalPage extends Activity {
 			}
 			if (!TextUtils.isEmpty(udevice) || !TextUtils.isEmpty(nequ)) {
 				equipment_details.setVisibility(View.VISIBLE);
-				equipment_detail_txt.setText(udevice + "      " +oequ +" "+ nequ);
+				equipment_detail_txt.setText(udevice + "      " + oequ + " "
+						+ nequ);
 			} else {
 				equipment_details.setVisibility(View.GONE);
 			}
@@ -875,13 +938,15 @@ public class PersonalPage extends Activity {
 			equipment_details.setVisibility(View.GONE);
 		}
 
+		headimg.setOnClickListener(listener);
+
 	}
 
 	private ArrayList<HashMap<String, Object>> get_list_group_headimage() {
 		// TODO Auto-generated method stub
 		listItem = new ArrayList<HashMap<String, Object>>();
 		// TODO Auto-generated method stub
-		Log.i(TAG, "返回:groupList" + groupList);
+		AppLog.i(TAG, "群组返回:groupList" + groupList);
 		if (groupList != null) {
 			for (int i = 0; i < groupList.size(); i++) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
@@ -894,7 +959,6 @@ public class PersonalPage extends Activity {
 				listItem.add(map);
 			}
 		}
-		Log.i("groupGridAdapter的返回listItem", listItem + "");
 		return listItem;
 	}
 
@@ -994,6 +1058,10 @@ public class PersonalPage extends Activity {
 			// startActivity(intent3);
 			// finish();
 			// break;
+
+			case R.id.p_home_page_headimg:
+				showHead();
+				break;
 			default:
 				break;
 			}
@@ -1102,16 +1170,17 @@ public class PersonalPage extends Activity {
 					return;
 				}
 
-//				if (!MsgUtils.isExitMsgList(uid, PersonalPage.this)) {
-//					MsgUtils.saveMsgList(uname, " ", "" + Chat.getDate(), uid,
-//							uheadimg, 0, 0, PersonalPage.this);
-//				}
-//				Intent intent2 = new Intent(PersonalPage.this, Chat.class);
-//				intent2.putExtra("id", uid);
-//				intent2.putExtra("username", "" + uname);
-//				intent2.putExtra("headimg", "" + uheadimg);
-//				startActivity(intent2);
-				RongIM.getInstance().startPrivateChat(PersonalPage.this, uid, uname);
+				// if (!MsgUtils.isExitMsgList(uid, PersonalPage.this)) {
+				// MsgUtils.saveMsgList(uname, " ", "" + Chat.getDate(), uid,
+				// uheadimg, 0, 0, PersonalPage.this);
+				// }
+				// Intent intent2 = new Intent(PersonalPage.this, Chat.class);
+				// intent2.putExtra("id", uid);
+				// intent2.putExtra("username", "" + uname);
+				// intent2.putExtra("headimg", "" + uheadimg);
+				// startActivity(intent2);
+				RongIM.getInstance().startPrivateChat(PersonalPage.this, uid,
+						uname);
 				// finish();
 				break;
 
@@ -1138,7 +1207,7 @@ public class PersonalPage extends Activity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
-				Log.i("返回：", response);
+				Log.i("返回：", "好友:" + response);
 				parsefindfriend(response);
 				initHisFriend();
 				// 得到共同好友
@@ -1214,6 +1283,7 @@ public class PersonalPage extends Activity {
 		if (friendList == null) {
 			return;
 		}
+		AppLog.i(TAG, "好友数量:" + friendList.size());
 		if (friendList.size() == 0) {
 			he_friend_lay.setVisibility(View.GONE);
 		}
@@ -1286,7 +1356,7 @@ public class PersonalPage extends Activity {
 				user.setAccept(objo.getString("accept"));
 				user.setLat(Double.valueOf(objo.getString("commercialLat")));
 				user.setLon(Double.valueOf(objo.getString("commercialLon")));
-				user.setLastlogintime(objo.getString("lastlogintime"));
+				// user.setLastlogintime(objo.getString("lastlogintime"));
 				// if (isexit(user.getId())) {
 				friendList.add(user);
 				// }
@@ -1455,7 +1525,7 @@ public class PersonalPage extends Activity {
 		int year = calendar.get(Calendar.YEAR);
 		int month = calendar.get(Calendar.MONTH) + 1;
 		String times[] = driver_start.split("-");
-		if (times!=null&&times.length==2) {
+		if (times != null && times.length == 2) {
 			try {
 				int montha = Integer.valueOf(times[1]);
 				int yeara = Integer.valueOf(times[0]);
@@ -1477,9 +1547,19 @@ public class PersonalPage extends Activity {
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			
+
 		}
-		
+
+	}
+
+	private void showHead() {
+		List<String> list0 = new ArrayList<>();
+		list0.add("" + uheadimg);
+		Intent intent = new Intent();
+		intent.putStringArrayListExtra("imgurls", (ArrayList<String>) list0);
+		intent.putExtra("postion", 1);
+		intent.setClass(PersonalPage.this, PhotoPagerActivity.class);
+		startActivity(intent);
 	}
 
 }

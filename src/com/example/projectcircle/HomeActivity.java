@@ -2,7 +2,6 @@ package com.example.projectcircle;
 
 import io.rong.imkit.RongIM;
 import io.rong.imlib.RongIMClient.ConnectCallback;
-import io.rong.imlib.RongIMClient.ConnectCallback.ErrorCode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,8 +92,8 @@ public class HomeActivity extends Activity {
 	 */
 	// 附近群组和跨区域群组
 	LinearLayout neargroup, areagroup;
-	public static double latitude;
-	public static double longitude;
+	public static double latitude=0;
+	public static double longitude=0;
 	public static int radius;// 半径
 	public static String rplace;// 定位全地址
 	// 附近群组信息
@@ -933,6 +932,14 @@ public class HomeActivity extends Activity {
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
 			case R.id.myinfo_layout:
+				if (TextUtils.isEmpty(utype)) {
+					utype=MyApplication.getMyPersonBean().getType();
+					if (TextUtils.isEmpty(utype)) {
+						return;
+					}
+				}if (TextUtils.isEmpty(id)) {
+					return;
+				}
 				Intent intent = new Intent(HomeActivity.this,
 						PersonalPage.class);
 				intent.putExtra("id", id);
@@ -974,6 +981,9 @@ public class HomeActivity extends Activity {
 				// 计算我和好友之间的距离
 				distance = DistentsUtil.GetDistance(commercialLat,
 						commercialLon, latitude, longitude);
+				if ((double)distance>10000) {
+					distance="无";
+				}
 				map.put("distance", distance);
 				listItem.add(map);
 			}
@@ -1247,7 +1257,8 @@ public class HomeActivity extends Activity {
 		String token = LoginActivity.getToken(getApplicationContext());
 		AppLog.i(TAG, "登陆TOKEN:"
 				+token);
-		if (!TextUtils.isEmpty(token)) {
+		if (!TextUtils.isEmpty(token)&&token.length()>10) {
+			AppLog.i(TAG, "开始登陆");
 			RongIM.connect(token, new ConnectCallback() {
 
 				@Override

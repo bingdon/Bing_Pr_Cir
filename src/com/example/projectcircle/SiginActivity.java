@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,8 +54,11 @@ import com.baidu.location.LocationClientOption;
 import com.example.projectcircle.bean.UserInfo;
 import com.example.projectcircle.complete.CompleteInfo;
 import com.example.projectcircle.home.HomeSecActivity;
+import com.example.projectcircle.setting.ModifyInfoActivity;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.MyHttpClient;
+import com.example.projectcircle.util.PhoneUtlis;
+import com.example.projectcircle.util.PhotoUtils;
 import com.example.projectcircle.util.ToastUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -875,20 +879,32 @@ public class SiginActivity extends TabActivity {
 				hometown_edit.setText(hometown);
 			} else if (requestCode == 0) {
 				try {
-					Uri originalUri = data.getData();
-					// 将图片内容解析成字节数组
-					byte[] mContent;
-					mContent = ImageUtil
-							.readStream(getContentResolver().openInputStream(
-									Uri.parse(originalUri.toString())));
+					final String str;
+					Uri localUri = data.getData();
+					String[] arrayOfString = new String[1];
+					arrayOfString[0] = "_data";
+					Cursor localCursor = getContentResolver().query(localUri,
+							arrayOfString, null, null, null);
+					if (localCursor == null)
+						return;
+					localCursor.moveToFirst();
+					str = localCursor.getString(localCursor
+							.getColumnIndex(arrayOfString[0]));
+					localCursor.close();
 					// 将字节数组转换为ImageView可调用的Bitmap对象
-					myBitmap = ImageUtil.getPicFromBytes(mContent, null);
+					myBitmap = PhoneUtlis.getNoCutSmallBitmap(str);
 					myBitmap = CompleteInfo.comp(myBitmap);
 //					myBitmap = ImageUtil.toRoundCorner(myBitmap, 20);
 					myhead.setImageBitmap(myBitmap);
 				} catch (Exception e) {
 					// TODO: handle exception
 				}
+			}else if (requestCode==REQUEST_CAMERA) {
+				String path = PhotoUtils.getPicPathFromUri(
+						PhotoUtils.imageFileUri, this);
+				myBitmap = PhoneUtlis.getNoCutSmallBitmap(path);
+				myBitmap = CompleteInfo.comp(myBitmap);
+				myhead.setImageBitmap(myBitmap);
 			}
 		}
 
@@ -958,28 +974,29 @@ public class SiginActivity extends TabActivity {
 	private static final int REQUEST_CAMERA = 1;
 
 	private void MyDialog() {
-		final CharSequence[] items = { "相册", "拍照" };
-		AlertDialog dlg = new AlertDialog.Builder(SiginActivity.this)
-				.setTitle("选择图片")
-				.setItems(items, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						// 这里item是根据选择的方式，
-						// 在items数组里面定义了两种方式，拍照的下标为1所以就调用拍照方法
-						if (item == 1) {
-							Intent getImageByCamera = new Intent(
-									"android.media.action.IMAGE_CAPTURE");
-							startActivityForResult(getImageByCamera,
-									REQUEST_CAMERA);
-						} else {
-							Intent getImage = new Intent(
-									Intent.ACTION_GET_CONTENT);
-							getImage.addCategory(Intent.CATEGORY_OPENABLE);
-							getImage.setType("image/jpeg");
-							startActivityForResult(getImage, 0);
-						}
-					}
-				}).create();
-		dlg.show();
+		PhotoUtils.secPic(SiginActivity.this);
+//		final CharSequence[] items = { "相册", "拍照" };
+//		AlertDialog dlg = new AlertDialog.Builder(SiginActivity.this)
+//				.setTitle("选择图片")
+//				.setItems(items, new DialogInterface.OnClickListener() {
+//					public void onClick(DialogInterface dialog, int item) {
+//						// 这里item是根据选择的方式，
+//						// 在items数组里面定义了两种方式，拍照的下标为1所以就调用拍照方法
+//						if (item == 1) {
+//							Intent getImageByCamera = new Intent(
+//									"android.media.action.IMAGE_CAPTURE");
+//							startActivityForResult(getImageByCamera,
+//									REQUEST_CAMERA);
+//						} else {
+//							Intent getImage = new Intent(
+//									Intent.ACTION_GET_CONTENT);
+//							getImage.addCategory(Intent.CATEGORY_OPENABLE);
+//							getImage.setType("image/jpeg");
+//							startActivityForResult(getImage, 0);
+//						}
+//					}
+//				}).create();
+//		dlg.show();
 	}
 
 }

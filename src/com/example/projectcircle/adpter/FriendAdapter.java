@@ -145,6 +145,7 @@ public class FriendAdapter extends BaseAdapter{
 		}
 		holder.sign.setText(sign);
 		holder.device.setText(equipment);
+		holder.device.setVisibility(View.INVISIBLE);
 		//计算我和好友之间的距离
 		distance = DistentsUtil.GetDistance(commercialLat,commercialLon,
 				mylat,mylon);

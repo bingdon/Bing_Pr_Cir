@@ -30,6 +30,8 @@ public class MyHttpClient {
 	public static final String updateMyInfo_url = BASE_URL + "update?id=";
 	public static final String uploadequheadimg_url = BASE_URL
 			+ "uploadEquHeadimage";
+	public static final String uploadequheadimg_url_ = BASE_URL
+			+ "updateHeadimage";
 	/**
 	 * 鐢ㄦ埛璇︽儏 闄勮繎浜��������借繎缇ょ粍 璺ㄥ尯鍩熺兢缁��������芥柊浣嶇疆
 	 */
@@ -357,7 +359,7 @@ public class MyHttpClient {
 		RequestParams params = new RequestParams();
 		try {
 			HttpUtil.get(updateMyInfo_url + id + "&username=" + username
-					+ "&age =" + age + "&sign=" + sign + "&info=" + info
+					+ "&age=" + age + "&sign=" + sign + "&info=" + info
 					+ "&type=" + type + "&equipment=" + equipment + "&accept="
 					+ accept + "&address=" + address + "&place=" + place
 					+ "&hobby=" + hobby, params, res);
@@ -403,6 +405,26 @@ public class MyHttpClient {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 修改设备照片
+	 * @param id
+	 * @param headimage
+	 * @param res
+	 */
+	public void updateHeadimage(String id, String headimage,
+			AsyncHttpResponseHandler res) {
+		RequestParams params = new RequestParams();
+		try {
+			params.put("id", id);
+			params.put("headimage", headimage);
+			HttpUtil.post(uploadequheadimg_url_, params, res);
+			Log.i("uploadequheadimg_url", uploadequheadimg_url + "id=" + id
+					+ ",headimage=" + headimage);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	// 瀹屽杽淇℃伅 涓汉淇℃伅
 	public void BaseInfo(String id, String sign, String place, String hobby,

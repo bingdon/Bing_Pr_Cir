@@ -2,6 +2,7 @@ package com.example.projectcircle.job;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,9 +22,12 @@ import android.widget.ListView;
 import com.example.projectcircle.HomeActivity;
 import com.example.projectcircle.R;
 import com.example.projectcircle.adpter.WorkAdapter;
+import com.example.projectcircle.bean.JobBean;
 import com.example.projectcircle.bean.JobInfo;
+import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.DistentsUtil;
 import com.example.projectcircle.util.MyHttpClient;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 /**
@@ -39,7 +43,8 @@ public class ProjectJob extends Activity implements OnClickListener {
 	Button back, add_job;
 
 	String type;
-	public ArrayList<JobInfo> jobsList;
+	public ArrayList<JobInfo> jobsList=new ArrayList<>();
+	private List<JobBean> jobBeans=new ArrayList<>();
 	Double mylat = HomeActivity.latitude;
 	Double mylon = HomeActivity.longitude;
 	double distance;
@@ -91,8 +96,11 @@ public class ProjectJob extends Activity implements OnClickListener {
 			System.out.println("length==" + length);
 			for (int i = 0; i < length; i++) {
 				JobInfo job = new JobInfo();
+				JobBean jobBean=new JobBean();
 				obj = json.getJSONObject(i);
 				try {
+					jobBean=new Gson().fromJson(obj.toString(), JobBean.class);
+					jobBeans.add(jobBean);
 					job.setTitle(obj.getString("title"));
 					job.setDate(obj.getString("date"));
 					job.setId(obj.getString("id"));
@@ -100,14 +108,17 @@ public class ProjectJob extends Activity implements OnClickListener {
 						job.setLat(obj.getDouble("jlat"));
 					} catch (Exception e) {
 						// TODO: handle exception
+						AppLog.w(TAG, "警告:"+e.getMessage());
 					}
 					try {
 						job.setLon(obj.getDouble("jlon"));
 					} catch (Exception e) {
 						// TODO: handle exception
+						AppLog.w(TAG, "警告:"+e.getMessage());
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
+					AppLog.w(TAG, "警告:"+e.getMessage());
 				}
 
 				jobsList.add(job);
@@ -154,10 +165,12 @@ public class ProjectJob extends Activity implements OnClickListener {
 
 	private ArrayList<HashMap<String, Object>> getList() {
 		// TODO Auto-generated method stub
-		Log.i("jobsList", "长度"+jobsList.size() );
+//		Log.i("jobsList", "长度"+jobsList.size() );
+		ArrayList<HashMap<String, Object>> mList=new ArrayList<>();
 		if (jobsList == null) {
 			return new ArrayList<>();
 		}
+		Log.i("jobsList", "长度:"+jobsList.size() );
 		for (int i = 0; i < jobsList.size(); i++) {
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("title", jobsList.get(i).getTitle());
@@ -171,7 +184,7 @@ public class ProjectJob extends Activity implements OnClickListener {
 					mylat, mylon);
 			// distance = DistentsUtil.changep2(distance);
 			map.put("distance", distance);
-			listItem.add(map);
+			mList.add(map);
 		}
 		// 将距离大于150的去掉，只显示150Km以内的信息
 //		for (int i = 0, len = listItem.size(); i < len; i++) {
@@ -182,7 +195,7 @@ public class ProjectJob extends Activity implements OnClickListener {
 //			}
 //			Log.i("listItem工程作业列表", listItem + "");
 //		}
-		return listItem;
+		return mList;
 	}
 
 	@Override

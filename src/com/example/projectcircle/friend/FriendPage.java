@@ -2,6 +2,7 @@ package com.example.projectcircle.friend;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIM.GetFriendsProvider;
+import io.rong.imkit.RongIM.GetUserInfoProvider;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -793,7 +794,7 @@ public class FriendPage extends Activity {
 		wxHandler.addToSocialSDK();
 		wxHandler.setTitle("π§≥Ã»¶∑÷œÌ");
 		wxHandler.setTargetUrl("http://www.gcquan.com/");
-
+		
 		UMImage mUMImgBitmap = new UMImage(this,
 				"http://www.gcquan.com/common/dimages/ppg.png");
 
@@ -809,7 +810,7 @@ public class FriendPage extends Activity {
 
 		UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "100424468",
 				"c7394704798a158208a74ab60104f0ba");
-		qqSsoHandler.setTargetUrl("http://www.hao123.com");
+		qqSsoHandler.setTargetUrl("http://www.gcquan.com/");
 		qqSsoHandler.addToSocialSDK();
 
 		mController.setShareContent(getString(R.string.share_content_to));
@@ -990,6 +991,21 @@ public class FriendPage extends Activity {
 				return userInfo0;
 			}
 		});
+		
+		RongIM.setGetUserInfoProvider(new GetUserInfoProvider() {
+			
+			@Override
+			public io.rong.imlib.RongIMClient.UserInfo getUserInfo(String arg0) {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < userInfo0.size(); i++) {
+					if (userInfo0.get(i).getUserId().equals(arg0)) {
+						return userInfo0.get(i);
+					}
+				}
+				return null;
+			}
+		}, false);
+		
 	}
 
 }

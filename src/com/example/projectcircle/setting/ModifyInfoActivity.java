@@ -27,6 +27,8 @@ import com.example.projectcircle.home.HomeSecActivity;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.LoadImageUtils;
 import com.example.projectcircle.util.MyHttpClient;
+import com.example.projectcircle.util.PhoneUtlis;
+import com.example.projectcircle.util.PhotoUtils;
 import com.example.projectcircle.util.ToastUtils;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -39,6 +41,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -132,9 +135,15 @@ public class ModifyInfoActivity extends TabActivity {
 
 	private ImageView deviceView;
 
+	private String deviceid = "";
+
 	private ImageView deviceView1;
 
+	private String device1id = "";
+
 	private ImageView deviceView2;
+
+	private String device2id = "";
 
 	private boolean isHeadImge = false;
 
@@ -162,7 +171,7 @@ public class ModifyInfoActivity extends TabActivity {
 		isModify = true;
 		initView();
 		try {
-			EquDetail(MyApplication.getMyPersonBean().getId());
+			EquDetail(LoginActivity.id);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -402,27 +411,28 @@ public class ModifyInfoActivity extends TabActivity {
 	};
 
 	private void MyDialog() {
-		final CharSequence[] items = { "相册", "拍照" };
-		AlertDialog dlg = new AlertDialog.Builder(context).setTitle("选择图片")
-				.setItems(items, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						// 这里item是根据选择的方式，
-						// 在items数组里面定义了两种方式，拍照的下标为1所以就调用拍照方法
-						if (item == 1) {
-							Intent getImageByCamera = new Intent(
-									"android.media.action.IMAGE_CAPTURE");
-							startActivityForResult(getImageByCamera,
-									REQUEST_CAMERA);
-						} else {
-							Intent getImage = new Intent(
-									Intent.ACTION_GET_CONTENT);
-							getImage.addCategory(Intent.CATEGORY_OPENABLE);
-							getImage.setType("image/jpeg");
-							startActivityForResult(getImage, 0);
-						}
-					}
-				}).create();
-		dlg.show();
+		PhotoUtils.secPic(ModifyInfoActivity.this);
+		// final CharSequence[] items = { "相册", "拍照" };
+		// AlertDialog dlg = new AlertDialog.Builder(context).setTitle("选择图片")
+		// .setItems(items, new DialogInterface.OnClickListener() {
+		// public void onClick(DialogInterface dialog, int item) {
+		// // 这里item是根据选择的方式，
+		// // 在items数组里面定义了两种方式，拍照的下标为1所以就调用拍照方法
+		// if (item == 1) {
+		// Intent getImageByCamera = new Intent(
+		// "android.media.action.IMAGE_CAPTURE");
+		// startActivityForResult(getImageByCamera,
+		// REQUEST_CAMERA);
+		// } else {
+		// Intent getImage = new Intent(
+		// Intent.ACTION_GET_CONTENT);
+		// getImage.addCategory(Intent.CATEGORY_OPENABLE);
+		// getImage.setType("image/jpeg");
+		// startActivityForResult(getImage, 0);
+		// }
+		// }
+		// }).create();
+		// dlg.show();
 	}
 
 	/**
@@ -466,25 +476,25 @@ public class ModifyInfoActivity extends TabActivity {
 		}
 		String businessss = "";
 		if (!TextUtils.isEmpty(SiginFragment3.busi1)) {
-			businessss = businessss + SiginFragment3.busi1;
+			businessss = businessss + "、" + SiginFragment3.busi1;
 		}
 		if (!TextUtils.isEmpty(SiginFragment3.busi2)) {
-			businessss = businessss + SiginFragment3.busi2;
+			businessss = businessss + "、" + SiginFragment3.busi2;
 		}
 		if (!TextUtils.isEmpty(SiginFragment3.busi3)) {
-			businessss = businessss + SiginFragment3.busi3;
+			businessss = businessss + "、" + SiginFragment3.busi3;
 		}
 		if (!TextUtils.isEmpty(SiginFragment3.busi4)) {
-			businessss = businessss + SiginFragment3.busi4;
+			businessss = businessss + "、" + SiginFragment3.busi4;
 		}
-		if (type.equals("商家")
-				&& TextUtils.isEmpty(businessss)) {
+		if (type.equals("商家") && TextUtils.isEmpty(businessss)) {
 			ToastUtils.showShort(context, "请添加业务范围");
 			return;
 		}
-		AppLog.i(TAG, "经营范围:"+businessss);
+		AppLog.i(TAG, "经营范围:" + businessss);
 		doSubMit(id, realname, age, sign, intro, type, equipment, accept,
 				hometown);
+		ToastUtils.showLong(context, "年龄:" + age);
 		sendSubmit();
 		postEquHeadImage();
 		// }
@@ -518,11 +528,15 @@ public class ModifyInfoActivity extends TabActivity {
 			public void onSuccess(String response) {
 				// System.out.println(response);
 				JSONObject obj;
+				AppLog.i(TAG, "返回图片程序:" + response);
 				try {
 					obj = new JSONObject(response);
 					Log.i("response-----result", obj.getInt("result") + "");
 					if (obj.getInt("result") == 1) {
 						// myhead.setImageBitmap(myBitmap);
+						MyApplication.getMyPersonBean().setHeadimage(
+								obj.getString("headimage"));
+						sendSubmitChange();
 					} else {
 
 					}
@@ -592,9 +606,22 @@ public class ModifyInfoActivity extends TabActivity {
 				// 将图片内容解析成字节数组
 				mContent = ImageUtil.readStream(resolver.openInputStream(Uri
 						.parse(originalUri.toString())));
+				final String str;
+				Uri localUri = data.getData();
+				String[] arrayOfString = new String[1];
+				arrayOfString[0] = "_data";
+				Cursor localCursor = getContentResolver().query(localUri,
+						arrayOfString, null, null, null);
+				if (localCursor == null)
+					return;
+				localCursor.moveToFirst();
+				str = localCursor.getString(localCursor
+						.getColumnIndex(arrayOfString[0]));
+				localCursor.close();
 				// 将字节数组转换为ImageView可调用的Bitmap对象
 				if (isHeadImge) {
-					myBitmap = ImageUtil.getPicFromBytes(mContent, null);
+					myBitmap = PhoneUtlis.getNoCutSmallBitmap(str);
+					// myBitmap = ImageUtil.getPicFromBytes(mContent, null);
 					myBitmap = comp(myBitmap);
 					myBitmap = ImageUtil.toRoundCorner(myBitmap, 20);
 					// //把得到的图片绑定在控件上显示
@@ -602,8 +629,9 @@ public class ModifyInfoActivity extends TabActivity {
 				} else {
 					switch (picFalg) {
 					case 0:
-						deviceBitmap = ImageUtil
-								.getPicFromBytes(mContent, null);
+						// deviceBitmap = ImageUtil
+						// .getPicFromBytes(mContent, null);
+						deviceBitmap = PhoneUtlis.getNoCutSmallBitmap(str);
 						deviceBitmap = comp(deviceBitmap);
 						deviceBitmap = ImageUtil
 								.toRoundCorner(deviceBitmap, 20);
@@ -611,8 +639,9 @@ public class ModifyInfoActivity extends TabActivity {
 						deviceView.setImageBitmap(deviceBitmap);
 						break;
 					case 1:
-						deviceBitmap1 = ImageUtil.getPicFromBytes(mContent,
-								null);
+						// deviceBitmap1 = ImageUtil.getPicFromBytes(mContent,
+						// null);
+						deviceBitmap1 = PhoneUtlis.getNoCutSmallBitmap(str);
 						deviceBitmap1 = comp(deviceBitmap1);
 						deviceBitmap1 = ImageUtil.toRoundCorner(deviceBitmap1,
 								20);
@@ -620,8 +649,9 @@ public class ModifyInfoActivity extends TabActivity {
 						deviceView1.setImageBitmap(deviceBitmap1);
 						break;
 					case 2:
-						deviceBitmap2 = ImageUtil.getPicFromBytes(mContent,
-								null);
+						// deviceBitmap2 = ImageUtil.getPicFromBytes(mContent,
+						// null);
+						deviceBitmap2 = PhoneUtlis.getNoCutSmallBitmap(str);
 						deviceBitmap2 = comp(deviceBitmap2);
 						deviceBitmap2 = ImageUtil.toRoundCorner(deviceBitmap2,
 								20);
@@ -641,43 +671,55 @@ public class ModifyInfoActivity extends TabActivity {
 
 		} else if (requestCode == REQUEST_CAMERA) {
 			try {
-				super.onActivityResult(requestCode, resultCode, data);
-				Bundle extras = data.getExtras();
+				// super.onActivityResult(requestCode, resultCode, data);
+				// Bundle extras = data.getExtras();
+				String path = PhotoUtils.getPicPathFromUri(
+						PhotoUtils.imageFileUri, this);
 				if (isHeadImge) {
-					myBitmap = (Bitmap) extras.get("data");
-					ByteArrayOutputStream baos = new ByteArrayOutputStream();
-					myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-					mContent = baos.toByteArray();
+					// myBitmap = (Bitmap) extras.get("data");
+					// ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					// myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+					// mContent = baos.toByteArray();
+					myBitmap = PhoneUtlis.getNoCutSmallBitmap(path);
 					myBitmap = ImageUtil.toRoundCorner(myBitmap, 20);
 					myhead.setImageBitmap(myBitmap);
 				} else {
 					switch (picFalg) {
 					case 0:
-						deviceBitmap = (Bitmap) extras.get("data");
-						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						deviceBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
-								baos);
-						mContent = baos.toByteArray();
+						// deviceBitmap = (Bitmap) extras.get("data");
+						// ByteArrayOutputStream baos = new
+						// ByteArrayOutputStream();
+						// deviceBitmap.compress(Bitmap.CompressFormat.JPEG,
+						// 100,
+						// baos);
+						// mContent = baos.toByteArray();
+						deviceBitmap = PhoneUtlis.getNoCutSmallBitmap(path);
 						deviceBitmap = ImageUtil
 								.toRoundCorner(deviceBitmap, 20);
 						deviceView.setImageBitmap(deviceBitmap);
 						break;
 					case 1:
-						deviceBitmap1 = (Bitmap) extras.get("data");
-						ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-						deviceBitmap1.compress(Bitmap.CompressFormat.JPEG, 100,
-								baos1);
-						mContent = baos1.toByteArray();
+						// deviceBitmap1 = (Bitmap) extras.get("data");
+						// ByteArrayOutputStream baos1 = new
+						// ByteArrayOutputStream();
+						// deviceBitmap1.compress(Bitmap.CompressFormat.JPEG,
+						// 100,
+						// baos1);
+						// mContent = baos1.toByteArray();
+						deviceBitmap1 = PhoneUtlis.getNoCutSmallBitmap(path);
 						deviceBitmap1 = ImageUtil.toRoundCorner(deviceBitmap1,
 								20);
 						deviceView1.setImageBitmap(deviceBitmap1);
 						break;
 					case 2:
-						deviceBitmap2 = (Bitmap) extras.get("data");
-						ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-						deviceBitmap2.compress(Bitmap.CompressFormat.JPEG, 100,
-								baos2);
-						mContent = baos2.toByteArray();
+						// deviceBitmap2 = (Bitmap) extras.get("data");
+						// ByteArrayOutputStream baos2 = new
+						// ByteArrayOutputStream();
+						// deviceBitmap2.compress(Bitmap.CompressFormat.JPEG,
+						// 100,
+						// baos2);
+						// mContent = baos2.toByteArray();
+						deviceBitmap2 = PhoneUtlis.getNoCutSmallBitmap(path);
 						deviceBitmap2 = ImageUtil.toRoundCorner(deviceBitmap2,
 								20);
 						deviceView2.setImageBitmap(deviceBitmap2);
@@ -898,19 +940,41 @@ public class ModifyInfoActivity extends TabActivity {
 			public void run() {
 				// TODO Auto-generated method stub
 				if (deviceBitmap != null) {
-					new MyHttpClient().upLoadEquHeadImage(id,
-							ImageUtil.bitmaptoString(deviceBitmap),
-							postDeviceHandler);
+					if (TextUtils.isEmpty(deviceid)) {
+						new MyHttpClient().upLoadEquHeadImage(id,
+						/* ImageUtil.bitmaptoString(deviceBitmap) */PhoneUtlis
+								.bitmapToString(deviceBitmap),
+								postDeviceHandler);
+					} else {
+						new MyHttpClient().updateHeadimage(deviceid,
+								PhoneUtlis.bitmapToString(deviceBitmap),
+								postDeviceHandler);
+					}
+
 				}
 				if (deviceBitmap1 != null) {
-					new MyHttpClient().upLoadEquHeadImage(id,
-							ImageUtil.bitmaptoString(deviceBitmap1),
-							postDeviceHandler);
+					if (TextUtils.isEmpty(device1id)) {
+						new MyHttpClient().upLoadEquHeadImage(id,
+								ImageUtil.bitmaptoString(deviceBitmap1),
+								postDeviceHandler);
+					} else {
+						new MyHttpClient().updateHeadimage(device1id,
+								ImageUtil.bitmaptoString(deviceBitmap1),
+								postDeviceHandler);
+					}
+
 				}
 				if (deviceBitmap2 != null) {
-					new MyHttpClient().upLoadEquHeadImage(id,
-							ImageUtil.bitmaptoString(deviceBitmap2),
-							postDeviceHandler);
+					if (TextUtils.isEmpty(device2id)) {
+						new MyHttpClient().upLoadEquHeadImage(id,
+								ImageUtil.bitmaptoString(deviceBitmap2),
+								postDeviceHandler);
+					} else {
+						new MyHttpClient().updateHeadimage(device2id,
+								ImageUtil.bitmaptoString(deviceBitmap2),
+								postDeviceHandler);
+					}
+
 				}
 
 			}
@@ -949,6 +1013,7 @@ public class ModifyInfoActivity extends TabActivity {
 			@Override
 			public void onSuccess(String response) {
 				// TODO Auto-generated method stub
+				AppLog.i(TAG, "设备信息:" + response);
 				try {
 					deviceList = new ArrayList<>();
 					JSONObject result = new JSONObject(response);
@@ -988,14 +1053,17 @@ public class ModifyInfoActivity extends TabActivity {
 					if (!a) {
 						LoadImageUtils.displayImg(MyHttpClient.IMAGE_URL
 								+ imgurl, deviceView);
+						deviceid = deviceList.get(i).getId();
 						a = true;
 					} else if (!b) {
 						LoadImageUtils.displayImg(MyHttpClient.IMAGE_URL
 								+ imgurl, deviceView1);
+						device1id = deviceList.get(i).getId();
 						b = true;
 					} else if (!c) {
 						LoadImageUtils.displayImg(MyHttpClient.IMAGE_URL
 								+ imgurl, deviceView2);
+						device2id = deviceList.get(i).getId();
 						c = true;
 					}
 
@@ -1027,8 +1095,8 @@ public class ModifyInfoActivity extends TabActivity {
 						stryear = year;
 						strmonth = monthOfYear + 1;
 						strday = dayOfMonth;
-						age_edit.setText(birthday);
 						getage();
+						age_edit.setText(age);
 					}
 
 				}, 1986, 0, 1);

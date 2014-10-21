@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -37,6 +38,8 @@ import com.example.projectcircle.adpter.ImageAdapter;
 import com.example.projectcircle.debug.AppLog;
 import com.example.projectcircle.util.ImageUtil;
 import com.example.projectcircle.util.MyHttpClient;
+import com.example.projectcircle.util.PhoneUtlis;
+import com.example.projectcircle.util.PhotoUtils;
 import com.example.projectcircle.util.ToastUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -60,15 +63,15 @@ public class CompleteInfo extends Activity implements OnClickListener {
 	/**
 	 * EditText 个人签名 常出没的地方 兴趣爱好 个人简介
 	 */
-	//设备三张图片的Bitmap
+	// 设备三张图片的Bitmap
 	private Bitmap myBitmap1;
 	private Bitmap myBitmap2;
 	private Bitmap myBitmap3;
-	private String wajue_equid = FootActivity1.equid;//挖掘机的设备id
-	private String zixie_equid = FootActivity2.equid;//自卸车的设备id
-	private String pingban_equid = FootActivity3.equid;//平板车的设备id
-	private String zhuangzai_equid = FootActivity4.equid;//装载的设备id
-	private String other_equid = FootActivity5.equid;//其他的设备id
+	private String wajue_equid = FootActivity1.equid;// 挖掘机的设备id
+	private String zixie_equid = FootActivity2.equid;// 自卸车的设备id
+	private String pingban_equid = FootActivity3.equid;// 平板车的设备id
+	private String zhuangzai_equid = FootActivity4.equid;// 装载的设备id
+	private String other_equid = FootActivity5.equid;// 其他的设备id
 	EditText my_sign, my_intro, my_address, my_hobby;
 	String sign, intro, address, hobby;
 
@@ -82,12 +85,12 @@ public class CompleteInfo extends Activity implements OnClickListener {
 	private ImageView mydevice2;
 	private ImageView mydevice3;
 	private ImageView mydevice1;
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.perfect_info);
-		progressDialog=new ProgressDialog(this);
+		progressDialog = new ProgressDialog(this);
 		initFilter();
 		initBtn();
 		initView();
@@ -96,9 +99,9 @@ public class CompleteInfo extends Activity implements OnClickListener {
 	private void initView() {
 		// TODO Auto-generated method stub
 		myhead = (ImageView) findViewById(R.id.perfect_info_camera);
-//		gridview = (GridView) findViewById(R.id.gridview);
-//		imageAdapter = new ImageAdapter(getList(), this);
-//		gridview.setAdapter(imageAdapter);
+		// gridview = (GridView) findViewById(R.id.gridview);
+		// imageAdapter = new ImageAdapter(getList(), this);
+		// gridview.setAdapter(imageAdapter);
 		mydevice1 = (ImageView) findViewById(R.id.perfect_info_camera1);
 		mydevice2 = (ImageView) findViewById(R.id.perfect_info_camera2);
 		mydevice3 = (ImageView) findViewById(R.id.perfect_info_camera3);
@@ -111,29 +114,30 @@ public class CompleteInfo extends Activity implements OnClickListener {
 		mydevice1.setOnClickListener(this);
 		mydevice2.setOnClickListener(this);
 		mydevice3.setOnClickListener(this);
-//		gridview.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				// TODO Auto-generated method stub
-//				current_index = 1;
-//				MyDialog();
-//			}
-//		});
+		// gridview.setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+		// long arg3) {
+		// // TODO Auto-generated method stub
+		// current_index = 1;
+		// MyDialog();
+		// }
+		// });
 	}
 
-//	private ArrayList<HashMap<String, Object>> getList() {
-//		// TODO Auto-generated method stub
-//		ArrayList<HashMap<String, Object>> listItem = new ArrayList<HashMap<String, Object>>();
-//		for (int i = 0; i < 3; i++) {
-//			HashMap<String, Object> map = new HashMap<String, Object>();
-//			map.put("headimage", R.drawable.camera);
-//
-//			listItem.add(map);
-//		}
-//		return listItem;
-//	}
+	// private ArrayList<HashMap<String, Object>> getList() {
+	// // TODO Auto-generated method stub
+	// ArrayList<HashMap<String, Object>> listItem = new
+	// ArrayList<HashMap<String, Object>>();
+	// for (int i = 0; i < 3; i++) {
+	// HashMap<String, Object> map = new HashMap<String, Object>();
+	// map.put("headimage", R.drawable.camera);
+	//
+	// listItem.add(map);
+	// }
+	// return listItem;
+	// }
 
 	@Override
 	public void onClick(View v) {
@@ -152,7 +156,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 			MyDialog();
 			break;
 		case R.id.perfect_info_camera3:
-			current_index =3;
+			current_index = 3;
 			MyDialog();
 			break;
 		default:
@@ -187,7 +191,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 		}
 	};
 	private String type;
-	
+
 	/**
 	 * 上传数据
 	 */
@@ -198,7 +202,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 		if (TextUtils.isEmpty(id)) {
 			id = LoginActivity.id;
 		}
-		type = SiginActivity.type;		
+		type = SiginActivity.type;
 		// id = "25";
 		sign = my_sign.getText().toString();
 		intro = my_intro.getText().toString();
@@ -211,26 +215,32 @@ public class CompleteInfo extends Activity implements OnClickListener {
 			headimage = ImageUtil.bitmaptoString(myBitmap);
 			// System.out.println(headimage);
 			postHeadImage(id, headimage);
-		}	
-		 if (myBitmap1!= null) {			
-//				headimage = URLEncoder.encode(ImageUtil.bitmaptoString(myBitmap1));
-				headimage = ImageUtil.bitmaptoString(myBitmap1);
-				// System.out.println(headimage);
-				postEquHeadImage(id, headimage);
-			}if (myBitmap2!= null) {			
-//				headimage = URLEncoder.encode(ImageUtil.bitmaptoString(myBitmap2));
-				headimage = ImageUtil.bitmaptoString(myBitmap2);
-				// System.out.println(headimage);
-				postEquHeadImage(id, headimage);
-			}if (myBitmap3!= null) {			
-//				headimage = URLEncoder.encode(ImageUtil.bitmaptoString(myBitmap3));
-				headimage = ImageUtil.bitmaptoString(myBitmap3);
-				// System.out.println(headimage);
-				postEquHeadImage(id, headimage);
-			}	
-			baseInfo(id, sign, address, hobby, intro);		
+		}
+		if (myBitmap1 != null) {
+			// headimage =
+			// URLEncoder.encode(ImageUtil.bitmaptoString(myBitmap1));
+			headimage = ImageUtil.bitmaptoString(myBitmap1);
+			// System.out.println(headimage);
+			postEquHeadImage(id, headimage);
+		}
+		if (myBitmap2 != null) {
+			// headimage =
+			// URLEncoder.encode(ImageUtil.bitmaptoString(myBitmap2));
+			headimage = ImageUtil.bitmaptoString(myBitmap2);
+			// System.out.println(headimage);
+			postEquHeadImage(id, headimage);
+		}
+		if (myBitmap3 != null) {
+			// headimage =
+			// URLEncoder.encode(ImageUtil.bitmaptoString(myBitmap3));
+			headimage = ImageUtil.bitmaptoString(myBitmap3);
+			// System.out.println(headimage);
+			postEquHeadImage(id, headimage);
+		}
+		baseInfo(id, sign, address, hobby, intro);
 	}
-    //上传三张照片
+
+	// 上传三张照片
 	private void postEquHeadImage(String id, String headimage) {
 		// TODO Auto-generated method stub
 		AsyncHttpResponseHandler res = new AsyncHttpResponseHandler() {
@@ -238,15 +248,17 @@ public class CompleteInfo extends Activity implements OnClickListener {
 			public void onStart() {
 				// TODO Auto-generated method stub
 				super.onStart();
-				Log.i("上传三张照片result","开始上传");	
+				Log.i("上传三张照片result", "开始上传");
 			}
+
 			public void onSuccess(String response) {
 				// System.out.println(response);
-				Log.i("上传三张照片result","上传三张照片result"+ response);	
+				Log.i("上传三张照片result", "上传三张照片result" + response);
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
-					Log.i("上传三张照片result","上传三张照片result"+ obj.getInt("result") + "");				
+					Log.i("上传三张照片result", "上传三张照片result" + obj.getInt("result")
+							+ "");
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -269,11 +281,11 @@ public class CompleteInfo extends Activity implements OnClickListener {
 				progressDialog.setMessage(getString(R.string.submiting));
 				progressDialog.show();
 			}
-			
+
 			public void onSuccess(String response) {
 				// System.out.println(response);
 				// parseInfo(response);
-				AppLog.i(CompleteInfo.class.getSimpleName(), "上传返回:"+response);
+				AppLog.i(CompleteInfo.class.getSimpleName(), "上传返回:" + response);
 				JSONObject obj;
 				try {
 					obj = new JSONObject(response);
@@ -289,15 +301,13 @@ public class CompleteInfo extends Activity implements OnClickListener {
 					ToastUtils.showLong(CompleteInfo.this, "服务器出错啦！");
 				}
 			}
-			
-			
+
 			@Override
 			public void onFinish() {
 				// TODO Auto-generated method stub
 				super.onFinish();
 				progressDialog.dismiss();
 			}
-			
 
 		};
 		MyHttpClient client = new MyHttpClient();
@@ -314,7 +324,7 @@ public class CompleteInfo extends Activity implements OnClickListener {
 				try {
 					obj = new JSONObject(response);
 					Log.i("response-----result", obj.getInt("result") + "");
-					} catch (JSONException e) {
+				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -331,37 +341,38 @@ public class CompleteInfo extends Activity implements OnClickListener {
 		myhead.setImageBitmap(myBitmap);
 		Intent intent = new Intent(CompleteInfo.this, CompleteFinish.class);
 		startActivity(intent);
-		//发广播，把前边注册的那几个界面finish掉
+		// 发广播，把前边注册的那几个界面finish掉
 		Intent intent2 = new Intent();
-		intent2.setAction("finish.before.regist.page");			
+		intent2.setAction("finish.before.regist.page");
 		CompleteInfo.this.sendBroadcast(intent);
 		finish();
 	}
 
 	// 图片上传选择途径
 	private void MyDialog() {
-		final CharSequence[] items = { "相册", "拍照" };
-		AlertDialog dlg = new AlertDialog.Builder(CompleteInfo.this)
-				.setTitle("选择图片")
-				.setItems(items, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int item) {
-						// 这里item是根据选择的方式，
-						// 在items数组里面定义了两种方式，拍照的下标为1所以就调用拍照方法
-						if (item == 1) {
-							Intent getImageByCamera = new Intent(
-									"android.media.action.IMAGE_CAPTURE");
-							startActivityForResult(getImageByCamera,
-									REQUEST_CAMERA);
-						} else {
-							Intent getImage = new Intent(
-									Intent.ACTION_GET_CONTENT);
-							getImage.addCategory(Intent.CATEGORY_OPENABLE);
-							getImage.setType("image/jpeg");
-							startActivityForResult(getImage, 0);
-						}
-					}
-				}).create();
-		dlg.show();
+		PhotoUtils.secPic(this);
+		// final CharSequence[] items = { "相册", "拍照" };
+		// AlertDialog dlg = new AlertDialog.Builder(CompleteInfo.this)
+		// .setTitle("选择图片")
+		// .setItems(items, new DialogInterface.OnClickListener() {
+		// public void onClick(DialogInterface dialog, int item) {
+		// // 这里item是根据选择的方式，
+		// // 在items数组里面定义了两种方式，拍照的下标为1所以就调用拍照方法
+		// if (item == 1) {
+		// Intent getImageByCamera = new Intent(
+		// "android.media.action.IMAGE_CAPTURE");
+		// startActivityForResult(getImageByCamera,
+		// REQUEST_CAMERA);
+		// } else {
+		// Intent getImage = new Intent(
+		// Intent.ACTION_GET_CONTENT);
+		// getImage.addCategory(Intent.CATEGORY_OPENABLE);
+		// getImage.setType("image/jpeg");
+		// startActivityForResult(getImage, 0);
+		// }
+		// }
+		// }).create();
+		// dlg.show();
 	}
 
 	@Override
@@ -381,20 +392,32 @@ public class CompleteInfo extends Activity implements OnClickListener {
 				// 将图片内容解析成字节数组
 				mContent = ImageUtil.readStream(resolver.openInputStream(Uri
 						.parse(originalUri.toString())));
+				final String str;
+				Uri localUri = data.getData();
+				String[] arrayOfString = new String[1];
+				arrayOfString[0] = "_data";
+				Cursor localCursor = getContentResolver().query(localUri,
+						arrayOfString, null, null, null);
+				if (localCursor == null)
+					return;
+				localCursor.moveToFirst();
+				str = localCursor.getString(localCursor
+						.getColumnIndex(arrayOfString[0]));
+				localCursor.close();
 				// 将字节数组转换为ImageView可调用的Bitmap对象
-				myBitmap = ImageUtil.getPicFromBytes(mContent, null);
+				myBitmap = PhoneUtlis.getNoCutSmallBitmap(str);
 				myBitmap = comp(myBitmap);
 				myBitmap = ImageUtil.toRoundCorner(myBitmap, 20);
 				// //把得到的图片绑定在控件上显示
 				if (current_index == 0) {
 					myhead.setImageBitmap(myBitmap);
-				} else if(current_index == 1){
+				} else if (current_index == 1) {
 					myBitmap1 = myBitmap;
 					mydevice1.setImageBitmap(myBitmap1);
-				} else if(current_index == 2){
+				} else if (current_index == 2) {
 					myBitmap2 = myBitmap;
 					mydevice2.setImageBitmap(myBitmap2);
-				} else if(current_index == 3){
+				} else if (current_index == 3) {
 					myBitmap3 = myBitmap;
 					mydevice3.setImageBitmap(myBitmap3);
 				}
@@ -405,11 +428,12 @@ public class CompleteInfo extends Activity implements OnClickListener {
 
 		} else if (requestCode == REQUEST_CAMERA) {
 			try {
-				super.onActivityResult(requestCode, resultCode, data);
-				Bundle extras = data.getExtras();
-				myBitmap = (Bitmap) extras.get("data");
+				// super.onActivityResult(requestCode, resultCode, data);
+				String path = PhotoUtils.getPicPathFromUri(
+						PhotoUtils.imageFileUri, this);
+				myBitmap = PhoneUtlis.getNoCutSmallBitmap(path);
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+				myBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
 				mContent = baos.toByteArray();
 				myBitmap = ImageUtil.toRoundCorner(myBitmap, 20);
 			} catch (Exception e) {
@@ -418,16 +442,16 @@ public class CompleteInfo extends Activity implements OnClickListener {
 			// 把拍摄的照片转成圆角显示在预览控件上
 			if (current_index == 0) {
 				myhead.setImageBitmap(myBitmap);
-			}  else if(current_index == 1){
+			} else if (current_index == 1) {
 				myBitmap1 = myBitmap;
 				mydevice1.setImageBitmap(myBitmap1);
-			}  else if(current_index == 2){
+			} else if (current_index == 2) {
 				myBitmap2 = myBitmap;
 				mydevice2.setImageBitmap(myBitmap2);
-			} else if(current_index == 3){
+			} else if (current_index == 3) {
 				myBitmap3 = myBitmap;
 				mydevice3.setImageBitmap(myBitmap3);
-		}
+			}
 		}
 		if (myBitmap != null) {
 			ImageUtil.bitmaptoString(myBitmap);
@@ -470,20 +494,23 @@ public class CompleteInfo extends Activity implements OnClickListener {
 		bitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
 		return bitmap;// 压缩好比例大小后再进行质量压缩
 	}
+
 	private void initFilter() {
 		// TODO Auto-generated method stub
 		IntentFilter filter = new IntentFilter();
-		filter.addAction("finish.before.regist.page");		
+		filter.addAction("finish.before.regist.page");
 		registerReceiver(msgReceiver, filter);
 	}
+
 	private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub			
-			finish();		
+			// TODO Auto-generated method stub
+			finish();
 		}
 	};
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub

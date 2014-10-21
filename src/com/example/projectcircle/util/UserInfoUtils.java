@@ -10,17 +10,12 @@ import java.io.StreamCorruptedException;
 import com.example.projectcircle.app.MyApplication;
 import com.example.projectcircle.bean.MyPersonBean;
 import com.example.projectcircle.db.utils.FriendDatabaseUtils;
-import com.example.projectcircle.db.utils.GroupDatabaseUtils;
-import com.example.projectcircle.db.utils.MsgDataUtils;
-import com.example.projectcircle.db.utils.NewContactsUtily;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 
 public class UserInfoUtils {
 

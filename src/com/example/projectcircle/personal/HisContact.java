@@ -133,13 +133,23 @@ public class HisContact extends Activity{
 				user.setType(objo.getString("type"));
 				user.setAddress(objo.getString("address"));
 				user.setCcid(objo.getString("ccid"));
-				// user.setEquipment(obj.getString("equipment"));
+				try {
+					 user.setEquipment(obj.getString("equipment"));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
 				user.setSign(objo.getString("sign"));
 				user.setHeadimage(objo.getString("headimage"));
 				user.setAccept(objo.getString("accept"));
 				user.setLat(Double.valueOf(objo.getString("commercialLat")));
 				user.setLon(Double.valueOf(objo.getString("commercialLon")));
-				user.setLastlogintime(objo.getString("lastlogintime"));		
+				try {
+					user.setLastlogintime(objo.getString("reflashtime"));
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+//				user.setLastlogintime(objo.getString("lastlogintime"));		
 				friendList.add(user);
 			}
 		} catch (JSONException e) {
@@ -190,6 +200,7 @@ public class HisContact extends Activity{
 				map.put("lastlogintime", friendList.get(i).getLastlogintime());
 				map.put("commercialLat", friendList.get(i).getLat());
 				map.put("commercialLon", friendList.get(i).getLon());
+				map.put("equipment", friendList.get(i).getEquipment());
 				listItem.add(map);
 			}
 		}
