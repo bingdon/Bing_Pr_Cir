@@ -2,8 +2,10 @@ package com.example.projectcircle;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIM.ConversationBehaviorListener;
+import io.rong.imlib.RongIMClient.ConnectCallback;
 import io.rong.imlib.RongIMClient.ConversationType;
 import io.rong.imlib.RongIMClient.UserInfo;
+import io.rong.imlib.RongIMClient.ConnectCallback.ErrorCode;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -18,6 +20,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,6 +131,7 @@ public class MainActivity extends TabActivity {
 		// }
 		// });
 
+		
 		initUI();
 
 		tabhost.setOnTabChangedListener(new OnTabChangeListener() {
@@ -276,7 +280,7 @@ public class MainActivity extends TabActivity {
 
 					msgTextView.setVisibility(View.GONE);
 					msgcount = 0;
-
+					attmpetConnect();
 					break;
 
 				case 3:
@@ -444,6 +448,34 @@ public class MainActivity extends TabActivity {
 		}
 	});
 
+	
+	private void attmpetConnect(){
+		if (RongIM.getInstance()!=null) {
+			return;
+		}
+		String token = LoginActivity.getToken(getApplicationContext());
+		AppLog.i(TAG, "µÇÂ½TOKEN:"
+				+token);
+		if (!TextUtils.isEmpty(token)&&token.length()>10) {
+			AppLog.i(TAG, "¿ªÊ¼µÇÂ½");
+			RongIM.connect(token, new ConnectCallback() {
+
+				@Override
+				public void onSuccess(String arg0) {
+					// TODO Auto-generated method stub
+					AppLog.i(TAG, "µÇÂ½³É¹¦:" + arg0);
+				}
+
+				@Override
+				public void onError(ErrorCode arg0) {
+					// TODO Auto-generated method stub
+					AppLog.i(TAG, "µÇÂ½Ê§°Ü:" + arg0);
+					
+				}
+			});
+		}
+	}
+	
 	// @Override
 	// protected void onResume() {
 	// // TODO Auto-generated method stub

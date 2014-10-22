@@ -149,7 +149,7 @@ public class AddJob extends Activity {
 			ToastUtils.showShort(getApplicationContext(), "联系电话不能为空!");
 			return;
 		}
-		if (tel.length() != 11) {
+		if (tel.length() < 7) {
 			ToastUtils.showShort(getApplicationContext(), "联系电话的号码格式不对!");
 			return;
 		}
