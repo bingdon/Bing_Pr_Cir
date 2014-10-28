@@ -109,8 +109,8 @@ public class UpdataAppUtlity {
 						Toast.LENGTH_SHORT).show();
 				downDialog(url, updateinfo);
 			} else {
-				ToastUtils
-						.showLong(context, context.getString(R.string.update));
+//				ToastUtils
+//						.showLong(context, context.getString(R.string.update));
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block

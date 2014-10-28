@@ -254,7 +254,7 @@ public class PhoneUtlis {
             		 mBitmap.getHeight(), m, true);  
          }  
 		 
-		saveFoodPic2Example(mBitmap);
+//		saveFoodPic2Example(mBitmap);
 		return mBitmap;
 	}
 

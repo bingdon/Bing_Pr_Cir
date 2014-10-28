@@ -170,8 +170,10 @@ public class postStatus extends Activity implements PicClickListener {
 			public void run() {
 				// TODO Auto-generated method stub
 
-				MyHttpClient.postMoodImg(moodid, PhoneUtlis.bitmapNCutToString(list.get(0)
-						.get("url").toString()), new UpPicHandler(0));
+				MyHttpClient.postMoodImg(
+						moodid,
+						PhoneUtlis.bitmapNCutToString(list.get(0).get("url")
+								.toString()), new UpPicHandler(0));
 			}
 		}).start();
 	}
@@ -202,9 +204,11 @@ public class postStatus extends Activity implements PicClickListener {
 			// list.size() - 2, ContantS.PUBLISH_SHAI_ID);
 			if (index < list.size() - 2) {
 				index++;
-				MyHttpClient.postMoodImg(moodid,
-						bitmapNCutToString(list.get(index).get("url")
-								.toString()), new UpPicHandler(index));
+				MyHttpClient.postMoodImg(
+						moodid,
+						PhoneUtlis.bitmapNCutToString(list.get(index)
+								.get("url").toString()),
+						new UpPicHandler(index));
 				Log.i("-----moodid-----", moodid);
 				Log.i("list.get(index).geturl.toString()",
 						list.get(index).get("url").toString());

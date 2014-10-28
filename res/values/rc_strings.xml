@@ -62,7 +62,7 @@
     <string name="voice_length">"%1$s''"</string>
 
     <!-- converastion list -->
-    <string name="list_converastion_emtpy_prompt">"暂时没有会话"</string>
+    <string name="list_converastion_emtpy_prompt">"暂时没有会话\n赶快找好友来聊吧"</string>
     <string name="dialog_converastion_title">""</string>
     <string name="dialog_converastion_istop">"置顶该会话"</string>
     <string name="dialog_converastion_istop_cancel">"取消置顶"</string>
@@ -71,7 +71,7 @@
     <string name="dialog_converastion_remove">"从会话列表中移除"</string>
     <string name="converastion_list_notify_load_data">"正在初始化数据...."</string>
     <!-- group -->
-    <string name="rc_group_conversation_list_name">"群组会话"</string>
+    <string name="rc_group_conversation_list_name">"我的群组"</string>
 
     <!-- friend list -->
     <string name="friend_list_multi_choice_comfirt_btn">"确定(%1$s)"</string>

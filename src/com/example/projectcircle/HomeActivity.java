@@ -92,8 +92,8 @@ public class HomeActivity extends Activity {
 	 */
 	// 附近群组和跨区域群组
 	LinearLayout neargroup, areagroup;
-	public static double latitude=0;
-	public static double longitude=0;
+	public static double latitude = 0;
+	public static double longitude = 0;
 	public static int radius;// 半径
 	public static String rplace;// 定位全地址
 	// 附近群组信息
@@ -920,7 +920,7 @@ public class HomeActivity extends Activity {
 	private void initGroup() {
 		// TODO Auto-generated method stub
 
-		ng_nearnum_txt.setText("您附近有" + ng_nearnum + "个群组");
+		ng_nearnum_txt.setText("全国共有" + ng_nearnum + "个群组");
 		ng_total_txt.setText("北京约有" + ng_total + "个群组");
 		ng_address_txt.setText(rplace);
 	}
@@ -933,11 +933,12 @@ public class HomeActivity extends Activity {
 			switch (v.getId()) {
 			case R.id.myinfo_layout:
 				if (TextUtils.isEmpty(utype)) {
-					utype=MyApplication.getMyPersonBean().getType();
+					utype = MyApplication.getMyPersonBean().getType();
 					if (TextUtils.isEmpty(utype)) {
 						return;
 					}
-				}if (TextUtils.isEmpty(id)) {
+				}
+				if (TextUtils.isEmpty(id)) {
 					return;
 				}
 				Intent intent = new Intent(HomeActivity.this,
@@ -981,8 +982,8 @@ public class HomeActivity extends Activity {
 				// 计算我和好友之间的距离
 				distance = DistentsUtil.GetDistance(commercialLat,
 						commercialLon, latitude, longitude);
-				if ((double)distance>10000) {
-					distance="无";
+				if ((double) distance > 10000) {
+					distance = "无";
 				}
 				map.put("distance", distance);
 				listItem.add(map);
@@ -1255,9 +1256,8 @@ public class HomeActivity extends Activity {
 	 */
 	private void connectRongServer() {
 		String token = LoginActivity.getToken(getApplicationContext());
-		AppLog.i(TAG, "登陆TOKEN:"
-				+token);
-		if (!TextUtils.isEmpty(token)&&token.length()>10) {
+		AppLog.i(TAG, "登陆TOKEN:" + token);
+		if (!TextUtils.isEmpty(token) && token.length() > 10) {
 			AppLog.i(TAG, "开始登陆");
 			RongIM.connect(token, new ConnectCallback() {
 
@@ -1272,37 +1272,40 @@ public class HomeActivity extends Activity {
 					// TODO Auto-generated method stub
 					AppLog.i(TAG, "登陆失败:" + arg0);
 					showLoginAgain();
-					
+
 				}
 			});
-		}else {
+		} else {
 			showLoginAgain();
 		}
 	}
 
-	
-	private void showLoginAgain(){
-		new AlertDialog.Builder(HomeActivity.this).setTitle("连接提示")
-		.setMessage("连接服务器失败，是否重新登陆?")
-		.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-				finish();
-			}
-		})
-		.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				
-			}
-		}).show();
+	private void showLoginAgain() {
+		new AlertDialog.Builder(HomeActivity.this)
+				.setTitle("连接提示")
+				.setMessage("连接服务器失败，是否重新登陆?")
+				.setPositiveButton(android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								startActivity(new Intent(HomeActivity.this,
+										LoginActivity.class));
+								finish();
+							}
+						})
+				.setNegativeButton(android.R.string.cancel,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+
+							}
+						}).show();
 	}
-	
-	
-	
+
 }

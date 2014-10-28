@@ -161,6 +161,7 @@
                             android:textColor="@color/gray" />
 
                         <ImageView
+                            android:id="@+id/distance_img"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -856,6 +857,21 @@
                         android:background="@drawable/line" />
                 </LinearLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/createtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="注册时间:"
+                android:textColor="@color/gray" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/line" />
         </LinearLayout>
     </ScrollView>
 

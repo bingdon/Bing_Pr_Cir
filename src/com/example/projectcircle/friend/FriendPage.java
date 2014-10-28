@@ -29,6 +29,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.ContactsContract.CommonDataKinds.Photo;
@@ -70,6 +72,7 @@ import com.example.projectcircle.group.MyGroup;
 import com.example.projectcircle.other.Chat;
 import com.example.projectcircle.personal.PersonalPage;
 import com.example.projectcircle.util.DistentsUtil;
+import com.example.projectcircle.util.HttpUtil;
 import com.example.projectcircle.util.MyHttpClient;
 import com.example.projectcircle.util.ShareUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -123,8 +126,8 @@ public class FriendPage extends Activity {
 	/** 联系人号码 **/
 	private ArrayList<String> mContactsNumber = new ArrayList<String>();
 
-	/** 联系人头像 **/
-	private ArrayList<Bitmap> mContactsPhonto = new ArrayList<Bitmap>();
+	// /** 联系人头像 **/
+	// private ArrayList<Bitmap> mContactsPhonto = new ArrayList<Bitmap>();
 	/**
 	 * 顶部Button
 	 */
@@ -189,64 +192,78 @@ public class FriendPage extends Activity {
 		// 获取通讯录联系人，并判断是否为好友，以便像微信那样出来那种提示
 		FriendRequestUtils.requestNum();
 		getContactInNumber();
-//		if (null != myAdapter) {
-//			findfriend(id);
-//		}
+		// if (null != myAdapter) {
+		// findfriend(id);
+		// }
 		// api.handleIntent(getIntent(), this);
 	}
 
 	private void getContactInNumber() {
 		// TODO Auto-generated method stub
-		ContentResolver resolver = FriendPage.this.getContentResolver();
 
-		// 获取手机联系人
-		Cursor phoneCursor = resolver.query(Phone.CONTENT_URI,
-				PHONES_PROJECTION, null, null, null);
+		new Thread() {
+			public void run() {
+				super.run();
 
-		if (phoneCursor != null) {
-			while (phoneCursor.moveToNext()) {
+				ContentResolver resolver = FriendPage.this.getContentResolver();
 
-				// 得到手机号码
-				String phoneNumber = phoneCursor.getString(PHONES_NUMBER_INDEX);
-				// 当手机号码为空的或者为空字段 跳过当前循环
-				if (TextUtils.isEmpty(phoneNumber))
-					continue;
-				// 得到联系人名称
-				String contactName = phoneCursor
-						.getString(PHONES_DISPLAY_NAME_INDEX);
-				// 得到联系人ID
-				Long contactid = phoneCursor.getLong(PHONES_CONTACT_ID_INDEX);
-				// 得到联系人头像ID
-				Long photoid = phoneCursor.getLong(PHONES_PHOTO_ID_INDEX);
-				// 得到联系人头像Bitamp
-				Bitmap contactPhoto = null;
-				// photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
-				if (photoid > 0) {
-					Uri uri = ContentUris.withAppendedId(
-							ContactsContract.Contacts.CONTENT_URI, contactid);
-					InputStream input = ContactsContract.Contacts
-							.openContactPhotoInputStream(resolver, uri);
-					contactPhoto = BitmapFactory.decodeStream(input);
-				} else {
-					contactPhoto = BitmapFactory.decodeResource(getResources(),
-							R.drawable.driver);
+				// 获取手机联系人
+				Cursor phoneCursor = resolver.query(Phone.CONTENT_URI,
+						PHONES_PROJECTION, null, null, null);
+
+				if (phoneCursor != null) {
+					while (phoneCursor.moveToNext()) {
+
+						// 得到手机号码
+						String phoneNumber = phoneCursor
+								.getString(PHONES_NUMBER_INDEX);
+						// 当手机号码为空的或者为空字段 跳过当前循环
+						if (TextUtils.isEmpty(phoneNumber))
+							continue;
+						// 得到联系人名称
+						String contactName = phoneCursor
+								.getString(PHONES_DISPLAY_NAME_INDEX);
+						// 得到联系人ID
+						Long contactid = phoneCursor
+								.getLong(PHONES_CONTACT_ID_INDEX);
+						// 得到联系人头像ID
+						Long photoid = phoneCursor
+								.getLong(PHONES_PHOTO_ID_INDEX);
+						// 得到联系人头像Bitamp
+						Bitmap contactPhoto = null;
+						// photoid 大于0 表示联系人有头像 如果没有给此人设置头像则给他一个默认的
+						if (photoid > 0) {
+							Uri uri = ContentUris.withAppendedId(
+									ContactsContract.Contacts.CONTENT_URI,
+									contactid);
+							InputStream input = ContactsContract.Contacts
+									.openContactPhotoInputStream(resolver, uri);
+							contactPhoto = BitmapFactory.decodeStream(input);
+						} else {
+							contactPhoto = BitmapFactory.decodeResource(
+									getResources(), R.drawable.driver);
+						}
+						mphoneNumber = phoneNumber.replace(" ", ""); // 得到的电话号码有空格，去掉它
+						if (mphoneNumber.length() > 11) {
+							mphoneNumber = mphoneNumber.substring(
+									mphoneNumber.length() - 11,
+									mphoneNumber.length());
+						}// 截取手机号的后11位，因为存的有的手机号开头带有+86，把它去掉
+						mContactsName.add(contactName);
+						mContactsNumber.add(mphoneNumber);
+						// mContactsPhonto.add(contactPhoto);
+					}
+
+					phoneCursor.close();
 				}
-				mphoneNumber = phoneNumber.replace(" ", ""); // 得到的电话号码有空格，去掉它
-				if (mphoneNumber.length() > 11) {
-					mphoneNumber = mphoneNumber.substring(
-							mphoneNumber.length() - 11, mphoneNumber.length());
-				}// 截取手机号的后11位，因为存的有的手机号开头带有+86，把它去掉
-				mContactsName.add(contactName);
-				mContactsNumber.add(mphoneNumber);
-				mContactsPhonto.add(contactPhoto);
-			}
+				now_number = mContactsNumber.toString().substring(1,
+						mContactsNumber.toString().length() - 1);// 去掉ArrayList中的【和】这个再开头和结尾有，要不后台识别不出来
+				now_number = now_number.replace(" ", "");// 去掉所有空格，要不后台识别不出来
+				logHandler.sendEmptyMessage(0);
 
-			phoneCursor.close();
-		}
-		now_number = mContactsNumber.toString().substring(1,
-				mContactsNumber.toString().length() - 1);// 去掉ArrayList中的【和】这个再开头和结尾有，要不后台识别不出来
-		now_number = now_number.replace(" ", "");// 去掉所有空格，要不后台识别不出来
-		isRegist(now_number, id);
+			};
+		}.start();
+
 	}
 
 	@Override
@@ -358,6 +375,10 @@ public class FriendPage extends Activity {
 	}
 
 	private void parsefindfriend(String response) {
+		if (TextUtils.isEmpty(response)) {
+			return;
+		}
+
 		ArrayList<io.rong.imlib.RongIMClient.UserInfo> userInfos = new ArrayList<>();
 		try {
 			JSONObject result = new JSONObject(response);
@@ -513,33 +534,6 @@ public class FriendPage extends Activity {
 				startActivity(intent);
 			}
 		});
-		// 长按listview
-		// listview.setOnItemLongClickListener(new OnItemLongClickListener() {
-		//
-		// @Override
-		// public boolean onItemLongClick(AdapterView<?> parent, View view,
-		// final int position, long id) {
-		// // TODO Auto-generated method stub
-		// new AlertDialog.Builder(self)
-		// .setTitle("确认要删除此好友吗？")
-		// .setIcon(android.R.drawable.ic_dialog_info)
-		// .setPositiveButton("确定",
-		// new DialogInterface.OnClickListener() {
-		//
-		// @Override
-		// public void onClick(DialogInterface dialog,
-		// int which) {
-		// // TODO Auto-generated method stub
-		// // 按确定后删除
-		// cid = listItem.get(position - 1).get(
-		// "ccid");
-		// denyfriend(cid, position);
-		// }
-		// }).setNegativeButton("取消", null).show();
-		// return true;
-		// }
-		//
-		// });
 	}
 
 	// 调用删除好友的接口，和好友请求列表里边的拒绝好友是一个接口
@@ -691,9 +685,13 @@ public class FriendPage extends Activity {
 
 	@SuppressWarnings("unchecked")
 	public static void getFriInfo(Context context) {
-		friendDataBeans = (List<FriendDataBean>) new FriendDatabaseUtils(
-				context).queryData();
-		Log.i("friendDataBeans", "" + friendDataBeans);
+		try {
+			friendDataBeans = (List<FriendDataBean>) new FriendDatabaseUtils(
+					context).queryData();
+			Log.i("friendDataBeans", "" + friendDataBeans);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	/**
@@ -794,7 +792,7 @@ public class FriendPage extends Activity {
 		wxHandler.addToSocialSDK();
 		wxHandler.setTitle("工程圈分享");
 		wxHandler.setTargetUrl("http://www.gcquan.com/");
-		
+
 		UMImage mUMImgBitmap = new UMImage(this,
 				"http://www.gcquan.com/common/dimages/ppg.png");
 
@@ -971,7 +969,7 @@ public class FriendPage extends Activity {
 
 	private void setGetFriendProvider(
 			ArrayList<io.rong.imlib.RongIMClient.UserInfo> userInfos) {
-		if (userInfos.size()==0) {
+		if (userInfos.size() == 0) {
 			return;
 		}
 		io.rong.imlib.RongIMClient.UserInfo userInfo = new io.rong.imlib.RongIMClient.UserInfo(
@@ -979,10 +977,13 @@ public class FriendPage extends Activity {
 						.getMyPersonBean().getUsername(),
 				MyHttpClient.IMAGE_URL
 						+ MyApplication.getMyPersonBean().getHeadimage());
-//		userInfos.clear();
+		// userInfos.clear();
 		userInfos.add(userInfo);
 		final List<io.rong.imlib.RongIMClient.UserInfo> userInfo0 = userInfos;
-		AppLog.i(TAG, "头像地址:"+userInfo.getPortraitUri()+"用户数量:"+userInfo0.size());
+		AppLog.i(
+				TAG,
+				"头像地址:" + userInfo.getPortraitUri() + "用户数量:"
+						+ userInfo0.size());
 		RongIM.setGetFriendsProvider(new GetFriendsProvider() {
 
 			@Override
@@ -991,9 +992,9 @@ public class FriendPage extends Activity {
 				return userInfo0;
 			}
 		});
-		
+
 		RongIM.setGetUserInfoProvider(new GetUserInfoProvider() {
-			
+
 			@Override
 			public io.rong.imlib.RongIMClient.UserInfo getUserInfo(String arg0) {
 				// TODO Auto-generated method stub
@@ -1005,7 +1006,17 @@ public class FriendPage extends Activity {
 				return null;
 			}
 		}, false);
-		
+
 	}
+
+	private Handler logHandler = new Handler(new Handler.Callback() {
+
+		@Override
+		public boolean handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			isRegist(now_number, id);
+			return false;
+		}
+	});
 
 }

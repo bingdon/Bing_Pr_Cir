@@ -193,6 +193,10 @@ public class PersonalPage extends Activity {
 
 	private String nequ, oequ;
 
+	private String createtime = "";
+
+	private TextView createtime_txt;
+
 	private TextView my_hobby;
 	List<UserInfo> friendList;
 
@@ -242,7 +246,8 @@ public class PersonalPage extends Activity {
 	private LinearLayout common_friend_lay;// 共同好友的layout
 
 	private LinearLayout self_introduction_lay;
-
+	
+	private String space=": 			";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -620,6 +625,8 @@ public class PersonalPage extends Activity {
 								age = obj.getString("age");
 								singn = obj.getString("sign");
 								usualplace = obj.getString("place");// 常出没地点
+								createtime = obj.getString("createtime");
+								createtime_txt.setText("注册时间"+space + createtime);
 							}
 
 						}
@@ -640,6 +647,8 @@ public class PersonalPage extends Activity {
 				age = json.getString("age");
 				singn = json.getString("sign");
 				usualplace = json.getString("place");// 常出没地点
+				createtime = json.getString("createtime");
+				createtime_txt.setText("注册时间"+space + createtime);
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -670,7 +679,8 @@ public class PersonalPage extends Activity {
 			businessinfo = obj.getString("businessinfo");// 商家的业务简介
 			age = obj.getString("age");
 			singn = obj.getString("sign");
-
+			createtime = obj.getString("createtime");
+			createtime_txt.setText("注册时间"+space + createtime);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -698,7 +708,8 @@ public class PersonalPage extends Activity {
 			age = obj.getString("age");
 			singn = obj.getString("sign");
 			usualplace = obj.getString("place");// 常出没地点
-
+			createtime = obj.getString("createtime");
+			createtime_txt.setText("注册时间"+space + createtime);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -751,6 +762,8 @@ public class PersonalPage extends Activity {
 					age = personal.getString("age");
 					singn = personal.getString("sign");
 					usualplace = personal.getString("place");// 常出没地点
+					createtime = personal.getString("createtime");
+					createtime_txt.setText("注册时间:  " + createtime);
 				} else if (result.getInt("type") == 2) {
 					JSONObject obj = result.getJSONObject("driver");
 					uid = obj.getString("id");
@@ -767,6 +780,8 @@ public class PersonalPage extends Activity {
 					age = obj.getString("age");
 					singn = obj.getString("sign");
 					usualplace = obj.getString("place");// 常出没地点
+					createtime = obj.getString("createtime");
+					createtime_txt.setText("注册时间:  " + createtime);
 				}
 			}
 
@@ -1104,9 +1119,14 @@ public class PersonalPage extends Activity {
 		recentplaceTextView = (TextView) findViewById(R.id.per_rplace);
 		distance_txt = (TextView) findViewById(R.id.distance);
 		time_txt = (TextView) findViewById(R.id.time);
+		createtime_txt = (TextView) findViewById(R.id.createtime);
 		// 距离和时间计算
 		// 计算我和好友之间的距离
 		distance = DistentsUtil.GetDistance(lat, lon, mylat, mylon);
+		if (distance > 10000) {
+			distance_txt.setVisibility(View.GONE);
+			findViewById(R.id.distance_img).setVisibility(View.GONE);
+		}
 		distance_txt.setText(distance + "km");
 		// 获取当前时间
 		SimpleDateFormat formatter = new SimpleDateFormat(
